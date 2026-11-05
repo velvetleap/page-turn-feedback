@@ -1,0 +1,130 @@
+PAGE TURN FEEDBACK  (versione 1.5.0)
+====================================
+
+Cosa fa
+-------
+In fondo alla home (sopra il footer) mostra una scheda bianca su fascia verde con un
+feedback alla volta. I feedback cambiano da soli girando pagina come in un libro:
+la pagina si piega da destra a sinistra e scopre quella successiva. In basso a destra
+c'e' un angolo piegato che invita a girare pagina.
+Nel menu di WordPress compare la voce "Feedback".
+
+Come aggiungere un feedback
+---------------------------
+1. Menu "Feedback" > "Aggiungi feedback".
+2. Nel campo in alto scrivi il NOME. Nel riquadro sotto scrivi il COMMENTO.
+3. Premi "Pubblica". Il feedback compare subito nella scheda.
+Consiglio: scrivi un commento breve, non piu' di 300 caratteri, cosi' resta ben leggibile
+nella scheda. Sotto il titolo compare un contatore che segna quanti caratteri hai scritto
+e diventa rosso oltre i 300 (e' solo un consiglio: si puo' pubblicare comunque).
+
+Come modificare o togliere un feedback
+--------------------------------------
+- Modificare: Menu "Feedback" > clicca sul nome > cambia > "Aggiorna".
+- Togliere dal sito: Menu "Feedback" > passa il mouse sul nome > "Cestina".
+  (Se serve di nuovo, si recupera dal Cestino.)
+- Nascondere senza cancellare: dentro il feedback, accanto a "Stato", scegli "Bozza".
+
+Ordine
+------
+I feedback piu' recenti compaiono per primi. Per cambiare l'ordine si modifica
+la data di pubblicazione dentro il feedback (campo "Pubblica subito" > Modifica).
+
+Impostazioni (solo amministratori)
+----------------------------------
+Menu "Feedback" > "Impostazioni":
+
+- Titolo della sezione: e' la scritta bianca nella parte verde. Il testo predefinito
+  e' "Cosa dicono di me" (sul sito appare in maiuscolo: COSA DICONO DI ME). Si puo'
+  cambiare quando si vuole; se lo lasci vuoto il titolo non viene mostrato.
+  Per tornare a quello predefinito riscrivi: Cosa dicono di me
+
+- Scorrimento automatico: ogni 3, 5 o 10 secondi, oppure "Secondi personalizzati"
+  (da 2 a 120), oppure "Nessuno scorrimento automatico" (si gira solo a mano).
+  Per frasi brevi bastano 3-5 secondi; per commenti lunghi conviene 10 o piu'.
+
+- Durata del giro pagina: quanto dura l'animazione della pagina che si piega e passa da
+  un commento al successivo. Veloce (0,6 s), Normale (1,1 s, predefinita), Lenta (1,8 s),
+  Molto lenta (2,6 s) oppure "Durata personalizzata" (da 0,3 a 5 secondi).
+  Il tempo di lettura scelto sopra riparte quando il giro pagina e' finito.
+
+- Colori (selettore colore, con il pulsante "Predefinito" per tornare al verde e al
+  bianco del sito):
+    . Fascia dietro la scheda (verde)
+    . Titolo della sezione (bianco)
+    . Scheda (bianco)
+    . Commento
+    . Nome di chi ha scritto
+    . Virgolette, trattino e angolo piegato (verde)
+
+- Font, per titolo, commento e nome:
+    . "Predefinito (font del tema)": e' quello del sito (consigliato).
+    . "Font dei titoli del tema" / "Font dei testi del tema".
+    . Georgia, Palatino, Times New Roman, Arial, font di sistema.
+    . "Altro": scrivi il nome di un font GIA' caricato dal sito (per esempio Poppins).
+      Se il font non e' caricato, chi visita il sito vedra' un font di riserva.
+
+- Allineamento: a sinistra, al centro o a destra, separatamente per il commento
+  (predefinito: al centro) e per il nome di chi ha scritto (predefinito: a sinistra).
+  Per un effetto ordinato di solito conviene dare lo stesso allineamento a entrambi.
+
+Dopo aver cambiato colori, font o allineamento ricarica la home con Ctrl+F5 (e svuota la cache,
+se ne usi una).
+
+Come si usa sul sito (per chi visita)
+-------------------------------------
+- Da solo: dopo il tempo scelto la pagina si piega e compare il feedback successivo.
+- Angolo piegato in basso a destra: un clic (o un tocco) gira pagina. Passandoci
+  sopra con il mouse l'angolo si allarga. Si puo' anche afferrare e trascinare.
+- A mano: tenere premuto sul testo e trascinare a sinistra (avanti) o a destra
+  (indietro), con il mouse o con il dito. Finche' si tiene premuto lo scorrimento
+  automatico e' fermo; quando si rilascia riparte. Un trascinamento troppo corto
+  riporta la pagina com'era.
+- Tastiera: con il tasto Tab compare "Feedback precedente" (invisibile finche' non
+  viene raggiunto) e poi l'angolo piegato, che si allarga e si contorna di scuro; Invio
+  gira pagina. Chi usa il mouse o il dito non vede nessun contorno sull'angolo. Anche le frecce sinistra/destra girano pagina. Con il focus da
+  tastiera lo scorrimento automatico si ferma.
+- Chi ha attivato "riduci movimento" nel sistema non vede lo scorrimento automatico
+  ne' l'animazione: i feedback cambiano solo a mano, senza effetti.
+- Se c'e' un solo feedback la scheda resta ferma e senza angolo piegato.
+
+Installazione / aggiornamento
+-----------------------------
+Plugin > Aggiungi nuovo > Carica plugin > scegli lo zip > Installa > "Sostituisci
+quella attuale con quella caricata" (se c'e' gia' una versione) > Attiva.
+Dopo l'aggiornamento svuota la cache, se ne usi una, e ricarica con Ctrl+F5.
+Titolo e secondi gia' impostati vengono mantenuti.
+
+Altri ritocchi (facoltativo)
+----------------------------
+Colori e font si cambiano dalle Impostazioni. Per cose piu' fini (per esempio gli
+angoli della scheda o il bordo quando si naviga da tastiera) si possono aggiungere
+nel CSS del child theme queste variabili:
+
+  :root {
+    --ptfb-focus:  #222222;  /* bordo quando si naviga da tastiera */
+    --ptfb-radius: 28px;     /* angoli della scheda */
+  }
+
+I colori delle Impostazioni hanno la precedenza su quelli scritti nel CSS del tema
+solo se sono diversi dal predefinito.
+
+Larghezza
+---------
+La sezione usa il contenitore "fb-container" del tema Fascinate, lo stesso del footer:
+occupa la larghezza delle 3 colonne, con gli stessi margini laterali.
+Se un giorno cambi tema, nel functions.php puoi indicare un altro contenitore:
+
+  add_filter( 'ptfb_container_class', function () { return 'container'; } );
+
+Altre pagine
+------------
+Per mostrare la scheda anche in un'altra pagina inserisci lo shortcode [page_turn_feedback].
+Per togliere l'inserimento automatico in home, nel functions.php del child theme:
+
+  add_filter( 'ptfb_auto_insert', '__return_false' );
+
+Licenza
+-------
+Plugin sviluppato da Velvet Leap.
+GPL-2.0-or-later. Copyright (c) 2026 Mattia Scudellaro.

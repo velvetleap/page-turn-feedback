@@ -1,0 +1,397 @@
+/*
+ * Page Turn Feedback
+ * Copyright (C) 2026 Mattia Scudellaro - GPL-2.0-or-later
+ *
+ * Fascia verde come i pulsanti del sito, con una scheda bianca che gira pagina
+ * come un libro: angolo piegato in basso a destra e piega che attraversa la pagina.
+ * I font sono quelli del tema (titoli e testi).
+ *
+ * Colori e font si cambiano da WordPress: Feedback > Impostazioni.
+ * In alternativa si possono definire queste variabili nel CSS del child theme:
+ *
+ *   :root {
+ *     --ptfb-bg:     #a5cca7;  // fascia dietro la scheda
+ *     --ptfb-title:  #ffffff;  // titolo della sezione
+ *     --ptfb-card:   #ffffff;  // scheda
+ *     --ptfb-text:   #333333;  // commento
+ *     --ptfb-name:   #222222;  // nome di chi ha scritto
+ *     --ptfb-accent: #a5cca7;  // virgolette, trattino e angolo piegato
+ *     --ptfb-focus:  #222222;  // bordo quando si naviga da tastiera
+ *     --ptfb-radius: 28px;     // angoli della scheda
+ *   }
+ */
+
+.ptfb,
+.ptfb *,
+.ptfb *::before,
+.ptfb *::after {
+	box-sizing: border-box;
+}
+
+.ptfb {
+	clear: both;
+	width: 100%;
+	margin: 3rem 0 0;
+	padding: 4rem 0;
+	background: var(--ptfb-bg, #a5cca7);
+	color: var(--ptfb-text, #333);
+	font-family: inherit;
+	text-align: left;
+}
+
+.ptfb__inner {
+	width: 100%;
+	margin: 0 auto;
+}
+
+/* Titolo: font dei titoli del tema, maiuscolo come "ARTICOLI RECENTI", "CHI SONO", ... */
+.ptfb .ptfb__title {
+	margin: 0 0 2.25rem;
+	padding: 0;
+	border: 0;
+	font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem);
+	line-height: 1.15;
+	text-align: center;
+	text-transform: uppercase;
+	color: var(--ptfb-title, #fff);
+}
+
+/* ---------------------------------------------------------------------
+ * La scheda: tutte le pagine sono impilate nella stessa cella, quindi
+ * l'altezza è sempre quella del commento più lungo (niente salti).
+ * ------------------------------------------------------------------ */
+
+.ptfb__stage {
+	position: relative;
+	display: grid;
+	overflow: hidden;
+	isolation: isolate;
+	border: 1px solid #e6e6e6;
+	border-radius: var(--ptfb-radius, 28px);
+	background: var(--ptfb-card, #fff);
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+	touch-action: pan-y; /* lo scorrimento verticale della pagina resta libero */
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* Dorso del libro: leggera ombra sul bordo sinistro. */
+.ptfb__stage::before {
+	content: "";
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 2.25rem;
+	pointer-events: none;
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0));
+}
+
+.ptfb__stage.is-interactive {
+	cursor: grab;
+}
+
+.ptfb__stage.is-dragging,
+.ptfb__stage.is-dragging .ptfb__corner {
+	cursor: grabbing;
+}
+
+/* Pagina (lo script la ritaglia con clip-path quando è piegata). */
+.ptfb .ptfb__slide {
+	position: relative;
+	display: flex;
+	align-items: center; /* i commenti brevi restano centrati in altezza rispetto al più lungo */
+	grid-area: 1 / 1;
+	margin: 0;
+	padding: 3rem 3.75rem;
+	border: 0;
+	background: var(--ptfb-card, #fff);
+	box-shadow: none;
+	text-align: left;
+	visibility: hidden;
+}
+
+.ptfb .ptfb__slide.is-current,
+.ptfb .ptfb__slide.is-flip,
+.ptfb .ptfb__slide.is-under {
+	visibility: visible;
+}
+
+/* ---------------------------------------------------------------------
+ * Piega: sono due strati disegnati dallo script sopra e sotto la pagina.
+ *  - cast: ombra della pagina sulla pagina sottostante, vicino alla piega
+ *  - flap: il retro della pagina ripiegata (tinta verde leggera + ombra di piega)
+ * Restano nascosti finché non servono (script attivo e almeno 2 feedback).
+ * ------------------------------------------------------------------ */
+
+.ptfb__cast,
+.ptfb__flapwrap {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: none;
+	pointer-events: none;
+}
+
+.ptfb__cast.is-on,
+.ptfb__flapwrap.is-on {
+	display: block;
+}
+
+/* L'ombra del lembo ripiegato sulla pagina sotto: filtro sul contenitore, ritaglio sul lembo. */
+.ptfb__flapwrap {
+	-webkit-filter: drop-shadow(-3px -2px 5px rgba(0, 0, 0, 0.26)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
+	filter: drop-shadow(-3px -2px 5px rgba(0, 0, 0, 0.26)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
+}
+
+.ptfb__flap {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: var(--ptfb-card, #fff);
+}
+
+.ptfb__flap::before,
+.ptfb__flap::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+/* Retro della pagina: lo stesso verde dei pulsanti, molto chiaro. */
+.ptfb__flap::before {
+	background: var(--ptfb-accent, #a5cca7);
+	opacity: 0.22;
+}
+
+/* Ombra della piega (il gradiente lo calcola lo script, ancorato alla piega). */
+.ptfb__flap::after {
+	background: var(--ptfb-fold, none);
+}
+
+/* Colonna riservata alla virgoletta: commento e nome restano sempre allineati tra loro. */
+.ptfb .ptfb__body {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+	min-height: 8.6rem; /* almeno l'altezza della virgoletta */
+	padding: 0 0 0 6rem;
+}
+
+/* Virgoletta verde grande, come il capolettera degli articoli. */
+.ptfb .ptfb__mark {
+	position: absolute;
+	top: 0.15rem;
+	left: -0.1rem;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 10.5rem;
+	font-weight: 400;
+	line-height: 0.8;
+	color: var(--ptfb-accent, #a5cca7);
+}
+
+/* Commento: più grande del testo degli articoli, stesso font del tema. */
+.ptfb .ptfb__quote {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	box-shadow: none;
+	quotes: none;
+	font-family: inherit;
+	font-size: clamp(1.25rem, 0.9rem + 1.1vw, 1.875rem);
+	font-style: normal;
+	font-weight: 300;
+	line-height: 1.5;
+	color: var(--ptfb-text, #333);
+}
+
+.ptfb .ptfb__quote::before,
+.ptfb .ptfb__quote::after {
+	content: none;
+	display: none;
+}
+
+/* I paragrafi ereditano tutto dal commento: così font e dimensioni scelti nelle impostazioni valgono anche per loro. */
+.ptfb .ptfb__quote p {
+	margin: 0 0 1em;
+	font: inherit;
+	letter-spacing: inherit;
+	color: inherit;
+}
+
+/* Allineamento del commento (si cambia da Impostazioni). Il tema non deve deciderlo al posto nostro. */
+.ptfb .ptfb__quote,
+.ptfb .ptfb__quote p {
+	text-align: center;
+}
+
+.ptfb .ptfb__quote p:last-child {
+	margin-bottom: 0;
+}
+
+/* Nome: font dei titoli del tema (lo script copia quello del titolo della sezione). */
+.ptfb .ptfb__author {
+	margin: 1.5rem 0 0;
+	padding: 0;
+	font-family: var(--ptfb-heading-font, inherit);
+	font-size: 1.15rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 1.4;
+	letter-spacing: 0.1em;
+	text-align: left;
+	text-transform: uppercase;
+	color: var(--ptfb-name, #222);
+}
+
+.ptfb .ptfb__author::before {
+	content: "\2014\00a0";
+	color: var(--ptfb-accent, #a5cca7);
+}
+
+/* ---------------------------------------------------------------------
+ * Angolo piegato (pulsante "Feedback successivo"): trasparente, sta sopra
+ * l'angolo disegnato dallo script. Clic = gira pagina; si può anche trascinare.
+ * ------------------------------------------------------------------ */
+
+.ptfb .ptfb__corner,
+.ptfb .ptfb__corner:hover,
+.ptfb .ptfb__corner:focus,
+.ptfb .ptfb__corner:active {
+	position: absolute;
+	z-index: 12;
+	right: 0;
+	bottom: 0;
+	width: 4.25rem;
+	height: 4.25rem;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0 0 var(--ptfb-radius, 28px) 0;
+	background: transparent;
+	box-shadow: none;
+	color: inherit;
+	font-size: 0;
+	line-height: 0;
+	text-indent: 0;
+	cursor: pointer;
+	-webkit-appearance: none;
+	appearance: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/*
+ * Nessun contorno rettangolare sul pulsante: il focus da tastiera si vede sull'angolo stesso
+ * (lo script lo allarga e mette la classe is-kbd-corner), con un filo di contorno a forma di angolo.
+ */
+.ptfb .ptfb__corner:focus,
+.ptfb .ptfb__corner:focus-visible {
+	outline: none;
+}
+
+.ptfb__stage.is-kbd-corner .ptfb__flapwrap {
+	-webkit-filter: drop-shadow(2px 0 0 var(--ptfb-focus, #222)) drop-shadow(-2px 0 0 var(--ptfb-focus, #222)) drop-shadow(0 2px 0 var(--ptfb-focus, #222)) drop-shadow(0 -2px 0 var(--ptfb-focus, #222)) drop-shadow(-3px -2px 5px rgba(0, 0, 0, 0.26));
+	filter: drop-shadow(2px 0 0 var(--ptfb-focus, #222)) drop-shadow(-2px 0 0 var(--ptfb-focus, #222)) drop-shadow(0 2px 0 var(--ptfb-focus, #222)) drop-shadow(0 -2px 0 var(--ptfb-focus, #222)) drop-shadow(-3px -2px 5px rgba(0, 0, 0, 0.26));
+}
+
+/* Modalità alto contrasto del sistema: i colori personalizzati vengono ignorati, quindi serve un contorno vero. */
+@media (forced-colors: active) {
+	.ptfb .ptfb__corner:focus-visible {
+		outline: 2px solid CanvasText;
+		outline-offset: -8px;
+	}
+}
+
+/* ---------------------------------------------------------------------
+ * Comandi per tastiera e screen reader: invisibili finché non ricevono il focus.
+ * ------------------------------------------------------------------ */
+
+.ptfb__sr {
+	position: absolute;
+	z-index: 11;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	pointer-events: none;
+}
+
+.ptfb .ptfb__sr-btn {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.ptfb .ptfb__sr-btn:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: 0.6rem 1.5rem;
+	overflow: visible;
+	clip: auto;
+	border-radius: 999px;
+	background: var(--ptfb-accent, #a5cca7);
+	color: var(--ptfb-name, #222);
+	font: inherit;
+	font-size: 1rem;
+	font-weight: 500;
+	line-height: 1.2;
+	pointer-events: auto;
+	cursor: pointer;
+	outline: 2px solid var(--ptfb-focus, #222);
+	outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------
+ * Telefono
+ * ------------------------------------------------------------------ */
+
+@media (max-width: 600px) {
+	.ptfb {
+		padding: 2.75rem 0;
+	}
+
+	.ptfb .ptfb__title {
+		margin-bottom: 1.5rem;
+	}
+
+	.ptfb .ptfb__slide {
+		padding: 1.5rem;
+	}
+
+	/* Sul telefono la virgoletta sta sopra il testo, così il commento usa tutta la larghezza. */
+	.ptfb .ptfb__body {
+		min-height: 0;
+		padding-left: 0;
+	}
+
+	.ptfb .ptfb__mark {
+		position: static;
+		display: block;
+		height: 3.4rem;
+		margin: 0;
+		font-size: 6.5rem;
+		line-height: 1;
+	}
+}
