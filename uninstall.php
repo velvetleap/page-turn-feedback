@@ -2,8 +2,8 @@
 /**
  * Copyright (C) 2026 Mattia Scudellaro. GPL-2.0-or-later.
  *
- * Alla cancellazione del plugin vengono rimosse solo le impostazioni.
- * I feedback inseriti restano nel database.
+ * When the plugin is deleted only its settings are removed.
+ * The feedback posts stay in the database.
  */
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;

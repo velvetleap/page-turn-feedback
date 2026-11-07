@@ -2,22 +2,22 @@
  * Page Turn Feedback
  * Copyright (C) 2026 Mattia Scudellaro - GPL-2.0-or-later
  *
- * Fascia verde come i pulsanti del sito, con una scheda bianca che gira pagina
- * come un libro: angolo piegato in basso a destra e piega che attraversa la pagina.
- * I font sono quelli del tema (titoli e testi).
+ * Green band like the site buttons, with a white card that turns its page
+ * like a book: folded corner at the bottom right and a crease crossing the page.
+ * Fonts are the theme ones (headings and body text).
  *
- * Colori e font si cambiano da WordPress: Feedback > Impostazioni.
- * In alternativa si possono definire queste variabili nel CSS del child theme:
+ * Colors and fonts are changed from WordPress: Feedback > Settings.
+ * Alternatively these variables can be defined in the child theme CSS:
  *
  *   :root {
- *     --ptfb-bg:     #a5cca7;  // fascia dietro la scheda
- *     --ptfb-title:  #ffffff;  // titolo della sezione
- *     --ptfb-card:   #ffffff;  // scheda
- *     --ptfb-text:   #333333;  // commento
- *     --ptfb-name:   #222222;  // nome di chi ha scritto
- *     --ptfb-accent: #a5cca7;  // virgolette, trattino e angolo piegato
- *     --ptfb-focus:  #222222;  // bordo quando si naviga da tastiera
- *     --ptfb-radius: 28px;     // angoli della scheda
+ *     --ptfb-bg:     #a5cca7;  // band behind the card
+ *     --ptfb-title:  #ffffff;  // section title
+ *     --ptfb-card:   #ffffff;  // card
+ *     --ptfb-text:   #333333;  // comment
+ *     --ptfb-name:   #222222;  // author name
+ *     --ptfb-accent: #a5cca7;  // quotation marks, dash and folded corner
+ *     --ptfb-focus:  #222222;  // outline when navigating with the keyboard
+ *     --ptfb-radius: 28px;     // card corners
  *   }
  */
 
@@ -39,12 +39,23 @@
 	text-align: left;
 }
 
+/*
+ * The plugin's own container, used when the theme has no container class of its own
+ * (see ptfb_default_container_class()): centered, with side margins.
+ */
+.ptfb .ptfb__container {
+	width: 100%;
+	max-width: 72rem;
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+
 .ptfb__inner {
 	width: 100%;
 	margin: 0 auto;
 }
 
-/* Titolo: font dei titoli del tema, maiuscolo come "ARTICOLI RECENTI", "CHI SONO", ... */
+/* Title: theme heading font, uppercase like "RECENT POSTS", "ABOUT ME", ... */
 .ptfb .ptfb__title {
 	margin: 0 0 2.25rem;
 	padding: 0;
@@ -54,29 +65,33 @@
 	text-align: center;
 	text-transform: uppercase;
 	color: var(--ptfb-title, #fff);
+	word-break: break-word;
+	overflow-wrap: break-word;
 }
 
 /* ---------------------------------------------------------------------
- * La scheda: tutte le pagine sono impilate nella stessa cella, quindi
- * l'altezza è sempre quella del commento più lungo (niente salti).
+ * The card: all the pages are stacked in the same cell, so
+ * the height is always that of the longest comment (no jumps).
  * ------------------------------------------------------------------ */
 
 .ptfb__stage {
 	position: relative;
 	display: grid;
+	/* A fixed-width track: a very long word must not stretch the pages beyond the card. */
+	grid-template-columns: minmax(0, 1fr);
 	overflow: hidden;
 	isolation: isolate;
 	border: 1px solid #e6e6e6;
 	border-radius: var(--ptfb-radius, 28px);
 	background: var(--ptfb-card, #fff);
 	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-	touch-action: pan-y; /* lo scorrimento verticale della pagina resta libero */
+	touch-action: pan-y; /* vertical page scrolling stays free */
 	-webkit-user-select: none;
 	user-select: none;
 	-webkit-tap-highlight-color: transparent;
 }
 
-/* Dorso del libro: leggera ombra sul bordo sinistro. */
+/* Book spine: a light shadow on the left edge. */
 .ptfb__stage::before {
 	content: "";
 	position: absolute;
@@ -98,12 +113,13 @@
 	cursor: grabbing;
 }
 
-/* Pagina (lo script la ritaglia con clip-path quando è piegata). */
+/* Page (the script clips it with clip-path when it is folded). */
 .ptfb .ptfb__slide {
 	position: relative;
 	display: flex;
-	align-items: center; /* i commenti brevi restano centrati in altezza rispetto al più lungo */
+	align-items: center; /* short comments stay vertically centered relative to the longest one */
 	grid-area: 1 / 1;
+	min-width: 0;
 	margin: 0;
 	padding: 3rem 3.75rem;
 	border: 0;
@@ -120,10 +136,10 @@
 }
 
 /* ---------------------------------------------------------------------
- * Piega: sono due strati disegnati dallo script sopra e sotto la pagina.
- *  - cast: ombra della pagina sulla pagina sottostante, vicino alla piega
- *  - flap: il retro della pagina ripiegata (tinta verde leggera + ombra di piega)
- * Restano nascosti finché non servono (script attivo e almeno 2 feedback).
+ * Fold: two layers drawn by the script above and below the page.
+ *  - cast: shadow of the page on the page underneath, near the crease
+ *  - flap: the back of the folded page (light green tint + crease shadow)
+ * They stay hidden until needed (script active and at least 2 feedback).
  * ------------------------------------------------------------------ */
 
 .ptfb__cast,
@@ -142,7 +158,7 @@
 	display: block;
 }
 
-/* L'ombra del lembo ripiegato sulla pagina sotto: filtro sul contenitore, ritaglio sul lembo. */
+/* Shadow of the folded flap on the page underneath: filter on the container, clipping on the flap. */
 .ptfb__flapwrap {
 	-webkit-filter: drop-shadow(-3px -2px 5px rgba(0, 0, 0, 0.26)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
 	filter: drop-shadow(-3px -2px 5px rgba(0, 0, 0, 0.26)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
@@ -167,27 +183,27 @@
 	left: 0;
 }
 
-/* Retro della pagina: lo stesso verde dei pulsanti, molto chiaro. */
+/* Back of the page: the same green as the buttons, very light. */
 .ptfb__flap::before {
 	background: var(--ptfb-accent, #a5cca7);
 	opacity: 0.22;
 }
 
-/* Ombra della piega (il gradiente lo calcola lo script, ancorato alla piega). */
+/* Crease shadow (the gradient is computed by the script, anchored to the crease). */
 .ptfb__flap::after {
 	background: var(--ptfb-fold, none);
 }
 
-/* Colonna riservata alla virgoletta: commento e nome restano sempre allineati tra loro. */
+/* Column reserved for the quotation mark: comment and name always stay aligned with each other. */
 .ptfb .ptfb__body {
 	position: relative;
 	width: 100%;
 	min-width: 0;
-	min-height: 8.6rem; /* almeno l'altezza della virgoletta */
+	min-height: 8.6rem; /* at least the height of the quotation mark */
 	padding: 0 0 0 6rem;
 }
 
-/* Virgoletta verde grande, come il capolettera degli articoli. */
+/* Large green quotation mark, like the drop cap of the posts. */
 .ptfb .ptfb__mark {
 	position: absolute;
 	top: 0.15rem;
@@ -199,7 +215,7 @@
 	color: var(--ptfb-accent, #a5cca7);
 }
 
-/* Commento: più grande del testo degli articoli, stesso font del tema. */
+/* Comment: larger than the post text, same theme font. */
 .ptfb .ptfb__quote {
 	margin: 0;
 	padding: 0;
@@ -213,6 +229,11 @@
 	font-weight: 300;
 	line-height: 1.5;
 	color: var(--ptfb-text, #333);
+	/* Long words and addresses break instead of overflowing the card (word-break is the fallback for older Safari). */
+	max-width: 100%;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	overflow-wrap: anywhere;
 }
 
 .ptfb .ptfb__quote::before,
@@ -221,7 +242,7 @@
 	display: none;
 }
 
-/* I paragrafi ereditano tutto dal commento: così font e dimensioni scelti nelle impostazioni valgono anche per loro. */
+/* Paragraphs inherit everything from the comment: so the fonts and sizes chosen in the settings apply to them too. */
 .ptfb .ptfb__quote p {
 	margin: 0 0 1em;
 	font: inherit;
@@ -229,7 +250,7 @@
 	color: inherit;
 }
 
-/* Allineamento del commento (si cambia da Impostazioni). Il tema non deve deciderlo al posto nostro. */
+/* Comment alignment (changed in Settings). The theme must not decide it for us. */
 .ptfb .ptfb__quote,
 .ptfb .ptfb__quote p {
 	text-align: center;
@@ -239,7 +260,7 @@
 	margin-bottom: 0;
 }
 
-/* Nome: font dei titoli del tema (lo script copia quello del titolo della sezione). */
+/* Name: theme heading font (the script copies the one of the section title). */
 .ptfb .ptfb__author {
 	margin: 1.5rem 0 0;
 	padding: 0;
@@ -252,6 +273,10 @@
 	text-align: left;
 	text-transform: uppercase;
 	color: var(--ptfb-name, #222);
+	max-width: 100%;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	overflow-wrap: anywhere;
 }
 
 .ptfb .ptfb__author::before {
@@ -260,8 +285,8 @@
 }
 
 /* ---------------------------------------------------------------------
- * Angolo piegato (pulsante "Feedback successivo"): trasparente, sta sopra
- * l'angolo disegnato dallo script. Clic = gira pagina; si può anche trascinare.
+ * Folded corner ("Next feedback" button): transparent, it sits over
+ * the corner drawn by the script. Click = turn the page; it can also be dragged.
  * ------------------------------------------------------------------ */
 
 .ptfb .ptfb__corner,
@@ -277,10 +302,11 @@
 	min-height: 0;
 	margin: 0;
 	padding: 0;
-	border: 0;
+	/* !important: many themes paint every button with rules that are more specific than ours. */
+	border: 0 !important;
 	border-radius: 0 0 var(--ptfb-radius, 28px) 0;
-	background: transparent;
-	box-shadow: none;
+	background: transparent !important;
+	box-shadow: none !important;
 	color: inherit;
 	font-size: 0;
 	line-height: 0;
@@ -292,8 +318,8 @@
 }
 
 /*
- * Nessun contorno rettangolare sul pulsante: il focus da tastiera si vede sull'angolo stesso
- * (lo script lo allarga e mette la classe is-kbd-corner), con un filo di contorno a forma di angolo.
+ * No rectangular outline on the button: keyboard focus shows on the corner itself
+ * (the script enlarges it and adds the is-kbd-corner class), with a thin corner-shaped outline.
  */
 .ptfb .ptfb__corner:focus,
 .ptfb .ptfb__corner:focus-visible {
@@ -305,7 +331,7 @@
 	filter: drop-shadow(2px 0 0 var(--ptfb-focus, #222)) drop-shadow(-2px 0 0 var(--ptfb-focus, #222)) drop-shadow(0 2px 0 var(--ptfb-focus, #222)) drop-shadow(0 -2px 0 var(--ptfb-focus, #222)) drop-shadow(-3px -2px 5px rgba(0, 0, 0, 0.26));
 }
 
-/* Modalità alto contrasto del sistema: i colori personalizzati vengono ignorati, quindi serve un contorno vero. */
+/* System high-contrast mode: custom colors are ignored, so a real outline is needed. */
 @media (forced-colors: active) {
 	.ptfb .ptfb__corner:focus-visible {
 		outline: 2px solid CanvasText;
@@ -314,7 +340,7 @@
 }
 
 /* ---------------------------------------------------------------------
- * Comandi per tastiera e screen reader: invisibili finché non ricevono il focus.
+ * Controls for keyboard and screen readers: invisible until they receive focus.
  * ------------------------------------------------------------------ */
 
 .ptfb__sr {
@@ -364,7 +390,7 @@
 }
 
 /* ---------------------------------------------------------------------
- * Telefono
+ * Phone
  * ------------------------------------------------------------------ */
 
 @media (max-width: 600px) {
@@ -380,7 +406,7 @@
 		padding: 1.5rem;
 	}
 
-	/* Sul telefono la virgoletta sta sopra il testo, così il commento usa tutta la larghezza. */
+	/* On the phone the quotation mark sits above the text, so the comment uses the full width. */
 	.ptfb .ptfb__body {
 		min-height: 0;
 		padding-left: 0;

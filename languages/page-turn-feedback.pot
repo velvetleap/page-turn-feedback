@@ -1,0 +1,283 @@
+# Page Turn Feedback
+# Copyright (C) 2026 Mattia Scudellaro
+# This file is distributed under the same license as the Page Turn Feedback plugin (GPL-2.0-or-later).
+msgid ""
+msgstr ""
+"Project-Id-Version: Page Turn Feedback 1.7.1\n"
+"POT-Creation-Date: 2026-11-06 00:00+0000\n"
+"PO-Revision-Date: 2026-11-06 00:00+0000\n"
+"Last-Translator: Mattia Scudellaro\n"
+"Language-Team: Velvet Leap\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: page-turn-feedback\n"
+
+#: page-turn-feedback.php:54 page-turn-feedback.php:55 page-turn-feedback.php:56 page-turn-feedback.php:776
+msgid "Feedback"
+msgstr ""
+
+#: page-turn-feedback.php:57
+msgid "All feedback"
+msgstr ""
+
+#: page-turn-feedback.php:58
+msgid "Add feedback"
+msgstr ""
+
+#: page-turn-feedback.php:59
+msgid "Add new feedback"
+msgstr ""
+
+#: page-turn-feedback.php:60
+msgid "Edit feedback"
+msgstr ""
+
+#: page-turn-feedback.php:61
+msgid "New feedback"
+msgstr ""
+
+#: page-turn-feedback.php:62
+msgid "Search feedback"
+msgstr ""
+
+#: page-turn-feedback.php:63
+msgid "No feedback yet. Click “Add feedback” to add the first one."
+msgstr ""
+
+#: page-turn-feedback.php:64
+msgid "No feedback in the Trash."
+msgstr ""
+
+#: page-turn-feedback.php:85
+msgid "Name of the person who left the feedback"
+msgstr ""
+
+#: page-turn-feedback.php:104
+msgid "Write the <strong>name</strong> above and the <strong>comment</strong> in the box below. Click <em>Publish</em> to show it on the site. To remove it from the site use <em>Move to Trash</em>."
+msgstr ""
+
+#. translators: %d: recommended maximum number of characters for a comment.
+#: page-turn-feedback.php:112
+#, php-format
+msgid "<strong>Tip:</strong> write a short comment, <strong>no more than %d characters</strong>, so it stays easy to read on the card."
+msgstr ""
+
+#: page-turn-feedback.php:129
+msgid "Name"
+msgstr ""
+
+#: page-turn-feedback.php:130 page-turn-feedback.php:264 page-turn-feedback.php:275 page-turn-feedback.php:644
+msgid "Comment"
+msgstr ""
+
+#: page-turn-feedback.php:131
+msgid "Date"
+msgstr ""
+
+#: page-turn-feedback.php:149
+msgid "What people say about me"
+msgstr ""
+
+#: page-turn-feedback.php:254
+msgid "Left"
+msgstr ""
+
+#: page-turn-feedback.php:255
+msgid "Center"
+msgstr ""
+
+#: page-turn-feedback.php:256
+msgid "Right"
+msgstr ""
+
+#: page-turn-feedback.php:263 page-turn-feedback.php:273 page-turn-feedback.php:552
+msgid "Section title"
+msgstr ""
+
+#: page-turn-feedback.php:265 page-turn-feedback.php:276 page-turn-feedback.php:654
+msgid "Author name"
+msgstr ""
+
+#: page-turn-feedback.php:272
+msgid "Band behind the card"
+msgstr ""
+
+#: page-turn-feedback.php:274
+msgid "Card"
+msgstr ""
+
+#: page-turn-feedback.php:277
+msgid "Quotation marks, dash and folded corner"
+msgstr ""
+
+#: page-turn-feedback.php:284
+msgid "Georgia (serif)"
+msgstr ""
+
+#: page-turn-feedback.php:285
+msgid "Palatino (serif, book style)"
+msgstr ""
+
+#: page-turn-feedback.php:288
+msgid "System font"
+msgstr ""
+
+#: page-turn-feedback.php:467 page-turn-feedback.php:544
+msgid "Feedback settings"
+msgstr ""
+
+#: page-turn-feedback.php:468
+msgid "Settings"
+msgstr ""
+
+#. translators: %d: number of characters typed so far.
+#: page-turn-feedback.php:502
+#, php-format
+msgid "That is %d characters: better to shorten it a little."
+msgstr ""
+
+#. translators: 1: number of characters typed so far, 2: recommended maximum.
+#: page-turn-feedback.php:504
+#, php-format
+msgid "Characters: %1$d / %2$d"
+msgstr ""
+
+#: page-turn-feedback.php:517
+msgid "Every 3 seconds"
+msgstr ""
+
+#: page-turn-feedback.php:518
+msgid "Every 5 seconds"
+msgstr ""
+
+#: page-turn-feedback.php:519
+msgid "Every 10 seconds"
+msgstr ""
+
+#: page-turn-feedback.php:520
+msgid "Custom number of seconds"
+msgstr ""
+
+#: page-turn-feedback.php:521
+msgid "No automatic sliding (by hand only)"
+msgstr ""
+
+#: page-turn-feedback.php:526
+msgid "Fast (0.6 seconds)"
+msgstr ""
+
+#: page-turn-feedback.php:527
+msgid "Normal (1.1 seconds) - default"
+msgstr ""
+
+#: page-turn-feedback.php:528
+msgid "Slow (1.8 seconds)"
+msgstr ""
+
+#: page-turn-feedback.php:529
+msgid "Very slow (2.6 seconds)"
+msgstr ""
+
+#: page-turn-feedback.php:530
+msgid "Custom duration"
+msgstr ""
+
+#: page-turn-feedback.php:534
+msgid "Default (theme font)"
+msgstr ""
+
+#: page-turn-feedback.php:535
+msgid "Theme heading font"
+msgstr ""
+
+#: page-turn-feedback.php:536
+msgid "Theme body font"
+msgstr ""
+
+#: page-turn-feedback.php:541
+msgid "Other (type the font name)"
+msgstr ""
+
+#: page-turn-feedback.php:549
+msgid "Text and sliding"
+msgstr ""
+
+#. translators: %s: default section title.
+#: page-turn-feedback.php:560
+#, php-format
+msgid "Shown in the band above the card, in capital letters. The default text is “%s”; if you leave it empty the title is not shown."
+msgstr ""
+
+#: page-turn-feedback.php:569
+msgid "Automatic sliding"
+msgstr ""
+
+#: page-turn-feedback.php:577 page-turn-feedback.php:596
+msgid "seconds"
+msgstr ""
+
+#: page-turn-feedback.php:580
+msgid "How long each feedback stays visible before the page turns by itself (custom: 2 to 120 seconds). For short sentences 3–5 seconds are enough; for long comments 10 or more is better."
+msgstr ""
+
+#: page-turn-feedback.php:583
+msgid "Visitors can press and hold on the text and drag, or tap the folded corner at the bottom right, to turn the page by hand: while they hold, the sliding stops and it restarts when they let go."
+msgstr ""
+
+#: page-turn-feedback.php:588
+msgid "Page-turn duration"
+msgstr ""
+
+#: page-turn-feedback.php:599
+msgid "How long the animation lasts when the page folds and goes from one comment to the next (custom: 0.3 to 5 seconds). The reading time chosen above restarts when the page turn is finished."
+msgstr ""
+
+#: page-turn-feedback.php:605
+msgid "Colors"
+msgstr ""
+
+#: page-turn-feedback.php:616
+msgid "The “Default” button next to each color restores the original green and white."
+msgstr ""
+
+#: page-turn-feedback.php:618
+msgid "Fonts"
+msgstr ""
+
+#: page-turn-feedback.php:631
+msgid "for example: Poppins"
+msgstr ""
+
+#: page-turn-feedback.php:638
+msgid "“Default” uses the theme fonts (title and name in the heading font, comment in the body font). With “Other” type the name of a font already loaded by the site: if it is not loaded, visitors will see a fallback font."
+msgstr ""
+
+#: page-turn-feedback.php:641
+msgid "Alignment"
+msgstr ""
+
+#: page-turn-feedback.php:662
+msgid "The name is aligned inside the same column as the comment (to the right of the quotation mark). For a tidy look it is usually best to give the comment and the name the same alignment."
+msgstr ""
+
+#. translators: %s: the shortcode.
+#: page-turn-feedback.php:675
+#, php-format
+msgid "The feedback appears automatically at the bottom of the home page. To show it on another page too, add the shortcode %s."
+msgstr ""
+
+#. translators: 1: number of the current feedback, 2: total number of feedback.
+#: page-turn-feedback.php:791
+#, php-format
+msgid "%1$d of %2$d"
+msgstr ""
+
+#: page-turn-feedback.php:807
+msgid "Previous feedback"
+msgstr ""
+
+#: page-turn-feedback.php:810
+msgid "Next feedback"
+msgstr ""

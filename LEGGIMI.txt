@@ -1,4 +1,4 @@
-PAGE TURN FEEDBACK  (versione 1.5.0)
+PAGE TURN FEEDBACK  (versione 1.7.1)
 ====================================
 
 Cosa fa
@@ -88,12 +88,21 @@ Come si usa sul sito (per chi visita)
   ne' l'animazione: i feedback cambiano solo a mano, senza effetti.
 - Se c'e' un solo feedback la scheda resta ferma e senza angolo piegato.
 
+Lingua
+------
+Il plugin e' scritto in inglese e include la traduzione italiana: se la lingua del sito e'
+l'italiano (Impostazioni > Generali > Lingua del sito) tutte le scritte compaiono in
+italiano, comprese quelle della scheda per chi usa il lettore di schermo. Il titolo predefinito
+e' "Cosa dicono di me" in italiano e "What people say about me" in inglese; se hai gia'
+scritto un titolo tuo nelle Impostazioni, resta quello. Per altre lingue si puo' partire dal
+file languages/page-turn-feedback.pot.
+
 Installazione / aggiornamento
 -----------------------------
 Plugin > Aggiungi nuovo > Carica plugin > scegli lo zip > Installa > "Sostituisci
 quella attuale con quella caricata" (se c'e' gia' una versione) > Attiva.
 Dopo l'aggiornamento svuota la cache, se ne usi una, e ricarica con Ctrl+F5.
-Titolo e secondi gia' impostati vengono mantenuti.
+Impostazioni e feedback gia' inseriti vengono mantenuti (dalla 1.5.0 alla 1.6.0 non cambia nessun nome tecnico).
 
 Altri ritocchi (facoltativo)
 ----------------------------
@@ -111,15 +120,19 @@ solo se sono diversi dal predefinito.
 
 Larghezza
 ---------
-La sezione usa il contenitore "fb-container" del tema Fascinate, lo stesso del footer:
+Sul tema Fascinate la sezione usa il contenitore "fb-container" del tema, lo stesso del footer:
 occupa la larghezza delle 3 colonne, con gli stessi margini laterali.
-Se un giorno cambi tema, nel functions.php puoi indicare un altro contenitore:
+Se un giorno cambi tema non devi fare nulla: su qualsiasi altro tema la sezione usa un
+contenitore proprio, centrato e con i margini laterali. Se invece vuoi usare il contenitore
+di un altro tema, nel functions.php puoi indicarlo:
 
   add_filter( 'ptfb_container_class', function () { return 'container'; } );
 
 Altre pagine
 ------------
-Per mostrare la scheda anche in un'altra pagina inserisci lo shortcode [page_turn_feedback].
+In home la scheda compare da sola prima del footer, sia con i temi classici sia con i temi a blocchi.
+Per mostrarla anche in un'altra pagina inserisci lo shortcode [page_turn_feedback] (con un tema a
+blocchi aggiungi un blocco "Shortcode").
 Per togliere l'inserimento automatico in home, nel functions.php del child theme:
 
   add_filter( 'ptfb_auto_insert', '__return_false' );

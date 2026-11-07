@@ -4,11 +4,11 @@ A WordPress plugin that shows feedback / testimonials / quotes **one at a time o
 
 Built for a book blog, with a non-technical editor in mind: adding, editing and removing a feedback is just "name + comment" in the WordPress admin.
 
-> **Status:** 1.5.0, first public release. Tested in Chromium only (desktop and phone viewport). The admin screens have not yet been tested across WordPress versions. Bug reports and pull requests are welcome.
+> **Status:** 1.7.1. Tested on WordPress 7.1.4 with Twenty Twenty-One, Twenty Twenty, Twenty Nineteen, Twenty Seventeen and the block themes Twenty Twenty-Two to Twenty Twenty-Five, and running on a live site with the Fascinate theme. The front end has been tested in Chromium only (desktop and phone viewport); Safari and Firefox still need checking. Older WordPress versions are not tested. Bug reports and pull requests are welcome.
 
 **Keywords:** testimonials, feedback, quotes, reviews, slider, page turn, book.
 
-The plugin interface and the user guide ([`LEGGIMI.txt`](LEGGIMI.txt)) are in **Italian**. Un'interfaccia e una guida in italiano sono incluse.
+The interface is in **English** and a complete **Italian translation** (it_IT) is included, used automatically when the site language is Italian. The extended user guide ([`LEGGIMI.txt`](LEGGIMI.txt)) is in Italian. / L'interfaccia è in inglese con traduzione italiana inclusa; la guida estesa è in italiano.
 
 ## Features
 
@@ -25,7 +25,7 @@ The plugin interface and the user guide ([`LEGGIMI.txt`](LEGGIMI.txt)) are in **
 
 1. Download the plugin zip (see *Releases*), or zip the repository content in a folder named `page-turn-feedback`.
 2. WordPress admin → Plugins → Add New → Upload Plugin → Activate.
-3. Menu **Feedback → Add feedback**. The section appears automatically at the bottom of the home page, above the footer.
+3. Menu **Feedback → Add feedback** (publish at least one). The section appears automatically at the bottom of the home page, above the footer: on classic themes through `get_footer()`, on block themes right before the footer template part. On any theme you can use the shortcode instead.
 
 To show it elsewhere, use the shortcode `[page_turn_feedback]`.
 
@@ -36,7 +36,7 @@ To show it elsewhere, use the shortcode `[page_turn_feedback]`.
 | Post type | `ptfb_feedback` |
 | Options | `ptfb_title`, `ptfb_speed`, `ptfb_custom`, `ptfb_anim`, `ptfb_anim_custom`, `ptfb_style` |
 | Shortcode | `[page_turn_feedback]` |
-| Filter | `ptfb_container_class` (default `fb-container`, the Fascinate theme container) |
+| Filter | `ptfb_container_class` (default: `fb-container` on the Fascinate theme and its child themes, otherwise the plugin's own centered container `ptfb__container`; return `''` for no class) |
 | Filter | `ptfb_auto_insert` (return `false` to disable automatic placement on the home page) |
 | Filter | `ptfb_max_items` (default `30`) |
 | CSS variables | `--ptfb-bg`, `--ptfb-title`, `--ptfb-card`, `--ptfb-text`, `--ptfb-name`, `--ptfb-accent`, `--ptfb-focus`, `--ptfb-radius` |
@@ -45,12 +45,15 @@ The fold geometry lives in `assets/page-turn-feedback.js`: the bottom-right corn
 
 Uninstalling the plugin deletes its options; the feedback posts stay in the database.
 
+## Translations
+
+All strings use the text domain `page-turn-feedback`. [`languages/page-turn-feedback.pot`](languages/page-turn-feedback.pot) is the template, and the Italian translation lives in `languages/page-turn-feedback-it_IT.po` (compiled to `.mo`). To add a language, copy the `.pot`, translate it (for example with Poedit) and save it as `page-turn-feedback-<locale>.po` / `.mo` in the same folder.
+
 ## Known limitations / ideas
 
 - Tested in Chromium only: Safari (WebKit) and Firefox need checking.
 - Single global list and single global style (no groups or per-instance options yet).
-- Strings are hard-coded in Italian (not yet translation-ready).
-- Not yet tested against specific WordPress / PHP versions (uses `wp_unique_id`, WordPress 5.0.3+).
+- Declares WordPress 5.0.3+ (it uses `wp_unique_id`) but has only been run on WordPress 7.1.4; older versions are untested.
 - Ideas: groups/categories, image or book cover per card, front-end submission form with moderation, block editor block.
 
 ## License
