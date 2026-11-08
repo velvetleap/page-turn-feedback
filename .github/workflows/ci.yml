@@ -19,7 +19,7 @@ jobs:
     name: Code and version checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -42,8 +42,11 @@ jobs:
   plugin-check:
     name: Plugin Check and zip
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # lets Plugin Check post its summary as a comment on the pull request
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Build the plugin exactly as it will be published
         run: bash bin/build.sh
@@ -59,7 +62,7 @@ jobs:
             PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
 
       - name: Keep the zip of this change for testing
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: page-turn-feedback-zip
           path: build/page-turn-feedback.zip
@@ -69,14 +72,14 @@ jobs:
     name: Behaviour tests (browser)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           coverage: none
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
