@@ -1,0 +1,96 @@
+name: CI
+
+# Runs on every pull request and on every change to main.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code:
+    name: Code and version checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+          coverage: none
+
+      - name: PHP syntax
+        run: find . -name '*.php' -not -path './vendor/*' -not -path './tests/node_modules/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Install the code checker
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: WordPress coding standards (includes security and escaping)
+        run: vendor/bin/phpcs
+
+      - name: The version number is the same everywhere
+        run: bash bin/check-versions.sh
+
+  plugin-check:
+    name: Plugin Check and zip
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # lets Plugin Check post its summary as a comment on the pull request
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build the plugin exactly as it will be published
+        run: bash bin/build.sh
+
+      # Same check as the Plugin Check screen in WordPress and the WordPress.org review.
+      # The one warning below is known and accepted: load_plugin_textdomain() is kept on purpose
+      # so that the Italian translation shipped in /languages is loaded.
+      - name: Plugin Check
+        uses: WordPress/plugin-check-action@v1
+        with:
+          build-dir: build/page-turn-feedback
+          ignore-codes: |
+            PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
+
+      - name: Keep the zip of this change for testing
+        uses: actions/upload-artifact@v6
+        with:
+          name: page-turn-feedback-zip
+          path: build/page-turn-feedback.zip
+          retention-days: 14
+
+  tests:
+    name: Behaviour tests (browser)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Fonts used by the test theme
+        run: npm ci
+        working-directory: tests
+
+      - name: Install the test browser
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Run all tests
+        run: bash tests/run.sh

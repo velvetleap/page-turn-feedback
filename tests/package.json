@@ -1,0 +1,9 @@
+{
+  "name": "page-turn-feedback-tests",
+  "private": true,
+  "description": "Fonts used by the test theme (fixtures/theme.css), so that layout checks give the same result on every machine. Not shipped with the plugin.",
+  "devDependencies": {
+    "@fontsource/oswald": "5.3.0",
+    "@fontsource/poppins": "5.3.0"
+  }
+}

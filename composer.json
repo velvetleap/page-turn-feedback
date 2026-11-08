@@ -1,0 +1,17 @@
+{
+	"name": "velvetleap/page-turn-feedback",
+	"description": "Development tools for Page Turn Feedback (code checks only; nothing here is shipped in the plugin).",
+	"license": "GPL-2.0-or-later",
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"lint": "phpcs"
+	}
+}
