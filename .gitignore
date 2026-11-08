@@ -8,3 +8,8 @@ Thumbs.db
 *.zip
 node_modules/
 vendor/
+
+# Test and build output
+tests/out/
+tests/node_modules/
+build/

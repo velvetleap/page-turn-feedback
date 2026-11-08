@@ -1,0 +1,30 @@
+@font-face{font-family:Poppins;font-weight:300;src:url(../node_modules/@fontsource/poppins/files/poppins-latin-300-normal.woff2)}
+@font-face{font-family:Poppins;font-weight:400;src:url(../node_modules/@fontsource/poppins/files/poppins-latin-400-normal.woff2)}
+@font-face{font-family:Oswald;font-weight:500;src:url(../node_modules/@fontsource/oswald/files/oswald-latin-500-normal.woff2)}
+@font-face{font-family:Oswald;font-weight:600;src:url(../node_modules/@fontsource/oswald/files/oswald-latin-600-normal.woff2)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:Poppins,sans-serif;font-weight:300;color:#333;background:#fff;font-size:18px;line-height:1.6}
+h1,h2,h3,h4{font-family:Oswald,sans-serif;font-weight:600;text-transform:uppercase;line-height:1.2;margin:0 0 .6em}
+h2{font-size:34px}
+/* base "invadente" di molti temi, per verificare che lo slider si difenda */
+blockquote{border-left:6px solid #c00;padding:12px 20px;margin:20px 0;background:#ffe;font-size:22px;font-style:italic}
+blockquote:before{content:"BAD";color:red}
+figure{margin:0 0 30px;padding:20px;background:#fdd;border:2px dashed #c00}
+figcaption{font-size:11px;color:#999;text-align:left;font-family:Georgia,serif}
+.fb-container{width:100%;margin:0 auto;padding:0 70px}
+.row{display:flex;flex-wrap:wrap;margin:0 -15px}
+.col-lg-4{flex:0 0 33.3333%;max-width:33.3333%;padding:0 15px}
+@media (max-width:991px){.col-lg-4{flex:0 0 100%;max-width:100%}.fb-container{padding:0 20px}}
+.content{min-height:160px;padding:30px 0}
+.posts{height:220px;background:#eee;padding:12px}
+footer.footer{background:#222;color:#fff;padding:40px 0}
+footer h3{color:#fff}
+
+/* aggressive theme button styles (like Fascinate) */
+button, input[type="button"], input[type="submit"] {
+  background: #a5cca7; color: #fff; border: 1px solid #a5cca7; padding: 12px 30px; font-size: 14px; text-transform: uppercase; border-radius: 0; cursor: pointer;
+}
+button:hover, button:focus, button:active { background: #222; color: #fff; }
+
+/* the real theme centers or right-aligns paragraphs: the plugin must not depend on it */
+p { text-align: right; }

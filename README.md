@@ -49,6 +49,16 @@ Uninstalling the plugin deletes its options; the feedback posts stay in the data
 
 All strings use the text domain `page-turn-feedback`. [`languages/page-turn-feedback.pot`](languages/page-turn-feedback.pot) is the template, and the Italian translation lives in `languages/page-turn-feedback-it_IT.po` (compiled to `.mo`). To add a language, copy the `.pot`, translate it (for example with Poedit) and save it as `page-turn-feedback-<locale>.po` / `.mo` in the same folder.
 
+## Development
+
+Changes go through a pull request. Every pull request and every change to `main` is checked automatically by GitHub Actions (`.github/workflows/ci.yml`):
+
+- PHP syntax, the WordPress coding standards (PHPCS, including security and escaping) and a check that the version number is the same in the plugin header, `PTFB_VERSION`, `readme.txt`, `CHANGELOG.md`, `LEGGIMI.txt` and the translation files (`bin/check-versions.sh`);
+- Plugin Check (the same tool as the WordPress.org review), run on the exact folder that will be published;
+- the browser and logic tests in `tests/` (`bash tests/run.sh`; needs PHP, Node and Python with Playwright and Chromium).
+
+`bin/build.sh` builds the plugin folder and zip (`build/page-turn-feedback.zip`) from the tracked files, leaving out what `.distignore` lists. Publishing a GitHub release tagged `vX.Y.Z` builds the zip again and attaches it to the release (`.github/workflows/release.yml`). Working notes for contributors, human or AI, are in [`CLAUDE.md`](CLAUDE.md).
+
 ## Known limitations / ideas
 
 - Tested in Chromium only: Safari (WebKit) and Firefox need checking.

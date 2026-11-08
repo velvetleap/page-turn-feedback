@@ -1,0 +1,20 @@
+# Files and folders that stay OUT of the plugin zip (GitHub release and WordPress.org).
+# One top-level name per line, with a leading slash. bin/build.sh and the WordPress.org
+# deploy action both read this file.
+/.git
+/.github
+/.gitignore
+/.gitattributes
+/.distignore
+/.wordpress-org
+/bin
+/tests
+/build
+/vendor
+/composer.json
+/composer.lock
+/phpcs.xml.dist
+/CLAUDE.md
+/README.md
+/CHANGELOG.md
+/LICENSE

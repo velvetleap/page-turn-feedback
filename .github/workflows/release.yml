@@ -1,0 +1,31 @@
+name: Release
+
+# Publishing a release on GitHub (tag vX.Y.Z) builds the plugin zip and attaches it to that release.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    name: Build and attach the zip
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: The tag matches the plugin version
+        run: bash bin/check-versions.sh "$TAG"
+
+      - name: Build the zip
+        run: bash bin/build.sh
+
+      - name: Attach the zip to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" build/page-turn-feedback.zip --clobber
