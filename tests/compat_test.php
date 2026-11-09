@@ -6,6 +6,7 @@ function add_action( $h, $cb, $p = 10, $a = 1 ) { $GLOBALS['hooks'][ $h ][] = $c
 function add_filter( $h, $cb, $p = 10, $a = 1 ) { $GLOBALS['hooks'][ $h ][] = $cb; $GLOBALS['filters'][ $h ][] = $cb; }
 function remove_all_filters( $h ) { unset( $GLOBALS['filters'][ $h ] ); }
 function apply_filters( $h, $v ) { foreach ( $GLOBALS['filters'][ $h ] ?? array() as $cb ) { $v = $cb( $v ); } return $v; }
+function is_admin() { return false; }
 function add_shortcode() {} function add_submenu_page() {} function register_post_type() {} function register_setting() {}
 function sanitize_hex_color( $c ) { return preg_match( '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', (string) $c ) ? $c : null; }
 function wp_add_inline_style() {} function wp_register_style() {} function wp_register_script() {}

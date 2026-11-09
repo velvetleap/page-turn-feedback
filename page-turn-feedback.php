@@ -3,7 +3,7 @@
  * Plugin Name: Page Turn Feedback
  * Plugin URI:  https://github.com/velvetleap/page-turn-feedback
  * Description: Adds a "Feedback" menu to WordPress and shows the feedback on a card that turns like the page of a book, at the bottom of the home page above the footer.
- * Version:     1.7.1
+ * Version:     1.8.0
  * Requires at least: 5.0.3
  * Author:      Velvet Leap
  * Author URI:  https://github.com/velvetleap
@@ -29,8 +29,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PTFB_VERSION', '1.7.1' );
+define( 'PTFB_VERSION', '1.8.0' );
 define( 'PTFB_CPT', 'ptfb_feedback' );
+
+/* Admin-only parts (ready-made styles, order, import and export) are loaded only in the dashboard. */
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/presets.php';
+	require_once __DIR__ . '/includes/ordering.php';
+	require_once __DIR__ . '/includes/tools.php';
+}
 
 /* ------------------------------------------------------------------------
  * 0. Translations. The source strings are in English; an Italian translation
@@ -471,28 +478,43 @@ function ptfb_add_settings_page() {
 		'ptfb_settings_page'
 	);
 }
-add_action( 'admin_menu', 'ptfb_add_settings_page' );
+add_action( 'admin_menu', 'ptfb_add_settings_page', 12 );
 
 /*
- * Admin script (assets/page-turn-feedback-admin.js), loaded only where it is needed:
+ * Admin files (assets/page-turn-feedback-admin.js and .css), loaded only where they are needed:
  * - on the edit screen of a feedback: live character counter for the comment;
- * - on the settings page: color picker and show/hide of the "custom value" fields.
+ * - on the settings page: color picker, show/hide of the "custom value" fields, ready-made styles, live preview;
+ * - on the Order page: drag and drop (and arrows) to sort the feedback;
+ * - on the Import and export page: only the stylesheet.
  */
 function ptfb_admin_assets( $hook ) {
 	$is_settings = ! empty( $GLOBALS['ptfb_settings_hook'] ) && $hook === $GLOBALS['ptfb_settings_hook'];
+	$is_order    = ! empty( $GLOBALS['ptfb_order_hook'] ) && $hook === $GLOBALS['ptfb_order_hook'];
+	$is_tools    = ! empty( $GLOBALS['ptfb_tools_hook'] ) && $hook === $GLOBALS['ptfb_tools_hook'];
 	$is_editor   = false;
 	if ( in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
 		$screen    = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
 		$is_editor = $screen && PTFB_CPT === $screen->post_type;
 	}
-	if ( ! $is_settings && ! $is_editor ) {
+	if ( ! $is_settings && ! $is_editor && ! $is_order && ! $is_tools ) {
 		return;
+	}
+
+	if ( $is_settings || $is_order || $is_tools ) {
+		wp_enqueue_style( 'page-turn-feedback-admin', plugins_url( 'assets/page-turn-feedback-admin.css', __FILE__ ), array(), PTFB_VERSION );
+	}
+	if ( $is_tools ) {
+		return; // that page needs no script.
 	}
 
 	$deps = array();
 	if ( $is_settings ) {
 		wp_enqueue_style( 'wp-color-picker' );
 		$deps[] = 'wp-color-picker';
+	}
+	if ( $is_order ) {
+		$deps[] = 'jquery-ui-sortable';
+		$deps[] = 'wp-a11y';
 	}
 	wp_enqueue_script( 'page-turn-feedback-admin', plugins_url( 'assets/page-turn-feedback-admin.js', __FILE__ ), $deps, PTFB_VERSION, true );
 
@@ -503,6 +525,36 @@ function ptfb_admin_assets( $hook ) {
 		/* translators: 1: number of characters typed so far, 2: recommended maximum. */
 		'count'   => __( 'Characters: %1$d / %2$d', 'page-turn-feedback' ),
 	);
+	if ( $is_order ) {
+		/* translators: 1: new position of the feedback, 2: total number of feedback. */
+		$data['moved']        = __( 'Moved to position %1$d of %2$d.', 'page-turn-feedback' );
+		$data['confirmReset'] = __( 'Go back to the automatic order? The order you set by hand will be lost.', 'page-turn-feedback' );
+	}
+	if ( $is_settings ) {
+		$presets = array();
+		foreach ( ptfb_style_presets() as $key => $preset ) {
+			$presets[ $key ] = array(
+				'label' => $preset['label'],
+				'style' => ptfb_preset_as_style( $preset ),
+			);
+		}
+		$stacks = array();
+		foreach ( ptfb_font_stacks() as $key => $stack ) {
+			$stacks[ $key ] = $stack[1];
+		}
+		$data['presets']  = $presets;
+		$data['defaults'] = ptfb_style_defaults();
+		$data['stacks']   = $stacks;
+		$data['colors']   = array_keys( ptfb_color_fields() );
+		$data['roles']    = array_keys( ptfb_font_roles() );
+		$data['preview']  = array(
+			'css' => plugins_url( 'assets/page-turn-feedback.css', __FILE__ ) . '?ver=' . rawurlencode( PTFB_VERSION ),
+			'js'  => plugins_url( 'assets/page-turn-feedback.js', __FILE__ ) . '?ver=' . rawurlencode( PTFB_VERSION ),
+		);
+		/* translators: %s: name of a ready-made style, for example "Paper". */
+		$data['presetApplied'] = __( 'Style “%s” filled in. Check the preview, then press “Save Changes”.', 'page-turn-feedback' );
+		$data['presetDefault'] = __( 'Original look filled in. Press “Save Changes” to keep it.', 'page-turn-feedback' );
+	}
 	wp_add_inline_script( 'page-turn-feedback-admin', 'var ptfbAdmin = ' . wp_json_encode( $data ) . ';', 'before' );
 }
 add_action( 'admin_enqueue_scripts', 'ptfb_admin_assets' );
@@ -543,8 +595,33 @@ function ptfb_settings_page() {
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Feedback settings', 'page-turn-feedback' ); ?></h1>
 		<?php settings_errors(); ?>
+		<div class="ptfb-settings">
+		<div class="ptfb-settings__main">
 		<form method="post" action="options.php">
 			<?php settings_fields( 'ptfb' ); ?>
+
+			<?php /* Ready-made styles: shown by the admin script (without JavaScript they would do nothing). */ ?>
+			<div id="ptfb-presets-wrap" hidden>
+				<h2 class="title"><?php esc_html_e( 'Ready-made styles', 'page-turn-feedback' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Pick a style to fill in the colors, fonts and alignment below. Nothing changes on the site until you press “Save Changes”, and you can still adjust every detail.', 'page-turn-feedback' ); ?></p>
+				<div class="ptfb-presets">
+					<?php foreach ( ptfb_style_presets() as $key => $preset ) : ?>
+						<?php $look = ptfb_preset_as_style( $preset ); ?>
+						<button type="button" class="ptfb-preset" data-preset="<?php echo esc_attr( $key ); ?>">
+							<span class="ptfb-preset__swatch" aria-hidden="true">
+								<span style="background:<?php echo esc_attr( $look['bg'] ); ?>"></span>
+								<span style="background:<?php echo esc_attr( $look['card'] ); ?>"></span>
+								<span style="background:<?php echo esc_attr( $look['accent'] ); ?>"></span>
+							</span>
+							<span class="ptfb-preset__name"><?php echo esc_html( $preset['label'] ); ?></span>
+						</button>
+					<?php endforeach; ?>
+					<button type="button" class="ptfb-preset ptfb-preset--original" data-preset="default">
+						<span class="ptfb-preset__name"><?php esc_html_e( 'Back to the original look', 'page-turn-feedback' ); ?></span>
+					</button>
+				</div>
+				<p id="ptfb-preset-note" class="description" role="status"></p>
+			</div>
 
 			<h2 class="title"><?php esc_html_e( 'Text and sliding', 'page-turn-feedback' ); ?></h2>
 			<table class="form-table" role="presentation">
@@ -679,6 +756,35 @@ function ptfb_settings_page() {
 			);
 			?>
 		</p>
+		</div>
+
+		<?php
+		/* Live preview: the real card inside a frame, filled in by the admin script (hidden without JavaScript). */
+		$preview_items = array_slice( ptfb_get_items(), 0, 3 );
+		$is_sample     = empty( $preview_items );
+		if ( $is_sample ) {
+			$preview_items = array();
+			foreach ( ptfb_sample_feedback() as $sample ) {
+				$preview_items[] = (object) array(
+					'post_title'   => $sample['name'],
+					'post_content' => $sample['comment'],
+				);
+			}
+		}
+		?>
+		<div class="ptfb-settings__side" id="ptfb-preview-box" hidden>
+			<h2 class="title"><?php esc_html_e( 'Preview', 'page-turn-feedback' ); ?></h2>
+			<iframe id="ptfb-preview" class="ptfb-preview" title="<?php esc_attr_e( 'Preview of the feedback card', 'page-turn-feedback' ); ?>"></iframe>
+			<p class="description">
+				<?php esc_html_e( 'It updates as you change the settings and the page turns by itself, like on the site.', 'page-turn-feedback' ); ?>
+				<?php esc_html_e( 'Where “Default (theme font)” is chosen the preview uses a plain font: on the site your theme font is used.', 'page-turn-feedback' ); ?>
+				<?php if ( $is_sample ) : ?>
+					<?php esc_html_e( 'The texts are examples, because there is no published feedback yet.', 'page-turn-feedback' ); ?>
+				<?php endif; ?>
+			</p>
+		</div>
+		<template id="ptfb-preview-template"><?php ptfb_output( $preview_items, true ); ?></template>
+		</div>
 	</div>
 	<?php
 }
@@ -695,8 +801,11 @@ function ptfb_get_items() {
 				'post_type'      => PTFB_CPT,
 				'post_status'    => 'publish',
 				'posts_per_page' => (int) apply_filters( 'ptfb_max_items', 30 ),
-				'orderby'        => 'date',
-				'order'          => 'DESC',
+				// Manual order first (set on the Order page); same position or none: newest first.
+				'orderby'        => array(
+					'menu_order' => 'ASC',
+					'date'       => 'DESC',
+				),
 				'no_found_rows'  => true,
 			)
 		);
@@ -758,16 +867,24 @@ function ptfb_default_container_class() {
 	return 'ptfb__container';
 }
 
-/* Prints the section (nothing if there are no feedback). Every value is escaped where it is printed. */
-function ptfb_output() {
-	$items = ptfb_get_items();
+/*
+ * Prints the section (nothing if there are no feedback). Every value is escaped where it is printed.
+ * $items: the feedback to show (default: the published ones). $preview: true for the preview in the settings
+ * page, which uses the plugin's own container and neither loads the front-end files nor marks the section as printed.
+ */
+function ptfb_output( $items = null, $preview = false ) {
+	if ( null === $items ) {
+		$items = ptfb_get_items();
+	}
 	if ( empty( $items ) ) {
 		return;
 	}
 
-	$GLOBALS['ptfb_printed'] = true;
-	wp_enqueue_style( 'page-turn-feedback' );
-	wp_enqueue_script( 'page-turn-feedback' );
+	if ( ! $preview ) {
+		$GLOBALS['ptfb_printed'] = true;
+		wp_enqueue_style( 'page-turn-feedback' );
+		wp_enqueue_script( 'page-turn-feedback' );
+	}
 
 	$uid      = wp_unique_id( 'ptfb-' );
 	$total    = count( $items );
@@ -776,7 +893,7 @@ function ptfb_output() {
 	$label    = '' !== $title ? $title : __( 'Feedback', 'page-turn-feedback' );
 
 	/* Container class: the theme's own one if it is known, otherwise the plugin's (see below). */
-	$container = trim( (string) apply_filters( 'ptfb_container_class', ptfb_default_container_class() ) );
+	$container = $preview ? 'ptfb__container' : trim( (string) apply_filters( 'ptfb_container_class', ptfb_default_container_class() ) );
 
 	?>
 	<section class="ptfb" id="<?php echo esc_attr( $uid ); ?>" aria-roledescription="carousel" aria-label="<?php echo esc_attr( $label ); ?>" data-interval="<?php echo esc_attr( $interval ); ?>" data-turn="<?php echo esc_attr( ptfb_get_anim_ms() ); ?>">
@@ -817,9 +934,9 @@ function ptfb_output() {
 }
 
 /* Returns the HTML of the section as a string (empty string if there are no feedback). */
-function ptfb_render() {
+function ptfb_render( $items = null, $preview = false ) {
 	ob_start();
-	ptfb_output();
+	ptfb_output( $items, $preview );
 	return ob_get_clean();
 }
 

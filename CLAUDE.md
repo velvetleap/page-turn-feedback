@@ -17,12 +17,13 @@ The maintainer is not a developer. Talk to him in Italian, in plain words, short
 - Copyright line stays "Mattia Scudellaro"; author in the header stays "Velvet Leap"; license GPL-2.0-or-later.
 - No contact details for reporting problems in the README or readme.txt for now.
 - Prefix everything with `ptfb` (functions, options, hooks, constants), CSS classes `ptfb__*`, CSS variables `--ptfb-*`. Do not rename identifiers: existing sites store settings under them.
-- Strings are written in English with the text domain `page-turn-feedback`, and the Italian translation is kept in step: after any string change update `languages/page-turn-feedback.pot` and `-it_IT.po`, and recompile `-it_IT.mo`. The tests read the real `.mo`.
+- Strings are written in English with the text domain `page-turn-feedback`, and the Italian translation is kept in step: after any string change put the Italian text of the new strings in a JSON file and run `python3 bin/i18n.py --new file.json` (needs `pip install polib`): it rebuilds `languages/page-turn-feedback.pot`, `-it_IT.po` and `-it_IT.mo` from all the PHP files. The tests read the real `.mo`.
 - `load_plugin_textdomain()` is kept on purpose (without it WordPress does not find the bundled translation). The Plugin Check warning about it is known and accepted.
 - Escape late: output is escaped where it is printed. No remote requests, no cookies, no tracking, no AJAX or REST endpoints.
 - The look on sites using the Fascinate theme must not change: with that theme the markup keeps the theme's own `fb-container` class. Check `tests/compat_test.php` and the visual tests when touching markup or CSS.
 - Long words and web addresses must wrap inside the card, for every text alignment (covered by `tests/behavior_test.py`).
 - Keep names of the maintainer's clients, sites and private matters out of this public repository.
+- Decided not to add (the maintainer said no): extra fields on a feedback, groups or several lists, a block for the block editor.
 
 ## Version bump checklist
 
@@ -30,8 +31,8 @@ Plugin header `Version`, `PTFB_VERSION` in `page-turn-feedback.php`, `Stable tag
 
 ## Layout
 
-- `page-turn-feedback.php`, `uninstall.php`, `assets/`, `languages/`, `readme.txt`, `LEGGIMI.txt`: the plugin (what ends up in the zip).
-- `bin/`: `build.sh` (builds `build/page-turn-feedback.zip` honoring `.distignore`), `check-versions.sh`.
+- `page-turn-feedback.php`, `uninstall.php`, `includes/`, `assets/`, `languages/`, `readme.txt`, `LEGGIMI.txt`: the plugin (what ends up in the zip). `includes/` is loaded only in the dashboard: `presets.php` (ready-made styles), `ordering.php` (Order page), `tools.php` (CSV import and export).
+- `bin/`: `build.sh` (builds `build/page-turn-feedback.zip` honoring `.distignore`), `check-versions.sh`, `i18n.py` (rebuilds the translation files).
 - `tests/`: stubs that run the plugin outside WordPress, browser tests with Playwright, test theme in `tests/fixtures/`.
 - `.github/workflows/`: `ci.yml`, `release.yml`.
 - Everything else at the root (README, CHANGELOG, LICENSE, composer.json, phpcs.xml.dist, CLAUDE.md) stays out of the zip.

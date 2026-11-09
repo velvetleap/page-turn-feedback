@@ -4,7 +4,7 @@ A WordPress plugin that shows feedback / testimonials / quotes **one at a time o
 
 Built for a book blog, with a non-technical editor in mind: adding, editing and removing a feedback is just "name + comment" in the WordPress admin.
 
-> **Status:** 1.7.1. Tested on WordPress 7.1.4 with Twenty Twenty-One, Twenty Twenty, Twenty Nineteen, Twenty Seventeen and the block themes Twenty Twenty-Two to Twenty Twenty-Five, and running on a live site with the Fascinate theme. The front end has been tested in Chromium only (desktop and phone viewport); Safari and Firefox still need checking. Older WordPress versions are not tested. Bug reports and pull requests are welcome.
+> **Status:** 1.8.0. Tested on WordPress 7.1.4 with Twenty Twenty-One, Twenty Twenty, Twenty Nineteen, Twenty Seventeen and the block themes Twenty Twenty-Two to Twenty Twenty-Five, and running on a live site with the Fascinate theme. The front end has been tested in Chromium only (desktop and phone viewport); Safari and Firefox still need checking. Older WordPress versions are not tested. Bug reports and pull requests are welcome.
 
 **Keywords:** testimonials, feedback, quotes, reviews, slider, page turn, book.
 
@@ -17,6 +17,9 @@ The interface is in **English** and a complete **Italian translation** (it_IT) i
 - **Folded corner** in the bottom-right: click or tap to go next, hover to enlarge, drag to turn by hand.
 - **Press and hold** on the text to pause autoplay and drag left (next) / right (previous); autoplay resumes on release.
 - **Settings** (Feedback → Settings): section title, autoplay time (3 / 5 / 10 s, custom 2–120 s, or off), page-turn duration, six colours, fonts for title / comment / name, alignment of comment and name.
+- **Live preview** next to the settings form (the real card, same markup, stylesheet and script) and **five ready-made styles** (Paper, Night, Ocean, Sunset, Minimal) that fill in colours, fonts and alignment.
+- **Order by hand** (Feedback → Order): drag and drop or arrow buttons; stored in `menu_order`, so nothing to migrate.
+- **CSV import and export** (Feedback → Import and export); XML through WordPress's own Tools → Export / Import.
 - **Accessible**: keyboard (Tab, Enter, arrow keys), carousel semantics with `aria-live`, focus indicator for keyboard users only, `prefers-reduced-motion` support (no autoplay, instant swap).
 - **Zero dependencies and no external requests** (no CDN, no fonts, no tracking).
 - Uses the theme's heading and body fonts by default; colours default to a green `#a5cca7` band and white card.
@@ -62,9 +65,8 @@ Changes go through a pull request. Every pull request and every change to `main`
 ## Known limitations / ideas
 
 - Tested in Chromium only: Safari (WebKit) and Firefox need checking.
-- Single global list and single global style (no groups or per-instance options yet).
+- One list and one style for the whole site, by design (no groups, extra fields or per-instance options).
 - Declares WordPress 5.0.3+ (it uses `wp_unique_id`) but has only been run on WordPress 7.1.4; older versions are untested.
-- Ideas: groups/categories, image or book cover per card, front-end submission form with moderation, block editor block.
 
 ## License
 

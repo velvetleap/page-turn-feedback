@@ -9,10 +9,13 @@ run() { echo; echo "=== $*"; "$@" || { echo ">>> FAILED: $*"; failed=1; }; }
 
 PTFB_LANG=en run php settings_test.php
 PTFB_LANG=it run php settings_test.php
+PTFB_LANG=en run php admin_pages_test.php
+PTFB_LANG=it run php admin_pages_test.php
 run php compat_test.php
 PTFB_EMPTY=1 run php compat_test.php
 run python3 behavior_test.py
 run python3 admin_js_test.py
+run python3 admin_features_test.py
 
 echo
 if [ "$failed" -eq 0 ]; then echo "ALL TESTS PASSED"; else echo "SOME TESTS FAILED"; fi

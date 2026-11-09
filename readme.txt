@@ -3,7 +3,7 @@ Contributors: matthewskud
 Tags: testimonials, feedback, quotes, reviews, slider
 Requires at least: 5.0.3
 Tested up to: 7.1
-Stable tag: 1.7.1
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,10 @@ It is built for sites run by non-technical editors: adding, editing and removing
 * **Folded corner** in the bottom-right: click or tap to go to the next one, hover to enlarge it, drag it to turn the page by hand.
 * **Press and hold** on the text to pause autoplay and drag left (next) or right (previous). Autoplay resumes on release.
 * **Settings** (Feedback > Settings): section title, autoplay time (3, 5 or 10 s, custom 2-120 s, or off), page-turn duration, six colours, fonts for title, comment and name, alignment of comment and name.
+* **Live preview** on the settings page: the real card, updated as you change a setting, with the page turning by itself.
+* **Five ready-made styles** (Paper, Night, Ocean, Sunset, Minimal): one click fills in colours, fonts and alignment, which you can still adjust before saving.
+* **Order by hand** (Feedback > Order): drag the feedback, or use the arrows, to choose the order they are shown in.
+* **Import and export** (Feedback > Import and export): CSV file that opens in Excel, Numbers or Google Sheets, also useful as a backup. For an XML file use WordPress's own Tools > Export and Import.
 * **Accessible**: keyboard support (Tab, Enter, arrow keys), carousel semantics with `aria-live`, focus indicator for keyboard users only, `prefers-reduced-motion` support (no autoplay, instant swap).
 * **No dependencies and no external requests**: no CDN, no external fonts, no tracking.
 * Uses the theme's heading and body fonts by default.
@@ -68,11 +72,30 @@ Add this to your child theme's `functions.php`:
 
 Yes. Every string uses the `page-turn-feedback` text domain and the `languages/page-turn-feedback.pot` template is included. An Italian translation (it_IT) is bundled.
 
+= How do I choose the order of the feedback? =
+
+Go to **Feedback > Order**, drag the rows (or use the arrows) and press **Save order**. The site shows the feedback from top to bottom. Until you save an order, the newest feedback comes first, as before. A feedback added after you saved the order is shown first until you save the order again. "Back to automatic order" restores newest-first.
+
+= How do I import or export my feedback? =
+
+Go to **Feedback > Import and export**. The CSV file has one feedback per row with the columns `name`, `comment` and, optionally, `status` (publish or draft), `date` (2026-11-30) and `order`. Only `comment` is required. You can download an example file from that page. Commas and semicolons both work, as does a file saved by Excel. Feedback already on the site (same name and same comment) is skipped, so importing the same file twice does no harm. For an XML file (to move the feedback to another WordPress site) use WordPress's own Tools > Export, choosing "Feedback", and Tools > Import > WordPress on the other site.
+
+= Can I change the look with one click? =
+
+Yes. On **Feedback > Settings** choose one of the five ready-made styles: it fills in the colours, fonts and alignment, and the preview next to the form shows the result. Nothing changes on the site until you press **Save Changes**, and every detail can still be adjusted. The preview uses a plain font wherever "Default (theme font)" is chosen, because your theme is not loaded there: on the site the theme font is used.
+
 = What happens to my feedback if I uninstall the plugin? =
 
 The settings are deleted. The feedback posts stay in the database.
 
 == Changelog ==
+
+= 1.8.0 =
+* New: Feedback > Order, to put the feedback in the order you like by dragging them (or with the arrows). The order is kept in the standard "menu order" field of each feedback; until you save an order the newest feedback is shown first, as before.
+* New: Feedback > Import and export. CSV export and import (Excel, Numbers and Google Sheets compatible, semicolons and Excel's encoding understood, already-present feedback skipped, spreadsheet formulas neutralised). XML export and import are done with WordPress's own Tools > Export / Import, where "Feedback" is listed.
+* New: live preview on the settings page, next to the form.
+* New: five ready-made styles (Paper, Night, Ocean, Sunset, Minimal) that fill in colours, fonts and alignment, with strong text contrast. Nothing is saved until you press Save Changes.
+* No change to the identifiers, to the front-end markup or to the settings saved by earlier versions. The new admin pages use no AJAX and no remote requests.
 
 = 1.7.1 =
 * Very long words and web addresses (a comment or a name with no spaces) now break onto the next line inside the card. Before, the text could run past the card, be cut off at its edge and push the name out of place.
