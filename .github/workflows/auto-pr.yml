@@ -1,0 +1,50 @@
+name: Open pull request
+
+# When Claude pushes a branch named claude/<topic>, this opens the pull request for it (once), so nobody has to.
+# It needs one setting, switched on once by the maintainer:
+# Settings > Actions > General > Workflow permissions > "Allow GitHub Actions to create and approve pull requests".
+on:
+  push:
+    branches:
+      - 'claude/**'
+      - '!claude/approve-pr-*'
+      - '!claude/release-*'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open:
+    name: Open the pull request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Open the pull request if there is none yet
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          open_now=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --state open --json number --jq 'length')
+          if [ "$open_now" != "0" ]; then
+            echo "A pull request is already open for $BRANCH."
+            exit 0
+          fi
+          ahead=$(gh api "repos/$GITHUB_REPOSITORY/compare/main...$BRANCH" --jq '.ahead_by')
+          if [ "$ahead" = "0" ]; then
+            echo "$BRANCH has nothing that main does not have: no pull request needed."
+            exit 0
+          fi
+          title=$(git log -1 --format=%s)
+          session=$(git log -1 --format=%b | sed -n 's/^Claude-Session: //p' | head -1)
+          {
+            git log -1 --format=%b | grep -v -E '^(Co-Authored-By|Claude-Session):' | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}'
+            printf '\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n'
+            if [ -n "$session" ]; then printf '\n%s\n' "$session"; fi
+          } > "$RUNNER_TEMP/pr-body.md"
+          if ! gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$BRANCH" --title "$title" --body-file "$RUNNER_TEMP/pr-body.md" 2> "$RUNNER_TEMP/pr-error.txt"; then
+            cat "$RUNNER_TEMP/pr-error.txt"
+            echo "::warning::The pull request could not be opened (see the message above). If it says Actions may not create pull requests: Settings > Actions > General > Workflow permissions > switch on 'Allow GitHub Actions to create and approve pull requests', then push again."
+          fi

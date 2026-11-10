@@ -1,0 +1,54 @@
+name: Release on approval
+
+# The maintainer says "yes" in the chat. Claude then pushes a branch named claude/release-<version> that points at the
+# latest commit of main. This workflow checks the version, builds the zip, publishes the GitHub release vX.Y.Z with the
+# zip attached and the notes taken from CHANGELOG.md, and deletes the release branch.
+# (Uploading to WordPress.org is a separate workflow that will ask the maintainer to approve it in GitHub.)
+on:
+  push:
+    branches:
+      - 'claude/release-*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish the release
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MARKER: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: The release is the latest main and the version matches
+        run: |
+          set -euo pipefail
+          version="${MARKER#claude/release-}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then echo "::error::'$MARKER' does not end with a version like 1.8.0."; exit 1; fi
+          git fetch --quiet origin main
+          [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] || { echo "::error::A release must be cut from the latest commit of main."; exit 1; }
+          if gh release view "v$version" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then echo "::error::Release v$version already exists."; exit 1; fi
+          bash bin/check-versions.sh "v$version"
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Build the zip
+        run: bash bin/build.sh
+
+      - name: Notes from the changelog
+        run: |
+          set -euo pipefail
+          awk -v v="$VERSION" '$0 ~ "^## " v "( |$)" {on=1; next} /^## / {on=0} on' CHANGELOG.md | sed -e '/./,$!d' > "$RUNNER_TEMP/notes.md"
+          [ -s "$RUNNER_TEMP/notes.md" ] || echo "Version $VERSION." > "$RUNNER_TEMP/notes.md"
+
+      - name: Publish the release with the zip
+        run: |
+          gh release create "v$VERSION" build/page-turn-feedback.zip --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" --title "Page Turn Feedback $VERSION" --notes-file "$RUNNER_TEMP/notes.md"
+
+      - name: Delete the release branch
+        if: always()
+        run: gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/$MARKER" || true
