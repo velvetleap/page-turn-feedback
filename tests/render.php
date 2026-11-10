@@ -5,6 +5,7 @@ require __DIR__ . '/i18n_stubs.php';
 $GLOBALS['hooks'] = array();
 function add_action( $h, $cb, $p = 10, $a = 1 ) { $GLOBALS['hooks'][ $h ][] = $cb; }
 function add_filter( $h, $cb, $p = 10, $a = 1 ) { $GLOBALS['hooks'][ $h ][] = $cb; $GLOBALS['filters'][ $h ][] = $cb; }
+function is_admin() { return false; }
 function add_shortcode() {}
 function add_submenu_page() {}
 function register_post_type( $n, $a ) { $GLOBALS['cpt'] = $a; }

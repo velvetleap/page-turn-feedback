@@ -28,4 +28,8 @@ PTFB_LONG=1 page p_longword 4 60000 '{"align_name":"center"}'
 
 PTFB_LANG=en php render_settings.php > out/admin_settings_en.html
 PTFB_LANG=it php render_settings.php > out/admin_settings_it.html
+# settings with feedback on the site (the preview shows them) and the Order page (5 feedback, the site shows 3)
+PTFB_ITEMS=4 PTFB_LANG=en php render_settings.php > out/admin_settings_items.html
+PTFB_PAGE=order PTFB_ITEMS=5 PTFB_MAX=3 PTFB_LANG=en php render_settings.php > out/admin_order_en.html
+PTFB_PAGE=order PTFB_ITEMS=5 PTFB_MAX=3 PTFB_LANG=it php render_settings.php > out/admin_order_it.html
 echo "pages written to tests/out/"

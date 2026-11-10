@@ -1,0 +1,206 @@
+/*
+ * Page Turn Feedback - admin styles.
+ * Copyright (C) 2026 Mattia Scudellaro. GPL-2.0-or-later.
+ *
+ * Loaded only on the plugin pages (settings, order, import and export).
+ */
+
+/* ---- Settings page: form and live preview side by side on wide screens ---- */
+
+.ptfb-settings {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ptfb-settings__main {
+	min-width: 0;
+}
+
+.ptfb-settings__side {
+	order: -1; /* on narrow screens the preview comes first */
+	min-width: 0;
+}
+
+.ptfb-preview {
+	display: block;
+	width: 100%;
+	height: 320px;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background: #fff;
+}
+
+@media (min-width: 1100px) {
+	.ptfb-settings {
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 32px;
+	}
+
+	.ptfb-settings__main {
+		flex: 1 1 auto;
+	}
+
+	.ptfb-settings__side {
+		order: 0;
+		flex: 0 0 460px;
+		position: sticky;
+		top: 48px; /* below the admin bar */
+	}
+
+	.ptfb-settings__side .title {
+		margin-top: 0;
+	}
+}
+
+/* ---- Ready-made styles ---- */
+
+.ptfb-presets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 12px 0 4px;
+}
+
+.ptfb-preset {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	min-width: 96px;
+	padding: 8px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	color: #1d2327;
+	cursor: pointer;
+}
+
+.ptfb-preset:hover,
+.ptfb-preset:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: 2px solid transparent;
+}
+
+.ptfb-preset__swatch {
+	display: flex;
+	width: 84px;
+	height: 34px;
+	overflow: hidden;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+}
+
+.ptfb-preset__swatch span:nth-child(1) {
+	flex: 4;
+}
+
+.ptfb-preset__swatch span:nth-child(2) {
+	flex: 4;
+}
+
+.ptfb-preset__swatch span:nth-child(3) {
+	flex: 2;
+}
+
+.ptfb-preset--original {
+	justify-content: center;
+	border-style: dashed;
+}
+
+/* ---- Order page ---- */
+
+.ptfb-order {
+	counter-reset: ptfb-pos;
+	max-width: 840px;
+	margin: 16px 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ptfb-order__row {
+	counter-increment: ptfb-pos;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 0 0 6px;
+	padding: 10px 12px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+}
+
+.ptfb-order__row::before {
+	content: counter(ptfb-pos);
+	flex: 0 0 2em;
+	text-align: right;
+	font-weight: 600;
+	color: #50575e;
+}
+
+.ptfb-order__handle {
+	flex: 0 0 auto;
+	color: #787c82;
+	cursor: grab;
+}
+
+.ptfb-order__main {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.ptfb-order__name {
+	overflow-wrap: anywhere;
+}
+
+.ptfb-order__text {
+	overflow: hidden;
+	color: #50575e;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ptfb-order__tag {
+	display: none;
+	font-size: 12px;
+	color: #996800;
+}
+
+.ptfb-order__row--beyond {
+	background: #f6f7f7;
+}
+
+.ptfb-order__row--beyond .ptfb-order__tag {
+	display: block;
+}
+
+.ptfb-order__buttons {
+	display: flex;
+	flex: 0 0 auto;
+	gap: 4px;
+}
+
+.ptfb-order__btn.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 32px;
+	padding: 0 6px;
+}
+
+.ptfb-order__row.ui-sortable-helper {
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ptfb-order__placeholder {
+	height: 52px;
+	margin: 0 0 6px;
+	border: 2px dashed #8c8f94;
+	border-radius: 4px;
+	background: #f6f7f7;
+}

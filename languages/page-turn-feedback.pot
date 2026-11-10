@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the Page Turn Feedback plugin (GPL-2.0-or-later).
 msgid ""
 msgstr ""
-"Project-Id-Version: Page Turn Feedback 1.7.1\n"
-"POT-Creation-Date: 2026-11-06 00:00+0000\n"
-"PO-Revision-Date: 2026-11-06 00:00+0000\n"
+"Project-Id-Version: Page Turn Feedback 1.8.0\n"
+"POT-Creation-Date: 2026-11-09 00:00+0000\n"
+"PO-Revision-Date: 2026-11-09 00:00+0000\n"
 "Last-Translator: Mattia Scudellaro\n"
 "Language-Team: Velvet Leap\n"
 "MIME-Version: 1.0\n"
@@ -14,270 +14,532 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Domain: page-turn-feedback\n"
 
-#: page-turn-feedback.php:54 page-turn-feedback.php:55 page-turn-feedback.php:56 page-turn-feedback.php:776
+#: page-turn-feedback.php:61 page-turn-feedback.php:62 page-turn-feedback.php:63 page-turn-feedback.php:893
 msgid "Feedback"
 msgstr ""
 
-#: page-turn-feedback.php:57
+#: page-turn-feedback.php:64
 msgid "All feedback"
 msgstr ""
 
-#: page-turn-feedback.php:58
+#: page-turn-feedback.php:65 includes/ordering.php:174
 msgid "Add feedback"
 msgstr ""
 
-#: page-turn-feedback.php:59
+#: page-turn-feedback.php:66
 msgid "Add new feedback"
 msgstr ""
 
-#: page-turn-feedback.php:60
+#: page-turn-feedback.php:67
 msgid "Edit feedback"
 msgstr ""
 
-#: page-turn-feedback.php:61
+#: page-turn-feedback.php:68
 msgid "New feedback"
 msgstr ""
 
-#: page-turn-feedback.php:62
+#: page-turn-feedback.php:69
 msgid "Search feedback"
 msgstr ""
 
-#: page-turn-feedback.php:63
+#: page-turn-feedback.php:70
 msgid "No feedback yet. Click “Add feedback” to add the first one."
 msgstr ""
 
-#: page-turn-feedback.php:64
+#: page-turn-feedback.php:71
 msgid "No feedback in the Trash."
 msgstr ""
 
-#: page-turn-feedback.php:85
+#: page-turn-feedback.php:92
 msgid "Name of the person who left the feedback"
 msgstr ""
 
-#: page-turn-feedback.php:104
+#: page-turn-feedback.php:111
 msgid "Write the <strong>name</strong> above and the <strong>comment</strong> in the box below. Click <em>Publish</em> to show it on the site. To remove it from the site use <em>Move to Trash</em>."
 msgstr ""
 
 #. translators: %d: recommended maximum number of characters for a comment.
-#: page-turn-feedback.php:112
+#: page-turn-feedback.php:119
 #, php-format
 msgid "<strong>Tip:</strong> write a short comment, <strong>no more than %d characters</strong>, so it stays easy to read on the card."
 msgstr ""
 
-#: page-turn-feedback.php:129
+#: page-turn-feedback.php:136
 msgid "Name"
 msgstr ""
 
-#: page-turn-feedback.php:130 page-turn-feedback.php:264 page-turn-feedback.php:275 page-turn-feedback.php:644
+#: page-turn-feedback.php:137 page-turn-feedback.php:271 page-turn-feedback.php:282 page-turn-feedback.php:721
 msgid "Comment"
 msgstr ""
 
-#: page-turn-feedback.php:131
+#: page-turn-feedback.php:138
 msgid "Date"
 msgstr ""
 
-#: page-turn-feedback.php:149
+#: page-turn-feedback.php:156
 msgid "What people say about me"
 msgstr ""
 
-#: page-turn-feedback.php:254
+#: page-turn-feedback.php:261
 msgid "Left"
 msgstr ""
 
-#: page-turn-feedback.php:255
+#: page-turn-feedback.php:262
 msgid "Center"
 msgstr ""
 
-#: page-turn-feedback.php:256
+#: page-turn-feedback.php:263
 msgid "Right"
 msgstr ""
 
-#: page-turn-feedback.php:263 page-turn-feedback.php:273 page-turn-feedback.php:552
+#: page-turn-feedback.php:270 page-turn-feedback.php:280 page-turn-feedback.php:629
 msgid "Section title"
 msgstr ""
 
-#: page-turn-feedback.php:265 page-turn-feedback.php:276 page-turn-feedback.php:654
+#: page-turn-feedback.php:272 page-turn-feedback.php:283 page-turn-feedback.php:731
 msgid "Author name"
 msgstr ""
 
-#: page-turn-feedback.php:272
+#: page-turn-feedback.php:279
 msgid "Band behind the card"
 msgstr ""
 
-#: page-turn-feedback.php:274
+#: page-turn-feedback.php:281
 msgid "Card"
 msgstr ""
 
-#: page-turn-feedback.php:277
+#: page-turn-feedback.php:284
 msgid "Quotation marks, dash and folded corner"
 msgstr ""
 
-#: page-turn-feedback.php:284
+#: page-turn-feedback.php:291
 msgid "Georgia (serif)"
 msgstr ""
 
-#: page-turn-feedback.php:285
+#: page-turn-feedback.php:292
 msgid "Palatino (serif, book style)"
 msgstr ""
 
-#: page-turn-feedback.php:288
+#: page-turn-feedback.php:295
 msgid "System font"
 msgstr ""
 
-#: page-turn-feedback.php:467 page-turn-feedback.php:544
+#: page-turn-feedback.php:474 page-turn-feedback.php:596
 msgid "Feedback settings"
 msgstr ""
 
-#: page-turn-feedback.php:468
+#: page-turn-feedback.php:475
 msgid "Settings"
 msgstr ""
 
 #. translators: %d: number of characters typed so far.
-#: page-turn-feedback.php:502
+#: page-turn-feedback.php:524
 #, php-format
 msgid "That is %d characters: better to shorten it a little."
 msgstr ""
 
 #. translators: 1: number of characters typed so far, 2: recommended maximum.
-#: page-turn-feedback.php:504
+#: page-turn-feedback.php:526
 #, php-format
 msgid "Characters: %1$d / %2$d"
 msgstr ""
 
-#: page-turn-feedback.php:517
+#. translators: 1: new position of the feedback, 2: total number of feedback.
+#: page-turn-feedback.php:530
+#, php-format
+msgid "Moved to position %1$d of %2$d."
+msgstr ""
+
+#: page-turn-feedback.php:531
+msgid "Go back to the automatic order? The order you set by hand will be lost."
+msgstr ""
+
+#. translators: %s: name of a ready-made style, for example "Paper".
+#: page-turn-feedback.php:555
+#, php-format
+msgid "Style “%s” filled in. Check the preview, then press “Save Changes”."
+msgstr ""
+
+#: page-turn-feedback.php:556
+msgid "Original look filled in. Press “Save Changes” to keep it."
+msgstr ""
+
+#: page-turn-feedback.php:569
 msgid "Every 3 seconds"
 msgstr ""
 
-#: page-turn-feedback.php:518
+#: page-turn-feedback.php:570
 msgid "Every 5 seconds"
 msgstr ""
 
-#: page-turn-feedback.php:519
+#: page-turn-feedback.php:571
 msgid "Every 10 seconds"
 msgstr ""
 
-#: page-turn-feedback.php:520
+#: page-turn-feedback.php:572
 msgid "Custom number of seconds"
 msgstr ""
 
-#: page-turn-feedback.php:521
+#: page-turn-feedback.php:573
 msgid "No automatic sliding (by hand only)"
 msgstr ""
 
-#: page-turn-feedback.php:526
+#: page-turn-feedback.php:578
 msgid "Fast (0.6 seconds)"
 msgstr ""
 
-#: page-turn-feedback.php:527
+#: page-turn-feedback.php:579
 msgid "Normal (1.1 seconds) - default"
 msgstr ""
 
-#: page-turn-feedback.php:528
+#: page-turn-feedback.php:580
 msgid "Slow (1.8 seconds)"
 msgstr ""
 
-#: page-turn-feedback.php:529
+#: page-turn-feedback.php:581
 msgid "Very slow (2.6 seconds)"
 msgstr ""
 
-#: page-turn-feedback.php:530
+#: page-turn-feedback.php:582
 msgid "Custom duration"
 msgstr ""
 
-#: page-turn-feedback.php:534
+#: page-turn-feedback.php:586
 msgid "Default (theme font)"
 msgstr ""
 
-#: page-turn-feedback.php:535
+#: page-turn-feedback.php:587
 msgid "Theme heading font"
 msgstr ""
 
-#: page-turn-feedback.php:536
+#: page-turn-feedback.php:588
 msgid "Theme body font"
 msgstr ""
 
-#: page-turn-feedback.php:541
+#: page-turn-feedback.php:593
 msgid "Other (type the font name)"
 msgstr ""
 
-#: page-turn-feedback.php:549
+#: page-turn-feedback.php:605
+msgid "Ready-made styles"
+msgstr ""
+
+#: page-turn-feedback.php:606
+msgid "Pick a style to fill in the colors, fonts and alignment below. Nothing changes on the site until you press “Save Changes”, and you can still adjust every detail."
+msgstr ""
+
+#: page-turn-feedback.php:620
+msgid "Back to the original look"
+msgstr ""
+
+#: page-turn-feedback.php:626
 msgid "Text and sliding"
 msgstr ""
 
 #. translators: %s: default section title.
-#: page-turn-feedback.php:560
+#: page-turn-feedback.php:637
 #, php-format
 msgid "Shown in the band above the card, in capital letters. The default text is “%s”; if you leave it empty the title is not shown."
 msgstr ""
 
-#: page-turn-feedback.php:569
+#: page-turn-feedback.php:646
 msgid "Automatic sliding"
 msgstr ""
 
-#: page-turn-feedback.php:577 page-turn-feedback.php:596
+#: page-turn-feedback.php:654 page-turn-feedback.php:673
 msgid "seconds"
 msgstr ""
 
-#: page-turn-feedback.php:580
+#: page-turn-feedback.php:657
 msgid "How long each feedback stays visible before the page turns by itself (custom: 2 to 120 seconds). For short sentences 3–5 seconds are enough; for long comments 10 or more is better."
 msgstr ""
 
-#: page-turn-feedback.php:583
+#: page-turn-feedback.php:660
 msgid "Visitors can press and hold on the text and drag, or tap the folded corner at the bottom right, to turn the page by hand: while they hold, the sliding stops and it restarts when they let go."
 msgstr ""
 
-#: page-turn-feedback.php:588
+#: page-turn-feedback.php:665
 msgid "Page-turn duration"
 msgstr ""
 
-#: page-turn-feedback.php:599
+#: page-turn-feedback.php:676
 msgid "How long the animation lasts when the page folds and goes from one comment to the next (custom: 0.3 to 5 seconds). The reading time chosen above restarts when the page turn is finished."
 msgstr ""
 
-#: page-turn-feedback.php:605
+#: page-turn-feedback.php:682
 msgid "Colors"
 msgstr ""
 
-#: page-turn-feedback.php:616
+#: page-turn-feedback.php:693
 msgid "The “Default” button next to each color restores the original green and white."
 msgstr ""
 
-#: page-turn-feedback.php:618
+#: page-turn-feedback.php:695
 msgid "Fonts"
 msgstr ""
 
-#: page-turn-feedback.php:631
+#: page-turn-feedback.php:708
 msgid "for example: Poppins"
 msgstr ""
 
-#: page-turn-feedback.php:638
+#: page-turn-feedback.php:715
 msgid "“Default” uses the theme fonts (title and name in the heading font, comment in the body font). With “Other” type the name of a font already loaded by the site: if it is not loaded, visitors will see a fallback font."
 msgstr ""
 
-#: page-turn-feedback.php:641
+#: page-turn-feedback.php:718
 msgid "Alignment"
 msgstr ""
 
-#: page-turn-feedback.php:662
+#: page-turn-feedback.php:739
 msgid "The name is aligned inside the same column as the comment (to the right of the quotation mark). For a tidy look it is usually best to give the comment and the name the same alignment."
 msgstr ""
 
 #. translators: %s: the shortcode.
-#: page-turn-feedback.php:675
+#: page-turn-feedback.php:752
 #, php-format
 msgid "The feedback appears automatically at the bottom of the home page. To show it on another page too, add the shortcode %s."
 msgstr ""
 
+#: page-turn-feedback.php:776
+msgid "Preview"
+msgstr ""
+
+#: page-turn-feedback.php:777
+msgid "Preview of the feedback card"
+msgstr ""
+
+#: page-turn-feedback.php:779
+msgid "It updates as you change the settings and the page turns by itself, like on the site."
+msgstr ""
+
+#: page-turn-feedback.php:780
+msgid "Where “Default (theme font)” is chosen the preview uses a plain font: on the site your theme font is used."
+msgstr ""
+
+#: page-turn-feedback.php:782
+msgid "The texts are examples, because there is no published feedback yet."
+msgstr ""
+
 #. translators: 1: number of the current feedback, 2: total number of feedback.
-#: page-turn-feedback.php:791
+#: page-turn-feedback.php:908
 #, php-format
 msgid "%1$d of %2$d"
 msgstr ""
 
-#: page-turn-feedback.php:807
+#: page-turn-feedback.php:924
 msgid "Previous feedback"
 msgstr ""
 
-#: page-turn-feedback.php:810
+#: page-turn-feedback.php:927
 msgid "Next feedback"
+msgstr ""
+
+#: includes/ordering.php:40 includes/ordering.php:163
+msgid "Order of the feedback"
+msgstr ""
+
+#: includes/ordering.php:41
+msgid "Order"
+msgstr ""
+
+#: includes/ordering.php:137 includes/tools.php:348 includes/tools.php:457
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: includes/ordering.php:166
+msgid "Order saved. The site now shows the feedback in this order."
+msgstr ""
+
+#: includes/ordering.php:168
+msgid "Automatic order restored: the newest feedback comes first."
+msgstr ""
+
+#: includes/ordering.php:173
+msgid "There is no published feedback yet."
+msgstr ""
+
+#: includes/ordering.php:178
+msgid "The site shows the feedback from top to bottom. Drag a row (or use the arrows) to change its place, then click “Save order”. Until you save, nothing changes on the site."
+msgstr ""
+
+#. translators: %d: number of feedback shown on the site.
+#: includes/ordering.php:185
+#, php-format
+msgid "The site shows the first %d. A new feedback goes to the top until you save the order again."
+msgstr ""
+
+#: includes/ordering.php:201
+msgid "(no name)"
+msgstr ""
+
+#: includes/ordering.php:211
+msgid "Not shown on the site"
+msgstr ""
+
+#. translators: %s: name of the person who left the feedback.
+#: includes/ordering.php:214
+#, php-format
+msgid "Move “%s” up"
+msgstr ""
+
+#. translators: %s: name of the person who left the feedback.
+#: includes/ordering.php:215
+#, php-format
+msgid "Move “%s” down"
+msgstr ""
+
+#: includes/ordering.php:222
+msgid "Save order"
+msgstr ""
+
+#: includes/ordering.php:223
+msgid "Back to automatic order (newest first)"
+msgstr ""
+
+#: includes/presets.php:26
+msgid "Paper"
+msgstr ""
+
+#: includes/presets.php:42
+msgid "Night"
+msgstr ""
+
+#: includes/presets.php:58
+msgid "Ocean"
+msgstr ""
+
+#: includes/presets.php:74
+msgid "Sunset"
+msgstr ""
+
+#: includes/presets.php:90
+msgid "Minimal"
+msgstr ""
+
+#: includes/presets.php:124 includes/tools.php:337
+msgid "Mary Smith"
+msgstr ""
+
+#: includes/presets.php:125
+msgid "A wonderful experience from start to finish. I would recommend it to anyone."
+msgstr ""
+
+#: includes/presets.php:128
+msgid "John Brown"
+msgstr ""
+
+#: includes/presets.php:129
+msgid "Careful, kind and always on time. A pleasure to work with."
+msgstr ""
+
+#: includes/tools.php:27 includes/tools.php:28 includes/tools.php:508
+msgid "Import and export"
+msgstr ""
+
+#: includes/tools.php:338
+msgid "A wonderful experience from start to finish. I recommend it to everyone."
+msgstr ""
+
+#: includes/tools.php:483
+msgid "Choose a CSV file first."
+msgstr ""
+
+#: includes/tools.php:484
+msgid "The file could not be uploaded. Please try again."
+msgstr ""
+
+#: includes/tools.php:485
+msgid "The file is too big (1 MB at most)."
+msgstr ""
+
+#: includes/tools.php:486
+msgid "The file must be a CSV file (name ending in .csv)."
+msgstr ""
+
+#: includes/tools.php:487
+msgid "The file is empty."
+msgstr ""
+
+#: includes/tools.php:488
+msgid "The first row must contain the column names, and one of them must be “comment”. Download the example file to see how it is written."
+msgstr ""
+
+#: includes/tools.php:489
+msgid "The file has too many rows. Split it into smaller files."
+msgstr ""
+
+#. translators: 1: feedback added, 2: feedback skipped because already on the site, 3: rows skipped because they have no comment.
+#: includes/tools.php:519
+#, php-format
+msgid "Import finished: %1$d added, %2$d skipped because they were already here, %3$d skipped because they had no comment."
+msgstr ""
+
+#: includes/tools.php:530
+msgid "Export to a CSV file"
+msgstr ""
+
+#: includes/tools.php:531
+msgid "Download all your feedback (published and drafts) in a CSV file. You can open it with Excel, Google Sheets or LibreOffice, keep it as a copy, or import it again here or on another site."
+msgstr ""
+
+#: includes/tools.php:536
+msgid "Download CSV file"
+msgstr ""
+
+#: includes/tools.php:537
+msgid "Download an example file"
+msgstr ""
+
+#: includes/tools.php:541
+msgid "Import from a CSV file"
+msgstr ""
+
+#: includes/tools.php:542
+msgid "Add many feedback at once from a CSV file. The first row must contain the column names:"
+msgstr ""
+
+#: includes/tools.php:544
+msgid "<code>name</code>: who left the feedback"
+msgstr ""
+
+#: includes/tools.php:545
+msgid "<code>comment</code>: the text (required)"
+msgstr ""
+
+#: includes/tools.php:546
+msgid "<code>status</code>: <code>publish</code> to show it on the site, <code>draft</code> to keep it hidden (if the column is missing: publish)"
+msgstr ""
+
+#: includes/tools.php:547
+msgid "<code>date</code>: for example <code>2026-03-15</code> (if missing: today)"
+msgstr ""
+
+#: includes/tools.php:548
+msgid "<code>order</code>: place on the site, 1 comes first (if missing: automatic order)"
+msgstr ""
+
+#. translators: %d: maximum number of rows in a file.
+#: includes/tools.php:555
+#, php-format
+msgid "Feedback that is already on the site (same name and same comment) is skipped, so importing the same file twice does no harm. Nothing is changed or deleted. At most %d rows and 1 MB per file; semicolons and commas are both fine."
+msgstr ""
+
+#: includes/tools.php:565
+msgid "CSV file"
+msgstr ""
+
+#: includes/tools.php:567
+msgid "Import"
+msgstr ""
+
+#: includes/tools.php:571
+msgid "Move to another WordPress site (XML)"
+msgstr ""
+
+#: includes/tools.php:573
+msgid "WordPress can already move content between sites with an XML file. On this site open Tools → Export and choose “Feedback”; on the other site open Tools → Import → WordPress (it asks you to install the free WordPress Importer plugin)."
+msgstr ""
+
+#: includes/tools.php:574
+msgid "Open Tools → Export"
 msgstr ""

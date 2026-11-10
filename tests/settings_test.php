@@ -9,7 +9,14 @@ function wp_enqueue_script( $h, $src = '', $deps = array(), $ver = false, $foot 
 function plugins_url( $p ) { return $p; }
 function get_current_screen() { return $GLOBALS['screen']; }
 $GLOBALS['opts'] = array();
+function is_admin() { return true; }
 function add_action() {}
+function add_submenu_page() {}
+function get_posts() { return isset( $GLOBALS['items'] ) ? $GLOBALS['items'] : array(); }
+function wp_unique_id( $p = '' ) { static $i = 0; return $p . ( ++$i ); }
+function wpautop( $s ) { return '<p>' . str_replace( "\n\n", '</p><p>', trim( $s ) ) . '</p>'; }
+function esc_url( $s ) { return htmlspecialchars( (string) $s, ENT_QUOTES ); }
+function admin_url( $p = '' ) { return 'http://example.test/wp-admin/' . $p; }
 function add_filter() {}
 function add_shortcode() {}
 function apply_filters( $h, $v ) { return $v; }

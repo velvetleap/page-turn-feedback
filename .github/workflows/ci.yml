@@ -1,17 +1,23 @@
 name: CI
 
-# Runs on every pull request and on every change to main.
+# Runs on every pull request, on every change to main and on every branch Claude pushes (claude/<topic>), so the
+# checks are already there when the pull request opens by itself (see auto-pr.yml). The approve and release
+# branches are only triggers for approve.yml and release-on-approval.yml: nothing to check there.
 on:
   pull_request:
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'claude/**'
+      - '!claude/approve-pr-*'
+      - '!claude/release-*'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:

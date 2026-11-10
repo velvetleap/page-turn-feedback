@@ -1,0 +1,52 @@
+name: Merge approved pull request
+
+# The maintainer says "yes" in the chat. Claude then pushes a branch named claude/approve-pr-<number> that points at
+# the exact commit he was shown. This workflow checks that commit is still the head of that pull request and that every
+# check passed, merges it, and deletes the pull request branch and the approve branch (an AI session cannot delete branches).
+on:
+  push:
+    branches:
+      - 'claude/approve-pr-*'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    name: Merge the approved pull request
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MARKER: ${{ github.ref_name }}
+      SELF: Merge the approved pull request
+    steps:
+      - name: Check and merge
+        run: |
+          set -euo pipefail
+          number="${MARKER#claude/approve-pr-}"
+          if ! [[ "$number" =~ ^[0-9]+$ ]]; then echo "::error::'$MARKER' does not end with a pull request number."; exit 1; fi
+
+          pr=$(gh pr view "$number" --repo "$GITHUB_REPOSITORY" --json state,isDraft,baseRefName,headRefName,headRefOid)
+          state=$(jq -r .state <<<"$pr"); draft=$(jq -r .isDraft <<<"$pr"); base=$(jq -r .baseRefName <<<"$pr")
+          head=$(jq -r .headRefName <<<"$pr"); sha=$(jq -r .headRefOid <<<"$pr")
+
+          [ "$state" = "OPEN" ]      || { echo "::error::Pull request #$number is not open ($state)."; exit 1; }
+          [ "$draft" = "false" ]     || { echo "::error::Pull request #$number is a draft."; exit 1; }
+          [ "$base" = "main" ]       || { echo "::error::Pull request #$number does not target main."; exit 1; }
+          [[ "$head" == claude/* ]]  || { echo "::error::Only branches named claude/<topic> are merged this way."; exit 1; }
+          [ "$sha" = "$GITHUB_SHA" ] || { echo "::error::The pull request changed after it was approved (head $sha, approved $GITHUB_SHA)."; exit 1; }
+
+          runs=$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha/check-runs?filter=latest&per_page=100" \
+                 | jq --arg self "$SELF" '[.check_runs[] | select(.name != $self)]')
+          total=$(jq 'length' <<<"$runs")
+          bad=$(jq '[.[] | select(.status != "completed" or (.conclusion | IN("success","skipped","neutral") | not))] | length' <<<"$runs")
+          [ "$total" -gt 0 ] || { echo "::error::No check has run on this commit yet."; exit 1; }
+          [ "$bad" = "0" ]   || { echo "::error::$bad check(s) are not green:"; jq -r '.[] | select(.status != "completed" or (.conclusion | IN("success","skipped","neutral") | not)) | "  - \(.name): \(.status) \(.conclusion)"' <<<"$runs"; exit 1; }
+
+          gh pr merge "$number" --repo "$GITHUB_REPOSITORY" --merge --match-head-commit "$sha" --delete-branch
+          gh pr comment "$number" --repo "$GITHUB_REPOSITORY" --body "Merged because the maintainer said yes in the chat. The branch was deleted."
+
+      - name: Delete the approve branch
+        if: always()
+        run: gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/$MARKER" || true

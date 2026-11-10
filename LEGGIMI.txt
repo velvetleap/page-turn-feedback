@@ -1,4 +1,4 @@
-PAGE TURN FEEDBACK  (versione 1.7.1)
+PAGE TURN FEEDBACK  (versione 1.8.0)
 ====================================
 
 Cosa fa
@@ -27,12 +27,41 @@ Come modificare o togliere un feedback
 
 Ordine
 ------
-I feedback piu' recenti compaiono per primi. Per cambiare l'ordine si modifica
-la data di pubblicazione dentro il feedback (campo "Pubblica subito" > Modifica).
+Menu "Feedback" > "Ordine". Trascina le righe (oppure usa le frecce su e giu') nell'ordine
+che vuoi e premi "Salva ordine": il sito mostra i feedback dall'alto in basso.
+- Finche' non salvi un ordine, i piu' recenti compaiono per primi, come prima.
+- Un feedback aggiunto dopo compare per primo, finche' non salvi di nuovo l'ordine.
+- "Torna all'ordine automatico" rimette i piu' recenti per primi.
+- Il sito mostra al massimo 30 feedback: le righe oltre il trentesimo sono segnate come "Non mostrato".
+
+Importare ed esportare
+----------------------
+Menu "Feedback" > "Importa ed esporta".
+- Esporta in CSV: scarica tutti i feedback in un file che si apre con Excel, Numbers o Fogli Google.
+  E' anche una buona copia di sicurezza.
+- Importa da CSV: aggiunge i feedback di un file CSV. La prima riga contiene i nomi delle colonne:
+  name (nome), comment (commento) e, se vuoi, status (publish o draft), date (2026-11-30) e order (1, 2, 3).
+  Serve solo "comment". Con "Scarica un file di esempio" ottieni un file da compilare.
+  Vanno bene sia le virgole sia i punti e virgola (come li salva Excel in italiano).
+  Nulla viene cancellato o modificato: i feedback gia' presenti (stesso nome e stesso commento)
+  vengono saltati, quindi importare due volte lo stesso file non crea doppioni.
+  Al massimo 500 righe e 1 MB per file.
+- XML: per spostare i feedback su un altro sito WordPress usa gli strumenti di WordPress:
+  Strumenti > Esporta (scegli "Feedback") e, sull'altro sito, Strumenti > Importa > WordPress.
 
 Impostazioni (solo amministratori)
 ----------------------------------
 Menu "Feedback" > "Impostazioni":
+
+- Anteprima: a destra del modulo (sopra, sugli schermi stretti) compare la scheda vera, che
+  si aggiorna mentre cambi le impostazioni e gira pagina da sola. Dove e' scelto "Predefinito
+  (font del tema)" l'anteprima usa un font semplice, perche' il tema del sito li' non c'e':
+  sul sito si usa il font del tema.
+
+- Stili gia' pronti: cinque pulsanti (Carta, Notte, Oceano, Tramonto, Minimale) che compilano in
+  un colpo colori, font e allineamento. Sul sito non cambia nulla finche' non premi "Salva le
+  modifiche" e puoi ritoccare ogni dettaglio. "Torna all'aspetto originale" rimette il verde e
+  bianco del sito.
 
 - Titolo della sezione: e' la scritta bianca nella parte verde. Il testo predefinito
   e' "Cosa dicono di me" (sul sito appare in maiuscolo: COSA DICONO DI ME). Si puo'
