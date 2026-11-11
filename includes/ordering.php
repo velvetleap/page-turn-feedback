@@ -46,13 +46,16 @@ function ptfb_add_order_page() {
 }
 add_action( 'admin_menu', 'ptfb_add_order_page', 11 );
 
-/* The IDs sent by the form: whole numbers, no zero, no repetitions, in the order received. */
+/* The IDs sent by the form: whole numbers, no zero, no repetitions, in the order received, no more than the page lists. */
 function ptfb_clean_order_ids( $raw ) {
 	if ( ! is_array( $raw ) ) {
 		return array();
 	}
 	$ids = array();
 	foreach ( $raw as $value ) {
+		if ( count( $ids ) >= ptfb_order_list_max() ) {
+			break;
+		}
 		if ( ! is_scalar( $value ) ) {
 			continue;
 		}
@@ -78,15 +81,15 @@ function ptfb_get_ordered_feedback() {
 }
 
 /*
- * Saves the positions 1, 2, 3, ... in the order given. Only feedback that exists and changes position
- * is written. Returns how many were changed.
+ * Saves the positions 1, 2, 3, ... in the order given. Only feedback that exists, that the user may edit
+ * and that changes position is written. Returns how many were changed.
  */
 function ptfb_apply_order( $ids ) {
 	$changed  = 0;
 	$position = 0;
 	foreach ( $ids as $id ) {
 		$post = get_post( $id );
-		if ( ! $post || PTFB_CPT !== $post->post_type ) {
+		if ( ! $post || PTFB_CPT !== $post->post_type || ! current_user_can( 'edit_post', $post->ID ) ) {
 			continue;
 		}
 		++$position;
@@ -115,7 +118,7 @@ function ptfb_reset_order() {
 		)
 	);
 	foreach ( $posts as $post ) {
-		if ( 0 !== (int) $post->menu_order ) {
+		if ( 0 !== (int) $post->menu_order && current_user_can( 'edit_post', $post->ID ) ) {
 			wp_update_post(
 				array(
 					'ID'         => (int) $post->ID,

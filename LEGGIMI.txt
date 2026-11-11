@@ -1,4 +1,4 @@
-PAGE TURN FEEDBACK  (versione 1.8.0)
+PAGE TURN FEEDBACK  (versione 1.8.1)
 ====================================
 
 Cosa fa

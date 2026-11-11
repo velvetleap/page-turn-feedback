@@ -3,7 +3,7 @@ Contributors: matthewskud
 Tags: testimonials, feedback, quotes, reviews, slider
 Requires at least: 5.0.3
 Tested up to: 7.1
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,13 @@ Yes. On **Feedback > Settings** choose one of the five ready-made styles: it fil
 The settings are deleted. The feedback posts stay in the database.
 
 == Changelog ==
+
+= 1.8.1 =
+* Lighter: on pages that do not show the card (every page except the home page and the pages that use the shortcode) the plugin no longer asks the database for the feedback and loads nothing. On the home page one query fewer.
+* Lighter: the dashboard-only parts of the plugin are no longer loaded on admin-ajax.php requests, which also serve visitors for other plugins.
+* Block themes: the automatic placement now runs only for the footer template part, not for every block of the page.
+* Safer: a font name typed by hand with a quote that is never closed no longer breaks the CSS that follows it; moving, resetting and importing feedback also respect the user's own permissions (custom roles).
+* No change to the identifiers, to the front-end markup, to the strings or to the settings saved by earlier versions.
 
 = 1.8.0 =
 * New: Feedback > Order, to put the feedback in the order you like by dragging them (or with the arrows). The order is kept in the standard "menu order" field of each feedback; until you save an order the newest feedback is shown first, as before.

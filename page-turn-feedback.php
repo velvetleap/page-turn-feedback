@@ -3,7 +3,7 @@
  * Plugin Name: Page Turn Feedback
  * Plugin URI:  https://github.com/velvetleap/page-turn-feedback
  * Description: Adds a "Feedback" menu to WordPress and shows the feedback on a card that turns like the page of a book, at the bottom of the home page above the footer.
- * Version:     1.8.0
+ * Version:     1.8.1
  * Requires at least: 5.0.3
  * Author:      Velvet Leap
  * Author URI:  https://github.com/velvetleap
@@ -29,11 +29,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PTFB_VERSION', '1.8.0' );
+define( 'PTFB_VERSION', '1.8.1' );
 define( 'PTFB_CPT', 'ptfb_feedback' );
 
-/* Admin-only parts (ready-made styles, order, import and export) are loaded only in the dashboard. */
-if ( is_admin() ) {
+/*
+ * Admin-only parts (ready-made styles, order, import and export) are loaded only on the dashboard pages,
+ * not on admin-ajax.php: that file also serves visitors, for any plugin that uses it.
+ */
+if ( is_admin() && ! wp_doing_ajax() ) {
 	require_once __DIR__ . '/includes/presets.php';
 	require_once __DIR__ . '/includes/ordering.php';
 	require_once __DIR__ . '/includes/tools.php';
@@ -329,7 +332,17 @@ function ptfb_get_style() {
 function ptfb_clean_font_name( $value ) {
 	$value = is_string( $value ) ? $value : '';
 	$value = preg_replace( '/[^A-Za-z0-9 ,\'"_-]/', '', $value );
-	return substr( trim( $value ), 0, 120 );
+	$value = trim( substr( trim( $value ), 0, 120 ) );
+
+	/*
+	 * A quote that is never closed would swallow the CSS that follows it. Quotes are kept only when they
+	 * come in pairs around each name, like "Open Sans", Poppins; otherwise they are all removed.
+	 */
+	$name = '(?:"[A-Za-z0-9 _-]+"|\'[A-Za-z0-9 _-]+\'|[A-Za-z0-9 _-]+)';
+	if ( ! preg_match( '/^' . $name . '(?:\s*,\s*' . $name . ')*$/D', $value ) ) {
+		$value = trim( str_replace( array( '"', "'" ), '', $value ) );
+	}
+	return $value;
 }
 
 function ptfb_sanitize_style( $input ) {
@@ -798,15 +811,18 @@ function ptfb_get_items() {
 	if ( null === $items ) {
 		$items = get_posts(
 			array(
-				'post_type'      => PTFB_CPT,
-				'post_status'    => 'publish',
-				'posts_per_page' => (int) apply_filters( 'ptfb_max_items', 30 ),
+				'post_type'              => PTFB_CPT,
+				'post_status'            => 'publish',
+				'posts_per_page'         => (int) apply_filters( 'ptfb_max_items', 30 ),
 				// Manual order first (set on the Order page); same position or none: newest first.
-				'orderby'        => array(
+				'orderby'                => array(
 					'menu_order' => 'ASC',
 					'date'       => 'DESC',
 				),
-				'no_found_rows'  => true,
+				'no_found_rows'          => true,
+				// Only the title and the text are used: no extra queries for custom fields and terms.
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
 			)
 		);
 	}
@@ -818,28 +834,44 @@ function ptfb_is_target() {
 	return ( is_home() || is_front_page() ) && ! is_paged();
 }
 
-function ptfb_register_assets() {
-	wp_register_style( 'page-turn-feedback', plugins_url( 'assets/page-turn-feedback.css', __FILE__ ), array(), PTFB_VERSION );
-	wp_register_script( 'page-turn-feedback', plugins_url( 'assets/page-turn-feedback.js', __FILE__ ), array(), PTFB_VERSION, true );
-
-	/* Colors and fonts chosen in the settings (if different from the default). */
-	$inline = ptfb_inline_css();
-	if ( '' !== $inline ) {
-		wp_add_inline_style( 'page-turn-feedback', $inline );
-	}
-
-	$needed = false;
-	if ( ptfb_get_items() ) {
-		if ( ptfb_is_target() ) {
-			$needed = true;
-		} elseif ( is_singular() ) {
-			$post   = get_post();
-			$needed = $post && has_shortcode( $post->post_content, 'page_turn_feedback' );
+/*
+ * Loads the stylesheet and the script of the card. The first time it also registers them and adds the
+ * colors and fonts chosen in the settings (if different from the default). Nothing here runs on a page
+ * that does not show the card.
+ */
+function ptfb_enqueue_front() {
+	static $registered = false;
+	if ( ! $registered ) {
+		$registered = true;
+		wp_register_style( 'page-turn-feedback', plugins_url( 'assets/page-turn-feedback.css', __FILE__ ), array(), PTFB_VERSION );
+		wp_register_script( 'page-turn-feedback', plugins_url( 'assets/page-turn-feedback.js', __FILE__ ), array(), PTFB_VERSION, true );
+		$inline = ptfb_inline_css();
+		if ( '' !== $inline ) {
+			wp_add_inline_style( 'page-turn-feedback', $inline );
 		}
 	}
-	if ( $needed ) {
-		wp_enqueue_style( 'page-turn-feedback' );
-		wp_enqueue_script( 'page-turn-feedback' );
+	wp_enqueue_style( 'page-turn-feedback' );
+	wp_enqueue_script( 'page-turn-feedback' );
+}
+
+/*
+ * Loads the files in the <head> of the pages that show the card: the home page, and a page or post whose
+ * text contains the shortcode. The cheap checks come first, so the database is not asked for the feedback
+ * on any other page. If the card is printed somewhere else (a widget, a template), ptfb_output() loads
+ * the files when it prints it.
+ */
+function ptfb_register_assets() {
+	if ( ! ptfb_is_target() ) {
+		if ( ! is_singular() ) {
+			return;
+		}
+		$post = get_post();
+		if ( ! $post || ! has_shortcode( $post->post_content, 'page_turn_feedback' ) ) {
+			return;
+		}
+	}
+	if ( ptfb_get_items() ) {
+		ptfb_enqueue_front();
 	}
 }
 add_action( 'wp_enqueue_scripts', 'ptfb_register_assets' );
@@ -882,8 +914,7 @@ function ptfb_output( $items = null, $preview = false ) {
 
 	if ( ! $preview ) {
 		$GLOBALS['ptfb_printed'] = true;
-		wp_enqueue_style( 'page-turn-feedback' );
-		wp_enqueue_script( 'page-turn-feedback' );
+		ptfb_enqueue_front();
 	}
 
 	$uid      = wp_unique_id( 'ptfb-' );
@@ -955,11 +986,9 @@ add_action( 'get_footer', 'ptfb_auto_insert' );
 /*
  * Automatic placement on block themes: they never call get_footer(), so the section is printed
  * right before the footer template part instead (same conditions and same filter as above).
+ * It is hooked to the filter of the template part block only, so it does not run for any other block.
  */
 function ptfb_auto_insert_block( $content, $block ) {
-	if ( empty( $block['blockName'] ) || 'core/template-part' !== $block['blockName'] ) {
-		return $content;
-	}
 	$attrs     = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
 	$is_footer = ( isset( $attrs['area'] ) && 'footer' === $attrs['area'] ) || ( isset( $attrs['slug'] ) && 'footer' === $attrs['slug'] );
 	if ( ! $is_footer || ! empty( $GLOBALS['ptfb_printed'] ) || ! ptfb_is_target() ) {
@@ -970,7 +999,7 @@ function ptfb_auto_insert_block( $content, $block ) {
 	}
 	return ptfb_render() . $content;
 }
-add_filter( 'render_block', 'ptfb_auto_insert_block', 10, 2 );
+add_filter( 'render_block_core/template-part', 'ptfb_auto_insert_block', 10, 2 );
 
 /* Manual alternative: [page_turn_feedback] */
 function ptfb_shortcode() {

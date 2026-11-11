@@ -10,6 +10,7 @@ function plugins_url( $p ) { return $p; }
 function get_current_screen() { return $GLOBALS['screen']; }
 $GLOBALS['opts'] = array();
 function is_admin() { return true; }
+function wp_doing_ajax() { return false; }
 function add_action() {}
 function add_submenu_page() {}
 function get_posts() { return isset( $GLOBALS['items'] ) ? $GLOBALS['items'] : array(); }
@@ -92,6 +93,10 @@ $s = ptfb_sanitize_style( array( 'font_title' => 'palatino', 'font_text' => 'cus
 check( 'font valido accettato', $s['font_title'] === 'palatino' );
 check( 'font sconosciuto -> theme', $s['font_name'] === 'theme' );
 check( 'nome font a mano ripulito da ; { } ( ) / *', strpos( $s['font_text_custom'], ';' ) === false && strpos( $s['font_text_custom'], '{' ) === false && strpos( $s['font_text_custom'], '/' ) === false && strpos( $s['font_text_custom'], '*' ) === false, $s['font_text_custom'] );
+check( 'font a mano: virgolette a coppie intorno ai nomi restano', ptfb_clean_font_name( '"Open Sans", Poppins' ) === '"Open Sans", Poppins' && ptfb_clean_font_name( "'Source Sans 3'" ) === "'Source Sans 3'" );
+check( 'font a mano: una virgoletta non chiusa viene tolta (altrimenti inghiotte il CSS dopo)', ptfb_clean_font_name( 'Open Sans"' ) === 'Open Sans' && ptfb_clean_font_name( '"Open Sans' ) === 'Open Sans' && ptfb_clean_font_name( 'a"b\'c"' ) === 'abc' );
+check( 'font a mano: tagliato a 120 caratteri senza lasciare virgolette aperte', false === strpos( ptfb_clean_font_name( '"' . str_repeat( 'a', 200 ) . '"' ), '"' ) && strlen( ptfb_clean_font_name( str_repeat( 'a', 200 ) ) ) === 120 );
+check( 'font a mano: vuoto o non testo -> vuoto', ptfb_clean_font_name( '' ) === '' && ptfb_clean_font_name( array( 'x' ) ) === '' );
 check( 'sanifica un array vuoto / non array', ptfb_sanitize_style( 'x' ) === ptfb_style_defaults() );
 
 with( array( 'ptfb_style' => ptfb_sanitize_style( array( 'bg' => '#223344', 'title' => '#ffeeaa', 'font_title' => 'palatino', 'font_text' => 'custom', 'font_text_custom' => 'Poppins', 'font_name' => 'heading' ) ) ) );

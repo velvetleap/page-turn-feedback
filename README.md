@@ -4,7 +4,7 @@ A WordPress plugin that shows feedback / testimonials / quotes **one at a time o
 
 Built for a book blog, with a non-technical editor in mind: adding, editing and removing a feedback is just "name + comment" in the WordPress admin.
 
-> **Status:** 1.8.0. Tested on WordPress 7.1.4 with Twenty Twenty-One, Twenty Twenty, Twenty Nineteen, Twenty Seventeen and the block themes Twenty Twenty-Two to Twenty Twenty-Five, and running on a live site with the Fascinate theme. The front end has been tested in Chromium only (desktop and phone viewport); Safari and Firefox still need checking. Older WordPress versions are not tested. Bug reports and pull requests are welcome.
+> **Status:** 1.8.1. Tested on WordPress 7.1.4 with Twenty Twenty-One, Twenty Twenty, Twenty Nineteen, Twenty Seventeen and the block themes Twenty Twenty-Two to Twenty Twenty-Five, and running on a live site with the Fascinate theme. The front end has been tested in Chromium only (desktop and phone viewport); Safari and Firefox still need checking. Older WordPress versions are not tested. Bug reports and pull requests are welcome.
 
 **Keywords:** testimonials, feedback, quotes, reviews, slider, page turn, book.
 

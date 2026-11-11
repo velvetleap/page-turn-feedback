@@ -13,6 +13,9 @@ PTFB_LANG=en run php admin_pages_test.php
 PTFB_LANG=it run php admin_pages_test.php
 run php compat_test.php
 PTFB_EMPTY=1 run php compat_test.php
+run php load_test.php
+PTFB_AJAX=1 run php load_test.php
+PTFB_FRONT=1 run php load_test.php
 run python3 behavior_test.py
 run python3 admin_js_test.py
 run python3 admin_features_test.py

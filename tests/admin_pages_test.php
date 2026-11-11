@@ -15,6 +15,7 @@ $GLOBALS['override'] = array();
 class PtfbRedirect extends Exception {}
 
 function is_admin() { return true; }
+function wp_doing_ajax() { return false; }
 function add_action() {}
 function add_filter() {}
 function add_shortcode() {}
@@ -29,7 +30,7 @@ function esc_html( $s ) { return htmlspecialchars( (string) $s, ENT_QUOTES ); }
 function esc_url( $s ) { return htmlspecialchars( (string) $s, ENT_QUOTES ); }
 function admin_url( $p = '' ) { return 'http://example.test/wp-admin/' . $p; }
 function plugins_url( $p ) { return 'http://example.test/wp-content/plugins/page-turn-feedback/' . $p; }
-function current_user_can( $cap ) { return ! empty( $GLOBALS['can'][ $cap ] ) || ! isset( $GLOBALS['can'] ); }
+function current_user_can( $cap, $id = 0 ) { if ( 'edit_post' === $cap && isset( $GLOBALS['cannot_edit'][ $id ] ) ) { return false; } return ! empty( $GLOBALS['can'][ $cap ] ) || ! isset( $GLOBALS['can'] ); }
 function wp_die( $m ) { throw new RuntimeException( 'wp_die: ' . $m ); }
 function check_admin_referer( $a ) { $GLOBALS['log'][] = 'nonce:' . $a; }
 function wp_nonce_field( $a ) { echo '<input type="hidden" name="_wpnonce" value="x"><!--' . $a . '-->'; }
@@ -143,6 +144,7 @@ check( 'page hooks remembered for the admin files', 'feedback_page_ptfb-order' =
 
 // ------------------------------------------------------------------ order
 check( 'order ids: whole numbers, no repeats, order kept', array( 3, 7, 5 ) === ptfb_clean_order_ids( array( '3', 'x', '3', 0, '7', '5', '' ) ) );
+check( 'order ids: no more than the Order page lists', ptfb_order_list_max() === count( ptfb_clean_order_ids( range( 1, 5000 ) ) ) );
 check( 'order ids: anything that is not a list gives an empty list', array() === ptfb_clean_order_ids( 'abc' ) && array() === ptfb_clean_order_ids( null ) );
 
 $GLOBALS['posts'] = array();
@@ -155,6 +157,16 @@ check( 'apply order: other post types and unknown ids are ignored', 0 === $GLOBA
 check( 'apply order: feedback not in the list is not touched', 0 === $GLOBALS['posts'][ $d ]->menu_order );
 $GLOBALS['log'] = array();
 check( 'apply order: saving the same order again changes nothing', 0 === ptfb_apply_order( array( $c, $a, $b ) ) && array() === $GLOBALS['log'] );
+// a user who may not edit one of the feedback (custom role) cannot move it, nor reset it
+$saved_positions = array_map( function ( $p ) { return $p->menu_order; }, $GLOBALS['posts'] );
+$GLOBALS['cannot_edit'] = array( $b => true );
+$GLOBALS['posts'][ $b ]->menu_order = 7;
+ptfb_apply_order( array( $b, $d ) );
+check( 'apply order: a feedback the user may not edit is left alone', 7 === $GLOBALS['posts'][ $b ]->menu_order && 1 === $GLOBALS['posts'][ $d ]->menu_order );
+ptfb_reset_order();
+check( 'reset: a feedback the user may not edit keeps its position', 7 === $GLOBALS['posts'][ $b ]->menu_order && 0 === $GLOBALS['posts'][ $d ]->menu_order );
+unset( $GLOBALS['cannot_edit'] );
+foreach ( $saved_positions as $id => $position ) { $GLOBALS['posts'][ $id ]->menu_order = $position; }
 $order = array_map( function ( $p ) { return $p->post_title; }, ptfb_get_ordered_feedback() );
 check( 'sorted like the site: positions first, then newest', array( 'Dario', 'Carla', 'Anna', 'Bruno' ) === $order, $order );
 check( 'reset: every position back to 0', 3 === ptfb_reset_order() && 0 === $GLOBALS['posts'][ $c ]->menu_order && 0 === $GLOBALS['posts'][ $other ]->menu_order );
@@ -286,6 +298,19 @@ foreach ( array( 'nofile', 'upload', 'toobig', 'type', 'empty', 'header', 'tooma
 	$_GET = array( 'ptfb_error' => $code ); $m = html_of( 'ptfb_tools_page' );
 	check( "notice $code: error message", false !== strpos( $m, 'notice-error' ) && 1 === substr_count( $m, 'class="notice' ) );
 }
+// who may not publish (custom role) leaves the imported feedback waiting for review
+$row = array( array( 'name' => 'Zed', 'comment' => 'zz', 'status' => 'publish', 'date' => '', 'order' => 0 ) );
+$GLOBALS['can'] = array( 'publish_posts' => true );
+ptfb_import_items( $row );
+check( 'import: who may publish gets published feedback', 'publish' === end( $GLOBALS['posts'] )->post_status );
+$GLOBALS['can'] = array();
+$row[0]['comment'] = 'zz2';
+ptfb_import_items( $row );
+check( 'import: who may not publish gets feedback waiting for review', 'pending' === end( $GLOBALS['posts'] )->post_status );
+$row[0]['comment'] = 'zz3'; $row[0]['status'] = 'draft';
+ptfb_import_items( $row );
+check( 'import: a draft stays a draft for everyone', 'draft' === end( $GLOBALS['posts'] )->post_status );
+unset( $GLOBALS['can'] );
 $_GET = array( 'ptfb_error' => 'evil' ); $m = html_of( 'ptfb_tools_page' );
 check( 'notice: unknown error code shows nothing', false === strpos( $m, 'class="notice' ) );
 $_GET = array( 'ptfb_added' => '<b>9</b>', 'ptfb_already' => '<i>', 'ptfb_skipped' => 'x' ); $m = html_of( 'ptfb_tools_page' );
