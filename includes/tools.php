@@ -396,7 +396,8 @@ function ptfb_import_items( $items ) {
 		}
 		$post = array(
 			'post_type'    => PTFB_CPT,
-			'post_status'  => $item['status'],
+			// Same rule as the editor: who may not publish leaves the feedback waiting for review.
+			'post_status'  => ( 'publish' === $item['status'] && ! current_user_can( 'publish_posts' ) ) ? 'pending' : $item['status'],
 			'post_title'   => $item['name'],
 			'post_content' => $item['comment'],
 			'menu_order'   => $item['order'],

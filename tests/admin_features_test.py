@@ -110,6 +110,17 @@ with sync_playwright() as p:
         check("hand-typed font name: only harmless characters reach the style", "Poppins  body" not in live and ";" not in re.sub(r"[^;]*:[^;}]*;?", "", live.replace("}", "")) or "{x" not in live, live)
         same_look(b, pg, "mixed hand-made style")
 
+        # fonts typed with quotes: pairs are kept, a quote that is never closed is dropped (it would swallow the CSS after it)
+        quotes = {"ptfb_style[font_title]": "custom", "ptfb_style[font_title_custom]": '"Open Sans',
+                  "ptfb_style[font_name]": "custom", "ptfb_style[font_name_custom]": '"Source Sans 3", Poppins',
+                  "ptfb_style[font_text]": "custom", "ptfb_style[font_text_custom]": 'a"b\'c"'}
+        pg.evaluate("""(function(v){var f=document.querySelector('.ptfb-settings__main form');
+          Object.keys(v).forEach(function(n){var e=f.elements[n];e.value=v[n];e.dispatchEvent(new Event(e.tagName==='SELECT'?'change':'input',{bubbles:true}));});})""", quotes)
+        pg.wait_for_timeout(200)
+        live = fr.evaluate("document.getElementById('ptfb-live').textContent")
+        check("quotes in font names: pairs kept, a quote never closed dropped (same as PHP)", ".ptfb__title{font-family:Open Sans}" in live and '.ptfb__author{font-family:"Source Sans 3", Poppins}' in live and ".ptfb__quote{font-family:abc}" in live and live.count('"') % 2 == 0, live)
+        same_look(b, pg, "fonts typed with quotes")
+
         # text, speed and page-turn duration rebuild the preview
         pg.select_option("#ptfb_speed", "3")
         pg.select_option("#ptfb_anim", "2.6")

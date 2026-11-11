@@ -10,6 +10,7 @@ function plugins_url( $p ) { return '../../' . $p; } // pages are written to tes
 function get_current_screen() { return isset( $GLOBALS['screen'] ) ? $GLOBALS['screen'] : null; }
 $GLOBALS['opts'] = array();
 function is_admin() { return true; }
+function wp_doing_ajax() { return false; }
 function add_action() {}
 function add_submenu_page() {}
 function get_posts() { return isset( $GLOBALS['items'] ) ? $GLOBALS['items'] : array(); }

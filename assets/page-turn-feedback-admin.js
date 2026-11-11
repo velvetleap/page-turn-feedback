@@ -106,6 +106,15 @@
 		return el ? String(el.value) : '';
 	}
 
+	/* Same cleaning as ptfb_clean_font_name(): harmless characters only, and quotes only when they come in pairs. */
+	var FONT_NAME = '(?:"[A-Za-z0-9 _-]+"|\'[A-Za-z0-9 _-]+\'|[A-Za-z0-9 _-]+)';
+	var FONT_LIST = new RegExp('^' + FONT_NAME + '(?:\\s*,\\s*' + FONT_NAME + ')*$');
+
+	function cleanFontName(value) {
+		var v = String(value).replace(/[^A-Za-z0-9 ,'"_-]/g, '').trim().substring(0, 120).trim();
+		return FONT_LIST.test(v) ? v : v.replace(/["']/g, '').trim();
+	}
+
 	/* Colors, fonts and alignment as they are in the form right now (what would be saved), with the same fallbacks as PHP. */
 	function currentStyle() {
 		var defaults = cfg.defaults || {};
@@ -118,9 +127,7 @@
 		(cfg.roles || []).forEach(function (role) {
 			var choice = fieldValue('ptfb_style[font_' + role + ']') || 'theme';
 			st['font_' + role] = choice;
-			/* Same cleaning as ptfb_clean_font_name(). */
-			st['font_' + role + '_custom'] = fieldValue('ptfb_style[font_' + role + '_custom]')
-				.replace(/[^A-Za-z0-9 ,'"_-]/g, '').trim().substring(0, 120);
+			st['font_' + role + '_custom'] = cleanFontName(fieldValue('ptfb_style[font_' + role + '_custom]'));
 		});
 		['align_text', 'align_name'].forEach(function (key) {
 			var v = fieldValue('ptfb_style[' + key + ']');
