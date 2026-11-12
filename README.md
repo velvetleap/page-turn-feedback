@@ -1,14 +1,14 @@
-# Page Turn Feedback
+# Velvet Leap Page Turn Feedback
 
 A WordPress plugin that shows feedback / testimonials / quotes **one at a time on a card that turns like the page of a book**: the page folds from a dog-eared bottom-right corner and reveals the next one.
 
 Built for a book blog, with a non-technical editor in mind: adding, editing and removing a feedback is just "name + comment" in the WordPress admin.
 
-> **Status:** 1.8.1. Tested on WordPress 7.1.4 with Twenty Twenty-One, Twenty Twenty, Twenty Nineteen, Twenty Seventeen and the block themes Twenty Twenty-Two to Twenty Twenty-Five, and running on a live site with the Fascinate theme. The front end has been tested in Chromium only (desktop and phone viewport); Safari and Firefox still need checking. Older WordPress versions are not tested. Bug reports and pull requests are welcome.
+> **Status:** 1.9.0. Tested on WordPress 7.1.4 with Twenty Twenty-One, Twenty Twenty, Twenty Nineteen, Twenty Seventeen and the block themes Twenty Twenty-Two to Twenty Twenty-Five, and running on a live site with the Fascinate theme. The front end has been tested in Chromium only (desktop and phone viewport); Safari and Firefox still need checking. Older WordPress versions are not tested. Bug reports and pull requests are welcome.
 
 **Keywords:** testimonials, feedback, quotes, reviews, slider, page turn, book.
 
-The interface is in **English** and a complete **Italian translation** (it_IT) is included, used automatically when the site language is Italian. The extended user guide ([`LEGGIMI.txt`](LEGGIMI.txt)) is in Italian. / L'interfaccia è in inglese con traduzione italiana inclusa; la guida estesa è in italiano.
+The interface is in **English**; WordPress.org delivers the translations from translate.wordpress.org, and a complete **Italian translation** (it_IT) is kept in [`languages/`](languages/). The extended user guide ([`LEGGIMI.txt`](LEGGIMI.txt)) is in Italian. / L'interfaccia è in inglese; la traduzione italiana completa è nella cartella [`languages/`](languages/); la guida estesa è in italiano.
 
 ## Features
 
@@ -26,7 +26,7 @@ The interface is in **English** and a complete **Italian translation** (it_IT) i
 
 ## Installation
 
-1. Download the plugin zip (see *Releases*), or zip the repository content in a folder named `page-turn-feedback`.
+1. Download the plugin zip (see *Releases*), or zip the repository content in a folder named `velvet-leap-page-turn-feedback`.
 2. WordPress admin → Plugins → Add New → Upload Plugin → Activate.
 3. Menu **Feedback → Add feedback** (publish at least one). The section appears automatically at the bottom of the home page, above the footer: on classic themes through `get_footer()`, on block themes right before the footer template part. On any theme you can use the shortcode instead.
 
@@ -50,7 +50,7 @@ Uninstalling the plugin deletes its options; the feedback posts stay in the data
 
 ## Translations
 
-All strings use the text domain `page-turn-feedback`. [`languages/page-turn-feedback.pot`](languages/page-turn-feedback.pot) is the template, and the Italian translation lives in `languages/page-turn-feedback-it_IT.po` (compiled to `.mo`). To add a language, copy the `.pot`, translate it (for example with Poedit) and save it as `page-turn-feedback-<locale>.po` / `.mo` in the same folder.
+All strings use the text domain `velvet-leap-page-turn-feedback`. [`languages/velvet-leap-page-turn-feedback.pot`](languages/velvet-leap-page-turn-feedback.pot) is the template and the Italian translation lives in `languages/velvet-leap-page-turn-feedback-it_IT.po` (compiled to `.mo`). These files are **not** in the plugin zip: the WordPress.org directory requires translations to be made on translate.wordpress.org, which WordPress downloads by itself. For a copy installed from GitHub, put the compiled `.mo` of your language in `wp-content/languages/plugins/` (keeping its name) and WordPress will use it. To add a language, copy the `.pot`, translate it (for example with Poedit) and save it as `velvet-leap-page-turn-feedback-<locale>.po` / `.mo`.
 
 ## Development
 
@@ -60,7 +60,7 @@ Changes go through a pull request. Every pull request and every change to `main`
 - Plugin Check (the same tool as the WordPress.org review), run on the exact folder that will be published;
 - the browser and logic tests in `tests/` (`bash tests/run.sh`; needs PHP, Node and Python with Playwright and Chromium).
 
-`bin/build.sh` builds the plugin folder and zip (`build/page-turn-feedback.zip`) from the tracked files, leaving out what `.distignore` lists. Publishing a GitHub release tagged `vX.Y.Z` builds the zip again and attaches it to the release (`.github/workflows/release.yml`). Working notes for contributors, human or AI, are in [`CLAUDE.md`](CLAUDE.md).
+`bin/build.sh` builds the plugin folder and zip (`build/velvet-leap-page-turn-feedback.zip`) from the tracked files, leaving out what `.distignore` lists. Publishing a GitHub release tagged `vX.Y.Z` builds the zip again and attaches it to the release (`.github/workflows/release.yml`). Working notes for contributors, human or AI, are in [`CLAUDE.md`](CLAUDE.md).
 
 ## Known limitations / ideas
 

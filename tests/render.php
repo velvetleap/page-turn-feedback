@@ -47,7 +47,7 @@ class FakeTheme {
 function wp_get_theme() { return new FakeTheme( $GLOBALS['theme'] ); }
 $GLOBALS['theme'] = json_decode( getenv( 'PTFB_THEME' ) ?: '{"template":"fascinate","stylesheet":"fascinate-child","Name":"Fascinate Child","parent":{"template":"fascinate","stylesheet":"fascinate","Name":"Fascinate"}}', true );
 
-require dirname( __DIR__ ) . '/page-turn-feedback.php';
+require dirname( __DIR__ ) . '/velvet-leap-page-turn-feedback.php';
 
 $n        = (int) ( $argv[1] ?? 5 );
 $interval = (int) ( $argv[2] ?? 7 );

@@ -1,11 +1,11 @@
-# Page Turn Feedback
+# Velvet Leap Page Turn Feedback
 # Copyright (C) 2026 Mattia Scudellaro
-# This file is distributed under the same license as the Page Turn Feedback plugin (GPL-2.0-or-later).
+# This file is distributed under the same license as the Velvet Leap Page Turn Feedback plugin (GPL-2.0-or-later).
 msgid ""
 msgstr ""
-"Project-Id-Version: Page Turn Feedback 1.8.1\n"
-"POT-Creation-Date: 2026-11-11 00:00+0000\n"
-"PO-Revision-Date: 2026-11-11 00:00+0000\n"
+"Project-Id-Version: Velvet Leap Page Turn Feedback 1.9.0\n"
+"POT-Creation-Date: 2026-11-12 00:00+0000\n"
+"PO-Revision-Date: 2026-11-12 00:00+0000\n"
 "Last-Translator: Mattia Scudellaro\n"
 "Language-Team: Velvet Leap\n"
 "Language: it_IT\n"
@@ -13,325 +13,325 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Domain: page-turn-feedback\n"
+"X-Domain: velvet-leap-page-turn-feedback\n"
 
-#: page-turn-feedback.php:64 page-turn-feedback.php:65 page-turn-feedback.php:66 page-turn-feedback.php:924
+#: velvet-leap-page-turn-feedback.php:60 velvet-leap-page-turn-feedback.php:61 velvet-leap-page-turn-feedback.php:62 velvet-leap-page-turn-feedback.php:920
 msgid "Feedback"
 msgstr "Feedback"
 
-#: page-turn-feedback.php:67
+#: velvet-leap-page-turn-feedback.php:63
 msgid "All feedback"
 msgstr "Tutti i feedback"
 
-#: page-turn-feedback.php:68 includes/ordering.php:177
+#: velvet-leap-page-turn-feedback.php:64 includes/ordering.php:177
 msgid "Add feedback"
 msgstr "Aggiungi feedback"
 
-#: page-turn-feedback.php:69
+#: velvet-leap-page-turn-feedback.php:65
 msgid "Add new feedback"
 msgstr "Aggiungi un nuovo feedback"
 
-#: page-turn-feedback.php:70
+#: velvet-leap-page-turn-feedback.php:66
 msgid "Edit feedback"
 msgstr "Modifica feedback"
 
-#: page-turn-feedback.php:71
+#: velvet-leap-page-turn-feedback.php:67
 msgid "New feedback"
 msgstr "Nuovo feedback"
 
-#: page-turn-feedback.php:72
+#: velvet-leap-page-turn-feedback.php:68
 msgid "Search feedback"
 msgstr "Cerca feedback"
 
-#: page-turn-feedback.php:73
+#: velvet-leap-page-turn-feedback.php:69
 msgid "No feedback yet. Click “Add feedback” to add the first one."
 msgstr "Nessun feedback ancora. Clicca su “Aggiungi feedback” per inserire il primo."
 
-#: page-turn-feedback.php:74
+#: velvet-leap-page-turn-feedback.php:70
 msgid "No feedback in the Trash."
 msgstr "Nessun feedback nel cestino."
 
-#: page-turn-feedback.php:95
+#: velvet-leap-page-turn-feedback.php:91
 msgid "Name of the person who left the feedback"
 msgstr "Nome di chi ha lasciato il feedback"
 
-#: page-turn-feedback.php:114
+#: velvet-leap-page-turn-feedback.php:110
 msgid "Write the <strong>name</strong> above and the <strong>comment</strong> in the box below. Click <em>Publish</em> to show it on the site. To remove it from the site use <em>Move to Trash</em>."
 msgstr "Scrivi qui sopra il <strong>nome</strong> e nel riquadro sotto il <strong>commento</strong>. Premi <em>Pubblica</em> per mostrarlo sul sito. Per toglierlo dal sito usa <em>Sposta nel cestino</em>."
 
 #. translators: %d: recommended maximum number of characters for a comment.
-#: page-turn-feedback.php:122
+#: velvet-leap-page-turn-feedback.php:118
 #, php-format
 msgid "<strong>Tip:</strong> write a short comment, <strong>no more than %d characters</strong>, so it stays easy to read on the card."
 msgstr "<strong>Consiglio:</strong> scrivi un commento breve, <strong>non più di %d caratteri</strong>, così nella scheda resta ben leggibile."
 
-#: page-turn-feedback.php:139
+#: velvet-leap-page-turn-feedback.php:135
 msgid "Name"
 msgstr "Nome"
 
-#: page-turn-feedback.php:140 page-turn-feedback.php:274 page-turn-feedback.php:285 page-turn-feedback.php:734
+#: velvet-leap-page-turn-feedback.php:136 velvet-leap-page-turn-feedback.php:270 velvet-leap-page-turn-feedback.php:281 velvet-leap-page-turn-feedback.php:730
 msgid "Comment"
 msgstr "Commento"
 
-#: page-turn-feedback.php:141
+#: velvet-leap-page-turn-feedback.php:137
 msgid "Date"
 msgstr "Data"
 
-#: page-turn-feedback.php:159
+#: velvet-leap-page-turn-feedback.php:155
 msgid "What people say about me"
 msgstr "Cosa dicono di me"
 
-#: page-turn-feedback.php:264
+#: velvet-leap-page-turn-feedback.php:260
 msgid "Left"
 msgstr "A sinistra"
 
-#: page-turn-feedback.php:265
+#: velvet-leap-page-turn-feedback.php:261
 msgid "Center"
 msgstr "Al centro"
 
-#: page-turn-feedback.php:266
+#: velvet-leap-page-turn-feedback.php:262
 msgid "Right"
 msgstr "A destra"
 
-#: page-turn-feedback.php:273 page-turn-feedback.php:283 page-turn-feedback.php:642
+#: velvet-leap-page-turn-feedback.php:269 velvet-leap-page-turn-feedback.php:279 velvet-leap-page-turn-feedback.php:638
 msgid "Section title"
 msgstr "Titolo della sezione"
 
-#: page-turn-feedback.php:275 page-turn-feedback.php:286 page-turn-feedback.php:744
+#: velvet-leap-page-turn-feedback.php:271 velvet-leap-page-turn-feedback.php:282 velvet-leap-page-turn-feedback.php:740
 msgid "Author name"
 msgstr "Nome di chi ha scritto"
 
-#: page-turn-feedback.php:282
+#: velvet-leap-page-turn-feedback.php:278
 msgid "Band behind the card"
 msgstr "Fascia dietro la scheda"
 
-#: page-turn-feedback.php:284
+#: velvet-leap-page-turn-feedback.php:280
 msgid "Card"
 msgstr "Scheda"
 
-#: page-turn-feedback.php:287
+#: velvet-leap-page-turn-feedback.php:283
 msgid "Quotation marks, dash and folded corner"
 msgstr "Virgolette, trattino e angolo piegato"
 
-#: page-turn-feedback.php:294
+#: velvet-leap-page-turn-feedback.php:290
 msgid "Georgia (serif)"
 msgstr "Georgia (con grazie)"
 
-#: page-turn-feedback.php:295
+#: velvet-leap-page-turn-feedback.php:291
 msgid "Palatino (serif, book style)"
 msgstr "Palatino (con grazie, da libro)"
 
-#: page-turn-feedback.php:298
+#: velvet-leap-page-turn-feedback.php:294
 msgid "System font"
 msgstr "Font di sistema"
 
-#: page-turn-feedback.php:487 page-turn-feedback.php:609
+#: velvet-leap-page-turn-feedback.php:483 velvet-leap-page-turn-feedback.php:605
 msgid "Feedback settings"
 msgstr "Impostazioni feedback"
 
-#: page-turn-feedback.php:488
+#: velvet-leap-page-turn-feedback.php:484
 msgid "Settings"
 msgstr "Impostazioni"
 
 #. translators: %d: number of characters typed so far.
-#: page-turn-feedback.php:537
+#: velvet-leap-page-turn-feedback.php:533
 #, php-format
 msgid "That is %d characters: better to shorten it a little."
 msgstr "Ora sono %d caratteri: meglio accorciare un po'."
 
 #. translators: 1: number of characters typed so far, 2: recommended maximum.
-#: page-turn-feedback.php:539
+#: velvet-leap-page-turn-feedback.php:535
 #, php-format
 msgid "Characters: %1$d / %2$d"
 msgstr "Caratteri: %1$d / %2$d"
 
 #. translators: 1: new position of the feedback, 2: total number of feedback.
-#: page-turn-feedback.php:543
+#: velvet-leap-page-turn-feedback.php:539
 #, php-format
 msgid "Moved to position %1$d of %2$d."
 msgstr "Spostato alla posizione %1$d di %2$d."
 
-#: page-turn-feedback.php:544
+#: velvet-leap-page-turn-feedback.php:540
 msgid "Go back to the automatic order? The order you set by hand will be lost."
 msgstr "Tornare all'ordine automatico? L'ordine impostato a mano andrà perso."
 
 #. translators: %s: name of a ready-made style, for example "Paper".
-#: page-turn-feedback.php:568
+#: velvet-leap-page-turn-feedback.php:564
 #, php-format
 msgid "Style “%s” filled in. Check the preview, then press “Save Changes”."
 msgstr "Stile “%s” inserito. Controlla l'anteprima, poi premi “Salva le modifiche”."
 
-#: page-turn-feedback.php:569
+#: velvet-leap-page-turn-feedback.php:565
 msgid "Original look filled in. Press “Save Changes” to keep it."
 msgstr "Aspetto originale inserito. Premi “Salva le modifiche” per mantenerlo."
 
-#: page-turn-feedback.php:582
+#: velvet-leap-page-turn-feedback.php:578
 msgid "Every 3 seconds"
 msgstr "Ogni 3 secondi"
 
-#: page-turn-feedback.php:583
+#: velvet-leap-page-turn-feedback.php:579
 msgid "Every 5 seconds"
 msgstr "Ogni 5 secondi"
 
-#: page-turn-feedback.php:584
+#: velvet-leap-page-turn-feedback.php:580
 msgid "Every 10 seconds"
 msgstr "Ogni 10 secondi"
 
-#: page-turn-feedback.php:585
+#: velvet-leap-page-turn-feedback.php:581
 msgid "Custom number of seconds"
 msgstr "Secondi personalizzati"
 
-#: page-turn-feedback.php:586
+#: velvet-leap-page-turn-feedback.php:582
 msgid "No automatic sliding (by hand only)"
 msgstr "Nessuno scorrimento automatico (solo a mano)"
 
-#: page-turn-feedback.php:591
+#: velvet-leap-page-turn-feedback.php:587
 msgid "Fast (0.6 seconds)"
 msgstr "Veloce (0,6 secondi)"
 
-#: page-turn-feedback.php:592
+#: velvet-leap-page-turn-feedback.php:588
 msgid "Normal (1.1 seconds) - default"
 msgstr "Normale (1,1 secondi) - predefinita"
 
-#: page-turn-feedback.php:593
+#: velvet-leap-page-turn-feedback.php:589
 msgid "Slow (1.8 seconds)"
 msgstr "Lenta (1,8 secondi)"
 
-#: page-turn-feedback.php:594
+#: velvet-leap-page-turn-feedback.php:590
 msgid "Very slow (2.6 seconds)"
 msgstr "Molto lenta (2,6 secondi)"
 
-#: page-turn-feedback.php:595
+#: velvet-leap-page-turn-feedback.php:591
 msgid "Custom duration"
 msgstr "Durata personalizzata"
 
-#: page-turn-feedback.php:599
+#: velvet-leap-page-turn-feedback.php:595
 msgid "Default (theme font)"
 msgstr "Predefinito (font del tema)"
 
-#: page-turn-feedback.php:600
+#: velvet-leap-page-turn-feedback.php:596
 msgid "Theme heading font"
 msgstr "Font dei titoli del tema"
 
-#: page-turn-feedback.php:601
+#: velvet-leap-page-turn-feedback.php:597
 msgid "Theme body font"
 msgstr "Font dei testi del tema"
 
-#: page-turn-feedback.php:606
+#: velvet-leap-page-turn-feedback.php:602
 msgid "Other (type the font name)"
 msgstr "Altro (scrivi il nome del font)"
 
-#: page-turn-feedback.php:618
+#: velvet-leap-page-turn-feedback.php:614
 msgid "Ready-made styles"
 msgstr "Stili già pronti"
 
-#: page-turn-feedback.php:619
+#: velvet-leap-page-turn-feedback.php:615
 msgid "Pick a style to fill in the colors, fonts and alignment below. Nothing changes on the site until you press “Save Changes”, and you can still adjust every detail."
 msgstr "Scegli uno stile per compilare qui sotto colori, font e allineamento. Sul sito non cambia nulla finché non premi “Salva le modifiche”, e puoi ancora ritoccare ogni dettaglio."
 
-#: page-turn-feedback.php:633
+#: velvet-leap-page-turn-feedback.php:629
 msgid "Back to the original look"
 msgstr "Torna all'aspetto originale"
 
-#: page-turn-feedback.php:639
+#: velvet-leap-page-turn-feedback.php:635
 msgid "Text and sliding"
 msgstr "Testo e scorrimento"
 
 #. translators: %s: default section title.
-#: page-turn-feedback.php:650
+#: velvet-leap-page-turn-feedback.php:646
 #, php-format
 msgid "Shown in the band above the card, in capital letters. The default text is “%s”; if you leave it empty the title is not shown."
 msgstr "Compare nella fascia sopra la scheda, in maiuscolo. Il testo predefinito è “%s”; se lo lasci vuoto il titolo non viene mostrato."
 
-#: page-turn-feedback.php:659
+#: velvet-leap-page-turn-feedback.php:655
 msgid "Automatic sliding"
 msgstr "Scorrimento automatico"
 
-#: page-turn-feedback.php:667 page-turn-feedback.php:686
+#: velvet-leap-page-turn-feedback.php:663 velvet-leap-page-turn-feedback.php:682
 msgid "seconds"
 msgstr "secondi"
 
-#: page-turn-feedback.php:670
+#: velvet-leap-page-turn-feedback.php:666
 msgid "How long each feedback stays visible before the page turns by itself (custom: 2 to 120 seconds). For short sentences 3–5 seconds are enough; for long comments 10 or more is better."
 msgstr "Tempo per cui ogni feedback resta visibile prima di girare pagina da solo (personalizzati: da 2 a 120 secondi). Per frasi brevi bastano 3–5 secondi; per commenti lunghi conviene 10 o più."
 
-#: page-turn-feedback.php:673
+#: velvet-leap-page-turn-feedback.php:669
 msgid "Visitors can press and hold on the text and drag, or tap the folded corner at the bottom right, to turn the page by hand: while they hold, the sliding stops and it restarts when they let go."
 msgstr "Chi visita il sito può tenere premuto sul testo e trascinare, oppure toccare l'angolo piegato in basso a destra, per girare pagina a mano: tenendo premuto lo scorrimento si ferma e riparte quando rilascia."
 
-#: page-turn-feedback.php:678
+#: velvet-leap-page-turn-feedback.php:674
 msgid "Page-turn duration"
 msgstr "Durata del giro pagina"
 
-#: page-turn-feedback.php:689
+#: velvet-leap-page-turn-feedback.php:685
 msgid "How long the animation lasts when the page folds and goes from one comment to the next (custom: 0.3 to 5 seconds). The reading time chosen above restarts when the page turn is finished."
 msgstr "Quanto dura l'animazione della pagina che si piega e passa da un commento al successivo (personalizzata: da 0,3 a 5 secondi). Il tempo di lettura scelto sopra riparte quando il giro pagina è finito."
 
-#: page-turn-feedback.php:695
+#: velvet-leap-page-turn-feedback.php:691
 msgid "Colors"
 msgstr "Colori"
 
-#: page-turn-feedback.php:706
+#: velvet-leap-page-turn-feedback.php:702
 msgid "The “Default” button next to each color restores the original green and white."
 msgstr "Il pulsante “Predefinito” accanto a ogni colore riporta il verde e il bianco originali."
 
-#: page-turn-feedback.php:708
+#: velvet-leap-page-turn-feedback.php:704
 msgid "Fonts"
 msgstr "Font"
 
-#: page-turn-feedback.php:721
+#: velvet-leap-page-turn-feedback.php:717
 msgid "for example: Poppins"
 msgstr "per esempio: Poppins"
 
-#: page-turn-feedback.php:728
+#: velvet-leap-page-turn-feedback.php:724
 msgid "“Default” uses the theme fonts (title and name in the heading font, comment in the body font). With “Other” type the name of a font already loaded by the site: if it is not loaded, visitors will see a fallback font."
 msgstr "“Predefinito” usa i font del tema (titoli e nome nel font dei titoli, commento nel font dei testi). Con “Altro” scrivi il nome di un font già caricato dal sito: se non è caricato, chi visita il sito vedrà un font di riserva."
 
-#: page-turn-feedback.php:731
+#: velvet-leap-page-turn-feedback.php:727
 msgid "Alignment"
 msgstr "Allineamento"
 
-#: page-turn-feedback.php:752
+#: velvet-leap-page-turn-feedback.php:748
 msgid "The name is aligned inside the same column as the comment (to the right of the quotation mark). For a tidy look it is usually best to give the comment and the name the same alignment."
 msgstr "Il nome si allinea dentro la stessa colonna del commento (a destra della virgoletta). Per un effetto ordinato di solito conviene dare lo stesso allineamento a commento e nome."
 
 #. translators: %s: the shortcode.
-#: page-turn-feedback.php:765
+#: velvet-leap-page-turn-feedback.php:761
 #, php-format
 msgid "The feedback appears automatically at the bottom of the home page. To show it on another page too, add the shortcode %s."
 msgstr "I feedback compaiono automaticamente in fondo alla home. Per mostrarli anche in un'altra pagina inserisci lo shortcode %s."
 
-#: page-turn-feedback.php:789
+#: velvet-leap-page-turn-feedback.php:785
 msgid "Preview"
 msgstr "Anteprima"
 
-#: page-turn-feedback.php:790
+#: velvet-leap-page-turn-feedback.php:786
 msgid "Preview of the feedback card"
 msgstr "Anteprima della scheda dei feedback"
 
-#: page-turn-feedback.php:792
+#: velvet-leap-page-turn-feedback.php:788
 msgid "It updates as you change the settings and the page turns by itself, like on the site."
 msgstr "Si aggiorna mentre cambi le impostazioni e la pagina gira da sola, come sul sito."
 
-#: page-turn-feedback.php:793
+#: velvet-leap-page-turn-feedback.php:789
 msgid "Where “Default (theme font)” is chosen the preview uses a plain font: on the site your theme font is used."
 msgstr "Dove è scelto “Predefinito (font del tema)” l'anteprima usa un font semplice: sul sito viene usato il font del tema."
 
-#: page-turn-feedback.php:795
+#: velvet-leap-page-turn-feedback.php:791
 msgid "The texts are examples, because there is no published feedback yet."
 msgstr "I testi sono di esempio, perché non c'è ancora nessun feedback pubblicato."
 
 #. translators: 1: number of the current feedback, 2: total number of feedback.
-#: page-turn-feedback.php:939
+#: velvet-leap-page-turn-feedback.php:935
 #, php-format
 msgid "%1$d of %2$d"
 msgstr "%1$d di %2$d"
 
-#: page-turn-feedback.php:955
+#: velvet-leap-page-turn-feedback.php:951
 msgid "Previous feedback"
 msgstr "Feedback precedente"
 
-#: page-turn-feedback.php:958
+#: velvet-leap-page-turn-feedback.php:954
 msgid "Next feedback"
 msgstr "Feedback successivo"
 

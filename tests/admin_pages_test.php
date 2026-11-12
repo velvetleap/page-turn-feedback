@@ -85,7 +85,7 @@ function get_post_field( $f, $id ) { return isset( $GLOBALS['posts'][ $id ] ) ? 
 function wp_update_post( $a ) { foreach ( $a as $k => $v ) { if ( 'ID' !== $k ) { $GLOBALS['posts'][ $a['ID'] ]->$k = $v; } } $GLOBALS['log'][] = 'update:' . $a['ID']; return $a['ID']; }
 function wp_insert_post( $a, $err = false ) { $id = add_post( $a['post_title'], $a['post_content'], $a['post_status'], $a['menu_order'], $a['post_date'] ?? '2026-11-09 12:00:00', $a['post_type'] ); return $id; }
 
-require dirname( __DIR__ ) . '/page-turn-feedback.php';
+require dirname( __DIR__ ) . '/velvet-leap-page-turn-feedback.php';
 
 $ok = true; $n = 0;
 function check( $label, $cond, $extra = '' ) { global $ok, $n; $n++; echo ( $cond ? 'PASS ' : 'FAIL ' ) . $label . ( $cond ? '' : ' ' . var_export( $extra, true ) ) . "\n"; $ok = $ok && $cond; }

@@ -1,5 +1,5 @@
 /*
- * Page Turn Feedback - admin script.
+ * Velvet Leap Page Turn Feedback - admin script.
  * Copyright (C) 2026 Mattia Scudellaro. GPL-2.0-or-later.
  *
  * Loaded only on the edit screen of a feedback, on the plugin settings page and on the Order page.

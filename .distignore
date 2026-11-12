@@ -10,6 +10,8 @@
 /bin
 /tests
 /build
+# Translations come from translate.wordpress.org (a requirement of the plugin review); the source files stay in the repository.
+/languages
 /vendor
 /composer.json
 /composer.lock

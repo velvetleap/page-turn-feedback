@@ -7,7 +7,7 @@ $GLOBALS['mode'] = getenv( 'PTFB_AJAX' ) ? 'ajax' : ( getenv( 'PTFB_FRONT' ) ? '
 function is_admin() { return 'front' !== $GLOBALS['mode']; }
 function wp_doing_ajax() { return 'ajax' === $GLOBALS['mode']; }
 function add_action() {} function add_filter() {} function add_shortcode() {}
-require dirname( __DIR__ ) . '/page-turn-feedback.php';
+require dirname( __DIR__ ) . '/velvet-leap-page-turn-feedback.php';
 
 $loaded = function_exists( 'ptfb_style_presets' ) && function_exists( 'ptfb_apply_order' ) && function_exists( 'ptfb_csv_build' );
 $none   = ! function_exists( 'ptfb_style_presets' ) && ! function_exists( 'ptfb_apply_order' ) && ! function_exists( 'ptfb_csv_build' );

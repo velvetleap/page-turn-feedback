@@ -31,7 +31,7 @@ class FakeTheme {
 	function get( $k ) { return $this->d[ $k ] ?? ''; } function parent() { return isset( $this->d['parent'] ) ? new FakeTheme( $this->d['parent'] ) : false; }
 }
 function wp_get_theme() { return new FakeTheme( $GLOBALS['theme'] ); }
-require dirname( __DIR__ ) . '/page-turn-feedback.php';
+require dirname( __DIR__ ) . '/velvet-leap-page-turn-feedback.php';
 
 $ok = true; $n = 0;
 function check( $label, $cond, $extra = '' ) { global $ok, $n; $n++; echo ( $cond ? 'PASS ' : 'FAIL ' ) . $label . ( $cond ? '' : ' ' . $extra ) . "\n"; $ok = $ok && $cond; }

@@ -4,11 +4,12 @@
   python3 bin/i18n.py [--new new_translations.json]
 
 - reads every string wrapped in __(), esc_html__(), esc_attr__(), esc_html_e(), esc_attr_e() with the
-  text domain "page-turn-feedback" from page-turn-feedback.php and includes/*.php;
-- keeps the Italian translations already in languages/page-turn-feedback-it_IT.po;
+  text domain "velvet-leap-page-turn-feedback" from velvet-leap-page-turn-feedback.php and includes/*.php;
+- keeps the Italian translations already in languages/velvet-leap-page-turn-feedback-it_IT.po;
 - takes the translation of every new string from the JSON file given with --new
   ({"English text": "Testo italiano", ...}) and stops with a list if one is missing;
-- writes languages/page-turn-feedback.pot, languages/page-turn-feedback-it_IT.po and the compiled .mo.
+- writes languages/velvet-leap-page-turn-feedback.pot, languages/velvet-leap-page-turn-feedback-it_IT.po and the compiled .mo
+  (these files stay in the repository; they are not part of the plugin zip, translate.wordpress.org handles that).
 
 Needs the "polib" package (pip install polib). The version is read from the plugin header.
 """
@@ -17,13 +18,15 @@ import polib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANG = os.path.join(ROOT, "languages")
+SLUG = "velvet-leap-page-turn-feedback"
+NAME = "Velvet Leap Page Turn Feedback"
 SQ = r"'((?:[^'\\]|\\.)*)'"
-CALL = re.compile(r"\b(__|esc_html__|esc_attr__|esc_html_e|esc_attr_e)\(\s*" + SQ + r"\s*,\s*'page-turn-feedback'\s*\)")
+CALL = re.compile(r"\b(__|esc_html__|esc_attr__|esc_html_e|esc_attr_e)\(\s*" + SQ + r"\s*,\s*'" + SLUG + r"'\s*\)")
 COMMENT = re.compile(r"/\*\s*translators:\s*(.*?)\s*\*/", re.S)
 
 
 def php_files():
-    files = [os.path.join(ROOT, "page-turn-feedback.php")]
+    files = [os.path.join(ROOT, SLUG + ".php")]
     files += sorted(glob.glob(os.path.join(ROOT, "includes", "*.php")))
     return files
 
@@ -51,7 +54,7 @@ def extract():
 
 
 def plugin_version():
-    head = open(os.path.join(ROOT, "page-turn-feedback.php"), encoding="utf-8").read(2000)
+    head = open(os.path.join(ROOT, SLUG + ".php"), encoding="utf-8").read(2000)
     return re.search(r"^\s*\*\s*Version:\s*(\S+)", head, re.M).group(1)
 
 
@@ -62,7 +65,7 @@ def main():
 
     order, items = extract()
     old = {}
-    po_path = os.path.join(LANG, "page-turn-feedback-it_IT.po")
+    po_path = os.path.join(LANG, SLUG + "-it_IT.po")
     if os.path.exists(po_path):
         old = {e.msgid: e.msgstr for e in polib.pofile(po_path) if e.msgstr}
     new = json.load(open(args.new, encoding="utf-8")) if args.new else {}
@@ -86,7 +89,7 @@ def main():
     def build(path, lang):
         po = polib.POFile(wrapwidth=0)
         po.metadata = {
-            "Project-Id-Version": "Page Turn Feedback " + plugin_version(),
+            "Project-Id-Version": NAME + " " + plugin_version(),
             "POT-Creation-Date": today,
             "PO-Revision-Date": today,
             "Last-Translator": "Mattia Scudellaro",
@@ -95,12 +98,12 @@ def main():
             "Content-Type": "text/plain; charset=UTF-8",
             "Content-Transfer-Encoding": "8bit",
             "Plural-Forms": "nplurals=2; plural=n != 1;",
-            "X-Domain": "page-turn-feedback",
+            "X-Domain": SLUG,
         }
         if lang:
             po.metadata["Language"] = lang
-        po.header = ("Page Turn Feedback\nCopyright (C) 2026 Mattia Scudellaro\n"
-                     "This file is distributed under the same license as the Page Turn Feedback plugin (GPL-2.0-or-later).")
+        po.header = (NAME + "\nCopyright (C) 2026 Mattia Scudellaro\n"
+                     "This file is distributed under the same license as the " + NAME + " plugin (GPL-2.0-or-later).")
         for msgid in order:
             entry = polib.POEntry(
                 msgid=msgid,
@@ -114,9 +117,9 @@ def main():
         po.save(path)
         return po
 
-    build(os.path.join(LANG, "page-turn-feedback.pot"), None)
+    build(os.path.join(LANG, SLUG + ".pot"), None)
     po = build(po_path, "it_IT")
-    po.save_as_mofile(os.path.join(LANG, "page-turn-feedback-it_IT.mo"))
+    po.save_as_mofile(os.path.join(LANG, SLUG + "-it_IT.mo"))
 
     # The placeholders (%d, %s, %1$d...) must be the same in the English and Italian text.
     bad = 0

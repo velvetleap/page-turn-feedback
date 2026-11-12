@@ -32,7 +32,7 @@ function submit_button() { echo '<input type="submit">'; }
 function sanitize_hex_color( $c ) { return preg_match( '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', (string) $c ) ? $c : null; }
 function selected( $a, $b, $echo = true ) { $r = ( (string) $a === (string) $b ) ? " selected='selected'" : ''; if ( $echo ) { echo $r; } return $r; }
 
-require dirname( __DIR__ ) . '/page-turn-feedback.php';
+require dirname( __DIR__ ) . '/velvet-leap-page-turn-feedback.php';
 
 $ok = true;
 function check( $label, $cond, $extra = '' ) { global $ok; echo ( $cond ? 'PASS ' : 'FAIL ' ) . $label . ' ' . $extra . "\n"; $ok = $ok && $cond; }
@@ -218,7 +218,7 @@ check( 'tipo di contenuto: etichette tradotte', $L['add_new'] === ( $IT ? 'Aggiu
 check( 'colonne elenco tradotte', ptfb_admin_columns( array( 'cb' => 'x' ) )['ptfb_comment'] === ( $IT ? 'Commento' : 'Comment' ) );
 
 // completezza della traduzione: ogni stringa semplice della pagina impostazioni e' nella lingua scelta, senza resti dell'altra
-$itmap = ptfb_test_read_mo( dirname( __DIR__ ) . '/languages/page-turn-feedback-it_IT.mo' );
+$itmap = ptfb_test_read_mo( dirname( __DIR__ ) . '/languages/velvet-leap-page-turn-feedback-it_IT.mo' );
 with( array( 'ptfb_anim' => 'custom', 'ptfb_speed' => 'custom' ) );
 ob_start(); ptfb_settings_page(); $full = ob_get_clean();
 $leaks = array(); $seen = 0;

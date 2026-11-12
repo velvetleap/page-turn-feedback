@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Builds the plugin exactly as it is published:
-#   build/page-turn-feedback/       the clean plugin folder
-#   build/page-turn-feedback.zip    the same folder zipped (root folder = page-turn-feedback)
+#   build/velvet-leap-page-turn-feedback/       the clean plugin folder
+#   build/velvet-leap-page-turn-feedback.zip    the same folder zipped (root folder = velvet-leap-page-turn-feedback)
 # Only files tracked by git are used, minus the top-level names listed in .distignore.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-slug="page-turn-feedback"
+slug="velvet-leap-page-turn-feedback"
 rm -rf build
 mkdir -p "build/$slug"
 

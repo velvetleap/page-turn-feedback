@@ -1,6 +1,6 @@
-# Page Turn Feedback: working notes
+# Velvet Leap Page Turn Feedback: working notes
 
-WordPress plugin that shows feedback (testimonials, quotes) one at a time on a card that turns like the page of a book. Published on GitHub (`velvetleap/page-turn-feedback`) and submitted to the WordPress.org plugin directory. Author/organisation: Velvet Leap. Copyright holder: Mattia Scudellaro.
+WordPress plugin that shows feedback (testimonials, quotes) one at a time on a card that turns like the page of a book. Public name **Velvet Leap Page Turn Feedback**, slug and text domain `velvet-leap-page-turn-feedback` (chosen after the WordPress.org review of 12 Nov 2026 found "Page Turn Feedback" too generic; the slug cannot change after approval). Published on GitHub (`velvetleap/page-turn-feedback`, the repository keeps its name) and submitted to the WordPress.org plugin directory. Author/organisation: Velvet Leap. Copyright holder: Mattia Scudellaro.
 
 The maintainer is not a developer. Talk to him in Italian, in plain words, short. Say what changed and what he has to decide; never ask him to run commands.
 
@@ -18,8 +18,9 @@ The maintainer is not a developer. Talk to him in Italian, in plain words, short
 - Copyright line stays "Mattia Scudellaro"; author in the header stays "Velvet Leap"; license GPL-2.0-or-later.
 - No contact details for reporting problems in the README or readme.txt for now.
 - Prefix everything with `ptfb` (functions, options, hooks, constants), CSS classes `ptfb__*`, CSS variables `--ptfb-*`. Do not rename identifiers: existing sites store settings under them.
-- Strings are written in English with the text domain `page-turn-feedback`, and the Italian translation is kept in step: after any string change put the Italian text of the new strings in a JSON file and run `python3 bin/i18n.py --new file.json` (needs `pip install polib`): it rebuilds `languages/page-turn-feedback.pot`, `-it_IT.po` and `-it_IT.mo` from all the PHP files. The tests read the real `.mo`.
-- `load_plugin_textdomain()` is kept on purpose (without it WordPress does not find the bundled translation). The Plugin Check warning about it is known and accepted.
+- Strings are written in English with the text domain `velvet-leap-page-turn-feedback` (always equal to the slug and to the main file name), and the Italian translation is kept in step: after any string change put the Italian text of the new strings in a JSON file and run `python3 bin/i18n.py --new file.json` (needs `pip install polib`): it rebuilds `languages/velvet-leap-page-turn-feedback.pot`, `-it_IT.po` and `-it_IT.mo` from all the PHP files. The tests read the real `.mo`.
+- Translation files are NOT in the plugin zip (`/languages` is in `.distignore`) and there is no `load_plugin_textdomain()`: the WordPress.org review asked for both; translations come from translate.wordpress.org. Do not add them back. The `ptfb` prefix, the options and the content type keep their names: they are not the slug.
+- `Requires at least` must be a stable major version (5.1), identical in the header and in `readme.txt`. 5.1 is the first major at or above 5.0.3, the `@since` of `wp_unique_id()`, the newest WordPress function used. Raise it only if a newer function is used (`bin/check-versions.sh` checks the format).
 - Escape late: output is escaped where it is printed. No remote requests, no cookies, no tracking, no AJAX or REST endpoints.
 - Keep it light: on a page that does not show the card the plugin does no database query, reads no option and loads no file (`tests/compat_test.php` checks it); check the cheap conditions first, query last. Admin-only code goes in `includes/`, which is loaded with `is_admin() && ! wp_doing_ajax()`. No filter on every block or every request when a more specific hook exists.
 - The look on sites using the Fascinate theme must not change: with that theme the markup keeps the theme's own `fb-container` class. Check `tests/compat_test.php` and the visual tests when touching markup or CSS.
@@ -29,12 +30,12 @@ The maintainer is not a developer. Talk to him in Italian, in plain words, short
 
 ## Version bump checklist
 
-Plugin header `Version`, `PTFB_VERSION` in `page-turn-feedback.php`, `Stable tag` and a new `= X.Y.Z =` changelog entry in `readme.txt`, a new `## X.Y.Z` entry in `CHANGELOG.md`, `(versione X.Y.Z)` in `LEGGIMI.txt`, `Project-Id-Version` in the `.pot` and `.po` (then recompile the `.mo`). `bash bin/check-versions.sh` verifies all of them.
+Plugin header `Version`, `PTFB_VERSION` in `velvet-leap-page-turn-feedback.php`, `Stable tag` and a new `= X.Y.Z =` changelog entry in `readme.txt`, a new `## X.Y.Z` entry in `CHANGELOG.md`, `(versione X.Y.Z)` in `LEGGIMI.txt`, `Project-Id-Version` in the `.pot` and `.po` (then recompile the `.mo`). `bash bin/check-versions.sh` verifies all of them.
 
 ## Layout
 
-- `page-turn-feedback.php`, `uninstall.php`, `includes/`, `assets/`, `languages/`, `readme.txt`, `LEGGIMI.txt`: the plugin (what ends up in the zip). `includes/` is loaded only on dashboard pages (not on `admin-ajax.php`): `presets.php` (ready-made styles), `ordering.php` (Order page), `tools.php` (CSV import and export).
-- `bin/`: `build.sh` (builds `build/page-turn-feedback.zip` honoring `.distignore`), `check-versions.sh`, `i18n.py` (rebuilds the translation files).
+- `velvet-leap-page-turn-feedback.php`, `uninstall.php`, `includes/`, `assets/`, `readme.txt`, `LEGGIMI.txt`: the plugin (what ends up in the zip; `languages/` stays in the repository only). `includes/` is loaded only on dashboard pages (not on `admin-ajax.php`): `presets.php` (ready-made styles), `ordering.php` (Order page), `tools.php` (CSV import and export).
+- `bin/`: `build.sh` (builds `build/velvet-leap-page-turn-feedback.zip` honoring `.distignore`), `check-versions.sh`, `i18n.py` (rebuilds the translation files).
 - `tests/`: stubs that run the plugin outside WordPress, browser tests with Playwright, test theme in `tests/fixtures/`.
 - `.github/workflows/`: `ci.yml`, `auto-pr.yml`, `approve.yml`, `release-on-approval.yml`, `release.yml`.
 - Everything else at the root (README, CHANGELOG, LICENSE, composer.json, phpcs.xml.dist, CLAUDE.md) stays out of the zip.

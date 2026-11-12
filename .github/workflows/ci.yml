@@ -58,20 +58,16 @@ jobs:
         run: bash bin/build.sh
 
       # Same check as the Plugin Check screen in WordPress and the WordPress.org review.
-      # The one warning below is known and accepted: load_plugin_textdomain() is kept on purpose
-      # so that the Italian translation shipped in /languages is loaded.
       - name: Plugin Check
         uses: WordPress/plugin-check-action@v1
         with:
-          build-dir: build/page-turn-feedback
-          ignore-codes: |
-            PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
+          build-dir: build/velvet-leap-page-turn-feedback
 
       - name: Keep the zip of this change for testing
         uses: actions/upload-artifact@v6
         with:
-          name: page-turn-feedback-zip
-          path: build/page-turn-feedback.zip
+          name: velvet-leap-page-turn-feedback-zip
+          path: build/velvet-leap-page-turn-feedback.zip
           retention-days: 14
 
   tests:
