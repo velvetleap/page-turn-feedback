@@ -8,6 +8,6 @@ function is_admin() { return false; }
 function add_action() {} function add_filter() {} function add_shortcode() {} function register_post_type() {} function register_setting() {} function add_submenu_page() {}
 function get_option( $k, $d = false ) { return array_key_exists( $k, $GLOBALS['opts'] ) ? $GLOBALS['opts'][ $k ] : $d; }
 function sanitize_hex_color( $c ) { return preg_match( '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', (string) $c ) ? $c : null; }
-require dirname( __DIR__ ) . '/page-turn-feedback.php';
+require dirname( __DIR__ ) . '/velvet-leap-page-turn-feedback.php';
 $GLOBALS['opts']['ptfb_style'] = ptfb_sanitize_style( json_decode( $argv[1], true ) );
 echo ptfb_inline_css();

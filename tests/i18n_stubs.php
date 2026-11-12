@@ -1,6 +1,6 @@
 <?php
 // Minimal i18n stubs for running the plugin outside WordPress.
-// PTFB_LANG=it loads the bundled Italian translation straight from languages/page-turn-feedback-it_IT.mo,
+// PTFB_LANG=it loads the bundled Italian translation straight from languages/velvet-leap-page-turn-feedback-it_IT.mo,
 // so the tests also prove that the compiled file is valid and in step with the code.
 
 /* Reads a .mo file into an array: original string => translation (first form only). */
@@ -25,7 +25,7 @@ function ptfb_test_read_mo( $file ) {
 	return $out;
 }
 
-$GLOBALS['tr'] = ( 'it' === getenv( 'PTFB_LANG' ) ) ? ptfb_test_read_mo( dirname( __DIR__ ) . '/languages/page-turn-feedback-it_IT.mo' ) : array();
+$GLOBALS['tr'] = ( 'it' === getenv( 'PTFB_LANG' ) ) ? ptfb_test_read_mo( dirname( __DIR__ ) . '/languages/velvet-leap-page-turn-feedback-it_IT.mo' ) : array();
 if ( ! function_exists( '__' ) ) {
 	function __( $t, $d = '' ) { return ( isset( $GLOBALS['tr'][ $t ] ) && '' !== $GLOBALS['tr'][ $t ] ) ? $GLOBALS['tr'][ $t ] : $t; }
 }

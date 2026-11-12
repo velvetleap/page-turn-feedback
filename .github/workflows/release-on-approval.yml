@@ -46,8 +46,8 @@ jobs:
 
       - name: Publish the release with the zip
         run: |
-          gh release create "v$VERSION" build/page-turn-feedback.zip --repo "$GITHUB_REPOSITORY" \
-            --target "$GITHUB_SHA" --title "Page Turn Feedback $VERSION" --notes-file "$RUNNER_TEMP/notes.md"
+          gh release create "v$VERSION" build/velvet-leap-page-turn-feedback.zip --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" --title "Velvet Leap Page Turn Feedback $VERSION" --notes-file "$RUNNER_TEMP/notes.md"
 
       - name: Delete the release branch
         if: always()

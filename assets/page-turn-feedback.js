@@ -1,5 +1,5 @@
 /*
- * Page Turn Feedback - no dependencies.
+ * Velvet Leap Page Turn Feedback - no dependencies.
  * Copyright (C) 2026 Mattia Scudellaro - GPL-2.0-or-later
  *
  * The card turns its page like a book, with a real fold: a corner at the bottom right

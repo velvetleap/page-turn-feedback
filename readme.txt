@@ -1,9 +1,9 @@
-=== Page Turn Feedback ===
+=== Velvet Leap Page Turn Feedback ===
 Contributors: matthewskud
 Tags: testimonials, feedback, quotes, reviews, slider
-Requires at least: 5.0.3
+Requires at least: 5.1
 Tested up to: 7.1
-Stable tag: 1.8.1
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,11 +11,11 @@ Show feedback, testimonials and quotes one at a time on a card that turns like t
 
 == Description ==
 
-Page Turn Feedback shows testimonials, reader feedback, reviews or quotes **one at a time on a card that turns like the page of a book**: the page folds from a dog-eared bottom-right corner and reveals the next one.
+Velvet Leap Page Turn Feedback shows testimonials, reader feedback, reviews or quotes **one at a time on a card that turns like the page of a book**: the page folds from a dog-eared bottom-right corner and reveals the next one.
 
 It is built for sites run by non-technical editors: adding, editing and removing a feedback is just "name + comment" in the WordPress admin.
 
-**Languages:** the plugin is written in English and includes a complete Italian translation (it_IT), which is used automatically when the site language is Italian. The extended user guide (`LEGGIMI.txt`) is in Italian.
+**Languages:** the plugin is written in English and is translated on translate.wordpress.org (WordPress downloads the translation of your language by itself when it is available). A complete Italian translation (it_IT) is kept in the GitHub repository. The extended user guide (`LEGGIMI.txt`) is in Italian.
 
 = Features =
 
@@ -43,7 +43,7 @@ The full source code is public on GitHub: https://github.com/velvetleap/page-tur
 
 == Installation ==
 
-1. Upload the `page-turn-feedback` folder to `/wp-content/plugins/`, or use Plugins > Add New > Upload Plugin.
+1. Upload the `velvet-leap-page-turn-feedback` folder to `/wp-content/plugins/`, or use Plugins > Add New > Upload Plugin.
 2. Activate the plugin.
 3. Go to **Feedback > Add feedback** and publish at least one. The section appears automatically at the bottom of the home page, above the footer.
 
@@ -70,7 +70,7 @@ Add this to your child theme's `functions.php`:
 
 = Can I translate it into my language? =
 
-Yes. Every string uses the `page-turn-feedback` text domain and the `languages/page-turn-feedback.pot` template is included. An Italian translation (it_IT) is bundled.
+Yes. Every string uses the `velvet-leap-page-turn-feedback` text domain, and translations are made on translate.wordpress.org (https://translate.wordpress.org/projects/wp-plugins/velvet-leap-page-turn-feedback/): once one is approved for your language, WordPress installs it with the plugin updates. The `.pot` template and an Italian translation (it_IT) are also in the GitHub repository.
 
 = How do I choose the order of the feedback? =
 
@@ -89,6 +89,11 @@ Yes. On **Feedback > Settings** choose one of the five ready-made styles: it fil
 The settings are deleted. The feedback posts stay in the database.
 
 == Changelog ==
+
+= 1.9.0 =
+* New name and address, as asked by the WordPress.org plugin review: the plugin is now called Velvet Leap Page Turn Feedback and its folder is `velvet-leap-page-turn-feedback`. If you installed an earlier version by hand, deactivate it before activating this one (both cannot be active together). The feedback and the settings are kept: nothing stored by the plugin was renamed.
+* The plugin now says it needs WordPress 5.1 or newer (the oldest version that has every function it uses).
+* Translation files are no longer inside the plugin package: translations come from translate.wordpress.org, so the plugin no longer calls load_plugin_textdomain().
 
 = 1.8.1 =
 * Lighter: on pages that do not show the card (every page except the home page and the pages that use the shortcode) the plugin no longer asks the database for the feedback and loads nothing. On the home page one query fewer.

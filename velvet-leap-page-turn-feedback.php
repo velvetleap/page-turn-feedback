@@ -1,16 +1,15 @@
 <?php
 /**
- * Plugin Name: Page Turn Feedback
+ * Plugin Name: Velvet Leap Page Turn Feedback
  * Plugin URI:  https://github.com/velvetleap/page-turn-feedback
  * Description: Adds a "Feedback" menu to WordPress and shows the feedback on a card that turns like the page of a book, at the bottom of the home page above the footer.
- * Version:     1.8.1
- * Requires at least: 5.0.3
+ * Version:     1.9.0
+ * Requires at least: 5.1
  * Author:      Velvet Leap
  * Author URI:  https://github.com/velvetleap
  * License:     GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: page-turn-feedback
- * Domain Path: /languages
+ * Text Domain: velvet-leap-page-turn-feedback
  */
 
 /*
@@ -29,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PTFB_VERSION', '1.8.1' );
+define( 'PTFB_VERSION', '1.9.0' );
 define( 'PTFB_CPT', 'ptfb_feedback' );
 
 /*
@@ -43,14 +42,11 @@ if ( is_admin() && ! wp_doing_ajax() ) {
 }
 
 /* ------------------------------------------------------------------------
- * 0. Translations. The source strings are in English; an Italian translation
- *    (it_IT) is bundled in the languages/ folder.
+ * 0. Translations. The source strings are in English with the text domain
+ *    velvet-leap-page-turn-feedback; WordPress loads the translations of a plugin
+ *    hosted on WordPress.org by itself (translate.wordpress.org), so there is no
+ *    load_plugin_textdomain() here and no .po/.mo file in the plugin package.
  * --------------------------------------------------------------------- */
-
-function ptfb_load_textdomain() {
-	load_plugin_textdomain( 'page-turn-feedback', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-}
-add_action( 'init', 'ptfb_load_textdomain', 0 );
 
 /* ------------------------------------------------------------------------
  * 1. "Feedback" content type (name = title, comment = text)
@@ -61,17 +57,17 @@ function ptfb_register_cpt() {
 		PTFB_CPT,
 		array(
 			'labels'              => array(
-				'name'               => __( 'Feedback', 'page-turn-feedback' ),
-				'singular_name'      => __( 'Feedback', 'page-turn-feedback' ),
-				'menu_name'          => __( 'Feedback', 'page-turn-feedback' ),
-				'all_items'          => __( 'All feedback', 'page-turn-feedback' ),
-				'add_new'            => __( 'Add feedback', 'page-turn-feedback' ),
-				'add_new_item'       => __( 'Add new feedback', 'page-turn-feedback' ),
-				'edit_item'          => __( 'Edit feedback', 'page-turn-feedback' ),
-				'new_item'           => __( 'New feedback', 'page-turn-feedback' ),
-				'search_items'       => __( 'Search feedback', 'page-turn-feedback' ),
-				'not_found'          => __( 'No feedback yet. Click “Add feedback” to add the first one.', 'page-turn-feedback' ),
-				'not_found_in_trash' => __( 'No feedback in the Trash.', 'page-turn-feedback' ),
+				'name'               => __( 'Feedback', 'velvet-leap-page-turn-feedback' ),
+				'singular_name'      => __( 'Feedback', 'velvet-leap-page-turn-feedback' ),
+				'menu_name'          => __( 'Feedback', 'velvet-leap-page-turn-feedback' ),
+				'all_items'          => __( 'All feedback', 'velvet-leap-page-turn-feedback' ),
+				'add_new'            => __( 'Add feedback', 'velvet-leap-page-turn-feedback' ),
+				'add_new_item'       => __( 'Add new feedback', 'velvet-leap-page-turn-feedback' ),
+				'edit_item'          => __( 'Edit feedback', 'velvet-leap-page-turn-feedback' ),
+				'new_item'           => __( 'New feedback', 'velvet-leap-page-turn-feedback' ),
+				'search_items'       => __( 'Search feedback', 'velvet-leap-page-turn-feedback' ),
+				'not_found'          => __( 'No feedback yet. Click “Add feedback” to add the first one.', 'velvet-leap-page-turn-feedback' ),
+				'not_found_in_trash' => __( 'No feedback in the Trash.', 'velvet-leap-page-turn-feedback' ),
 			),
 			'public'              => false,
 			'publicly_queryable'  => false,
@@ -92,7 +88,7 @@ add_action( 'init', 'ptfb_register_cpt' );
 /* Help texts on the edit screen. */
 function ptfb_title_placeholder( $text, $post ) {
 	if ( $post && PTFB_CPT === $post->post_type ) {
-		return __( 'Name of the person who left the feedback', 'page-turn-feedback' );
+		return __( 'Name of the person who left the feedback', 'velvet-leap-page-turn-feedback' );
 	}
 	return $text;
 }
@@ -111,7 +107,7 @@ function ptfb_edit_help( $post ) {
 	);
 	?>
 	<p style="margin:12px 0 4px;color:#50575e;">
-		<?php echo wp_kses( __( 'Write the <strong>name</strong> above and the <strong>comment</strong> in the box below. Click <em>Publish</em> to show it on the site. To remove it from the site use <em>Move to Trash</em>.', 'page-turn-feedback' ), $allowed ); ?>
+		<?php echo wp_kses( __( 'Write the <strong>name</strong> above and the <strong>comment</strong> in the box below. Click <em>Publish</em> to show it on the site. To remove it from the site use <em>Move to Trash</em>.', 'velvet-leap-page-turn-feedback' ), $allowed ); ?>
 	</p>
 	<div class="notice notice-info inline" style="margin:8px 0 12px;">
 		<p>
@@ -119,7 +115,7 @@ function ptfb_edit_help( $post ) {
 			echo wp_kses(
 				sprintf(
 					/* translators: %d: recommended maximum number of characters for a comment. */
-					__( '<strong>Tip:</strong> write a short comment, <strong>no more than %d characters</strong>, so it stays easy to read on the card.', 'page-turn-feedback' ),
+					__( '<strong>Tip:</strong> write a short comment, <strong>no more than %d characters</strong>, so it stays easy to read on the card.', 'velvet-leap-page-turn-feedback' ),
 					(int) PTFB_TIP_CHARS
 				),
 				$allowed
@@ -136,9 +132,9 @@ add_action( 'edit_form_after_title', 'ptfb_edit_help' );
 function ptfb_admin_columns( $cols ) {
 	return array(
 		'cb'           => isset( $cols['cb'] ) ? $cols['cb'] : '',
-		'title'        => __( 'Name', 'page-turn-feedback' ),
-		'ptfb_comment' => __( 'Comment', 'page-turn-feedback' ),
-		'date'         => __( 'Date', 'page-turn-feedback' ),
+		'title'        => __( 'Name', 'velvet-leap-page-turn-feedback' ),
+		'ptfb_comment' => __( 'Comment', 'velvet-leap-page-turn-feedback' ),
+		'date'         => __( 'Date', 'velvet-leap-page-turn-feedback' ),
 	);
 }
 add_filter( 'manage_' . PTFB_CPT . '_posts_columns', 'ptfb_admin_columns' );
@@ -156,7 +152,7 @@ add_action( 'manage_' . PTFB_CPT . '_posts_custom_column', 'ptfb_admin_column_co
 
 /* Default section title (translatable, so it is a function and not a constant). */
 function ptfb_default_title() {
-	return __( 'What people say about me', 'page-turn-feedback' );
+	return __( 'What people say about me', 'velvet-leap-page-turn-feedback' );
 }
 
 function ptfb_get_title() {
@@ -261,41 +257,41 @@ function ptfb_sanitize_anim_custom( $value ) {
 /* Text alignment on the card. */
 function ptfb_align_choices() {
 	return array(
-		'left'   => __( 'Left', 'page-turn-feedback' ),
-		'center' => __( 'Center', 'page-turn-feedback' ),
-		'right'  => __( 'Right', 'page-turn-feedback' ),
+		'left'   => __( 'Left', 'velvet-leap-page-turn-feedback' ),
+		'center' => __( 'Center', 'velvet-leap-page-turn-feedback' ),
+		'right'  => __( 'Right', 'velvet-leap-page-turn-feedback' ),
 	);
 }
 
 /* Parts of the card whose font can be changed. */
 function ptfb_font_roles() {
 	return array(
-		'title' => __( 'Section title', 'page-turn-feedback' ),
-		'text'  => __( 'Comment', 'page-turn-feedback' ),
-		'name'  => __( 'Author name', 'page-turn-feedback' ),
+		'title' => __( 'Section title', 'velvet-leap-page-turn-feedback' ),
+		'text'  => __( 'Comment', 'velvet-leap-page-turn-feedback' ),
+		'name'  => __( 'Author name', 'velvet-leap-page-turn-feedback' ),
 	);
 }
 
 /* Editable colors, with the default value (green and white). */
 function ptfb_color_fields() {
 	return array(
-		'bg'     => array( __( 'Band behind the card', 'page-turn-feedback' ), '#a5cca7' ),
-		'title'  => array( __( 'Section title', 'page-turn-feedback' ), '#ffffff' ),
-		'card'   => array( __( 'Card', 'page-turn-feedback' ), '#ffffff' ),
-		'text'   => array( __( 'Comment', 'page-turn-feedback' ), '#333333' ),
-		'name'   => array( __( 'Author name', 'page-turn-feedback' ), '#222222' ),
-		'accent' => array( __( 'Quotation marks, dash and folded corner', 'page-turn-feedback' ), '#a5cca7' ),
+		'bg'     => array( __( 'Band behind the card', 'velvet-leap-page-turn-feedback' ), '#a5cca7' ),
+		'title'  => array( __( 'Section title', 'velvet-leap-page-turn-feedback' ), '#ffffff' ),
+		'card'   => array( __( 'Card', 'velvet-leap-page-turn-feedback' ), '#ffffff' ),
+		'text'   => array( __( 'Comment', 'velvet-leap-page-turn-feedback' ), '#333333' ),
+		'name'   => array( __( 'Author name', 'velvet-leap-page-turn-feedback' ), '#222222' ),
+		'accent' => array( __( 'Quotation marks, dash and folded corner', 'velvet-leap-page-turn-feedback' ), '#a5cca7' ),
 	);
 }
 
 /* Suggested font families; in addition to "theme", "heading", "body" and "custom". */
 function ptfb_font_stacks() {
 	return array(
-		'georgia'  => array( __( 'Georgia (serif)', 'page-turn-feedback' ), 'Georgia, "Times New Roman", serif' ),
-		'palatino' => array( __( 'Palatino (serif, book style)', 'page-turn-feedback' ), '"Palatino Linotype", Palatino, "Book Antiqua", serif' ),
+		'georgia'  => array( __( 'Georgia (serif)', 'velvet-leap-page-turn-feedback' ), 'Georgia, "Times New Roman", serif' ),
+		'palatino' => array( __( 'Palatino (serif, book style)', 'velvet-leap-page-turn-feedback' ), '"Palatino Linotype", Palatino, "Book Antiqua", serif' ),
 		'times'    => array( 'Times New Roman', '"Times New Roman", Times, serif' ),
 		'arial'    => array( 'Arial', 'Arial, "Helvetica Neue", Helvetica, sans-serif' ),
-		'system'   => array( __( 'System font', 'page-turn-feedback' ), 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' ),
+		'system'   => array( __( 'System font', 'velvet-leap-page-turn-feedback' ), 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' ),
 	);
 }
 
@@ -484,8 +480,8 @@ add_action( 'admin_init', 'ptfb_register_settings' );
 function ptfb_add_settings_page() {
 	$GLOBALS['ptfb_settings_hook'] = add_submenu_page(
 		'edit.php?post_type=' . PTFB_CPT,
-		__( 'Feedback settings', 'page-turn-feedback' ),
-		__( 'Settings', 'page-turn-feedback' ),
+		__( 'Feedback settings', 'velvet-leap-page-turn-feedback' ),
+		__( 'Settings', 'velvet-leap-page-turn-feedback' ),
 		'manage_options',
 		'ptfb-settings',
 		'ptfb_settings_page'
@@ -534,14 +530,14 @@ function ptfb_admin_assets( $hook ) {
 	$data = array(
 		'limit'   => (int) PTFB_TIP_CHARS,
 		/* translators: %d: number of characters typed so far. */
-		'tooLong' => __( 'That is %d characters: better to shorten it a little.', 'page-turn-feedback' ),
+		'tooLong' => __( 'That is %d characters: better to shorten it a little.', 'velvet-leap-page-turn-feedback' ),
 		/* translators: 1: number of characters typed so far, 2: recommended maximum. */
-		'count'   => __( 'Characters: %1$d / %2$d', 'page-turn-feedback' ),
+		'count'   => __( 'Characters: %1$d / %2$d', 'velvet-leap-page-turn-feedback' ),
 	);
 	if ( $is_order ) {
 		/* translators: 1: new position of the feedback, 2: total number of feedback. */
-		$data['moved']        = __( 'Moved to position %1$d of %2$d.', 'page-turn-feedback' );
-		$data['confirmReset'] = __( 'Go back to the automatic order? The order you set by hand will be lost.', 'page-turn-feedback' );
+		$data['moved']        = __( 'Moved to position %1$d of %2$d.', 'velvet-leap-page-turn-feedback' );
+		$data['confirmReset'] = __( 'Go back to the automatic order? The order you set by hand will be lost.', 'velvet-leap-page-turn-feedback' );
 	}
 	if ( $is_settings ) {
 		$presets = array();
@@ -565,8 +561,8 @@ function ptfb_admin_assets( $hook ) {
 			'js'  => plugins_url( 'assets/page-turn-feedback.js', __FILE__ ) . '?ver=' . rawurlencode( PTFB_VERSION ),
 		);
 		/* translators: %s: name of a ready-made style, for example "Paper". */
-		$data['presetApplied'] = __( 'Style “%s” filled in. Check the preview, then press “Save Changes”.', 'page-turn-feedback' );
-		$data['presetDefault'] = __( 'Original look filled in. Press “Save Changes” to keep it.', 'page-turn-feedback' );
+		$data['presetApplied'] = __( 'Style “%s” filled in. Check the preview, then press “Save Changes”.', 'velvet-leap-page-turn-feedback' );
+		$data['presetDefault'] = __( 'Original look filled in. Press “Save Changes” to keep it.', 'velvet-leap-page-turn-feedback' );
 	}
 	wp_add_inline_script( 'page-turn-feedback-admin', 'var ptfbAdmin = ' . wp_json_encode( $data ) . ';', 'before' );
 }
@@ -579,34 +575,34 @@ function ptfb_settings_page() {
 	$choice = ptfb_get_speed_choice();
 	$style  = ptfb_get_style();
 	$labels = array(
-		'3'      => __( 'Every 3 seconds', 'page-turn-feedback' ),
-		'5'      => __( 'Every 5 seconds', 'page-turn-feedback' ),
-		'10'     => __( 'Every 10 seconds', 'page-turn-feedback' ),
-		'custom' => __( 'Custom number of seconds', 'page-turn-feedback' ),
-		'off'    => __( 'No automatic sliding (by hand only)', 'page-turn-feedback' ),
+		'3'      => __( 'Every 3 seconds', 'velvet-leap-page-turn-feedback' ),
+		'5'      => __( 'Every 5 seconds', 'velvet-leap-page-turn-feedback' ),
+		'10'     => __( 'Every 10 seconds', 'velvet-leap-page-turn-feedback' ),
+		'custom' => __( 'Custom number of seconds', 'velvet-leap-page-turn-feedback' ),
+		'off'    => __( 'No automatic sliding (by hand only)', 'velvet-leap-page-turn-feedback' ),
 	);
 
 	$anim_choice = ptfb_get_anim_choice();
 	$anim_labels = array(
-		'0.6'    => __( 'Fast (0.6 seconds)', 'page-turn-feedback' ),
-		'1.1'    => __( 'Normal (1.1 seconds) - default', 'page-turn-feedback' ),
-		'1.8'    => __( 'Slow (1.8 seconds)', 'page-turn-feedback' ),
-		'2.6'    => __( 'Very slow (2.6 seconds)', 'page-turn-feedback' ),
-		'custom' => __( 'Custom duration', 'page-turn-feedback' ),
+		'0.6'    => __( 'Fast (0.6 seconds)', 'velvet-leap-page-turn-feedback' ),
+		'1.1'    => __( 'Normal (1.1 seconds) - default', 'velvet-leap-page-turn-feedback' ),
+		'1.8'    => __( 'Slow (1.8 seconds)', 'velvet-leap-page-turn-feedback' ),
+		'2.6'    => __( 'Very slow (2.6 seconds)', 'velvet-leap-page-turn-feedback' ),
+		'custom' => __( 'Custom duration', 'velvet-leap-page-turn-feedback' ),
 	);
 
 	$font_options = array(
-		'theme'   => __( 'Default (theme font)', 'page-turn-feedback' ),
-		'heading' => __( 'Theme heading font', 'page-turn-feedback' ),
-		'body'    => __( 'Theme body font', 'page-turn-feedback' ),
+		'theme'   => __( 'Default (theme font)', 'velvet-leap-page-turn-feedback' ),
+		'heading' => __( 'Theme heading font', 'velvet-leap-page-turn-feedback' ),
+		'body'    => __( 'Theme body font', 'velvet-leap-page-turn-feedback' ),
 	);
 	foreach ( ptfb_font_stacks() as $key => $stack ) {
 		$font_options[ $key ] = $stack[0];
 	}
-	$font_options['custom'] = __( 'Other (type the font name)', 'page-turn-feedback' );
+	$font_options['custom'] = __( 'Other (type the font name)', 'velvet-leap-page-turn-feedback' );
 	?>
 	<div class="wrap">
-		<h1><?php esc_html_e( 'Feedback settings', 'page-turn-feedback' ); ?></h1>
+		<h1><?php esc_html_e( 'Feedback settings', 'velvet-leap-page-turn-feedback' ); ?></h1>
 		<?php settings_errors(); ?>
 		<div class="ptfb-settings">
 		<div class="ptfb-settings__main">
@@ -615,8 +611,8 @@ function ptfb_settings_page() {
 
 			<?php /* Ready-made styles: shown by the admin script (without JavaScript they would do nothing). */ ?>
 			<div id="ptfb-presets-wrap" hidden>
-				<h2 class="title"><?php esc_html_e( 'Ready-made styles', 'page-turn-feedback' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'Pick a style to fill in the colors, fonts and alignment below. Nothing changes on the site until you press “Save Changes”, and you can still adjust every detail.', 'page-turn-feedback' ); ?></p>
+				<h2 class="title"><?php esc_html_e( 'Ready-made styles', 'velvet-leap-page-turn-feedback' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Pick a style to fill in the colors, fonts and alignment below. Nothing changes on the site until you press “Save Changes”, and you can still adjust every detail.', 'velvet-leap-page-turn-feedback' ); ?></p>
 				<div class="ptfb-presets">
 					<?php foreach ( ptfb_style_presets() as $key => $preset ) : ?>
 						<?php $look = ptfb_preset_as_style( $preset ); ?>
@@ -630,16 +626,16 @@ function ptfb_settings_page() {
 						</button>
 					<?php endforeach; ?>
 					<button type="button" class="ptfb-preset ptfb-preset--original" data-preset="default">
-						<span class="ptfb-preset__name"><?php esc_html_e( 'Back to the original look', 'page-turn-feedback' ); ?></span>
+						<span class="ptfb-preset__name"><?php esc_html_e( 'Back to the original look', 'velvet-leap-page-turn-feedback' ); ?></span>
 					</button>
 				</div>
 				<p id="ptfb-preset-note" class="description" role="status"></p>
 			</div>
 
-			<h2 class="title"><?php esc_html_e( 'Text and sliding', 'page-turn-feedback' ); ?></h2>
+			<h2 class="title"><?php esc_html_e( 'Text and sliding', 'velvet-leap-page-turn-feedback' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><label for="ptfb_title"><?php esc_html_e( 'Section title', 'page-turn-feedback' ); ?></label></th>
+					<th scope="row"><label for="ptfb_title"><?php esc_html_e( 'Section title', 'velvet-leap-page-turn-feedback' ); ?></label></th>
 					<td>
 						<input type="text" id="ptfb_title" name="ptfb_title" class="regular-text" value="<?php echo esc_attr( ptfb_get_title() ); ?>">
 						<p class="description">
@@ -647,7 +643,7 @@ function ptfb_settings_page() {
 							echo esc_html(
 								sprintf(
 									/* translators: %s: default section title. */
-									__( 'Shown in the band above the card, in capital letters. The default text is “%s”; if you leave it empty the title is not shown.', 'page-turn-feedback' ),
+									__( 'Shown in the band above the card, in capital letters. The default text is “%s”; if you leave it empty the title is not shown.', 'velvet-leap-page-turn-feedback' ),
 									ptfb_default_title()
 								)
 							);
@@ -656,7 +652,7 @@ function ptfb_settings_page() {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="ptfb_speed"><?php esc_html_e( 'Automatic sliding', 'page-turn-feedback' ); ?></label></th>
+					<th scope="row"><label for="ptfb_speed"><?php esc_html_e( 'Automatic sliding', 'velvet-leap-page-turn-feedback' ); ?></label></th>
 					<td>
 						<select id="ptfb_speed" name="ptfb_speed">
 							<?php foreach ( $labels as $value => $label ) : ?>
@@ -664,18 +660,18 @@ function ptfb_settings_page() {
 							<?php endforeach; ?>
 						</select>
 						<span id="ptfb_custom_wrap"<?php echo 'custom' === $choice ? '' : ' hidden'; ?>>
-							&nbsp;<input type="number" id="ptfb_custom" name="ptfb_custom" min="2" max="120" step="1" class="small-text" value="<?php echo esc_attr( ptfb_get_custom_seconds() ); ?>"> <?php esc_html_e( 'seconds', 'page-turn-feedback' ); ?>
+							&nbsp;<input type="number" id="ptfb_custom" name="ptfb_custom" min="2" max="120" step="1" class="small-text" value="<?php echo esc_attr( ptfb_get_custom_seconds() ); ?>"> <?php esc_html_e( 'seconds', 'velvet-leap-page-turn-feedback' ); ?>
 						</span>
 						<p class="description">
-							<?php esc_html_e( 'How long each feedback stays visible before the page turns by itself (custom: 2 to 120 seconds). For short sentences 3–5 seconds are enough; for long comments 10 or more is better.', 'page-turn-feedback' ); ?>
+							<?php esc_html_e( 'How long each feedback stays visible before the page turns by itself (custom: 2 to 120 seconds). For short sentences 3–5 seconds are enough; for long comments 10 or more is better.', 'velvet-leap-page-turn-feedback' ); ?>
 						</p>
 						<p class="description">
-							<?php esc_html_e( 'Visitors can press and hold on the text and drag, or tap the folded corner at the bottom right, to turn the page by hand: while they hold, the sliding stops and it restarts when they let go.', 'page-turn-feedback' ); ?>
+							<?php esc_html_e( 'Visitors can press and hold on the text and drag, or tap the folded corner at the bottom right, to turn the page by hand: while they hold, the sliding stops and it restarts when they let go.', 'velvet-leap-page-turn-feedback' ); ?>
 						</p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="ptfb_anim"><?php esc_html_e( 'Page-turn duration', 'page-turn-feedback' ); ?></label></th>
+					<th scope="row"><label for="ptfb_anim"><?php esc_html_e( 'Page-turn duration', 'velvet-leap-page-turn-feedback' ); ?></label></th>
 					<td>
 						<select id="ptfb_anim" name="ptfb_anim">
 							<?php foreach ( $anim_labels as $value => $label ) : ?>
@@ -683,16 +679,16 @@ function ptfb_settings_page() {
 							<?php endforeach; ?>
 						</select>
 						<span id="ptfb_anim_wrap"<?php echo 'custom' === $anim_choice ? '' : ' hidden'; ?>>
-							&nbsp;<input type="number" id="ptfb_anim_custom" name="ptfb_anim_custom" min="0.3" max="5" step="0.1" class="small-text" value="<?php echo esc_attr( number_format( ptfb_get_anim_custom(), 1, '.', '' ) ); ?>"> <?php esc_html_e( 'seconds', 'page-turn-feedback' ); ?>
+							&nbsp;<input type="number" id="ptfb_anim_custom" name="ptfb_anim_custom" min="0.3" max="5" step="0.1" class="small-text" value="<?php echo esc_attr( number_format( ptfb_get_anim_custom(), 1, '.', '' ) ); ?>"> <?php esc_html_e( 'seconds', 'velvet-leap-page-turn-feedback' ); ?>
 						</span>
 						<p class="description">
-							<?php esc_html_e( 'How long the animation lasts when the page folds and goes from one comment to the next (custom: 0.3 to 5 seconds). The reading time chosen above restarts when the page turn is finished.', 'page-turn-feedback' ); ?>
+							<?php esc_html_e( 'How long the animation lasts when the page folds and goes from one comment to the next (custom: 0.3 to 5 seconds). The reading time chosen above restarts when the page turn is finished.', 'velvet-leap-page-turn-feedback' ); ?>
 						</p>
 					</td>
 				</tr>
 			</table>
 
-			<h2 class="title"><?php esc_html_e( 'Colors', 'page-turn-feedback' ); ?></h2>
+			<h2 class="title"><?php esc_html_e( 'Colors', 'velvet-leap-page-turn-feedback' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<?php foreach ( ptfb_color_fields() as $key => $field ) : ?>
 					<tr>
@@ -703,9 +699,9 @@ function ptfb_settings_page() {
 					</tr>
 				<?php endforeach; ?>
 			</table>
-			<p class="description"><?php esc_html_e( 'The “Default” button next to each color restores the original green and white.', 'page-turn-feedback' ); ?></p>
+			<p class="description"><?php esc_html_e( 'The “Default” button next to each color restores the original green and white.', 'velvet-leap-page-turn-feedback' ); ?></p>
 
-			<h2 class="title"><?php esc_html_e( 'Fonts', 'page-turn-feedback' ); ?></h2>
+			<h2 class="title"><?php esc_html_e( 'Fonts', 'velvet-leap-page-turn-feedback' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<?php foreach ( ptfb_font_roles() as $role => $label ) : ?>
 					<?php $current = $style[ 'font_' . $role ]; ?>
@@ -718,20 +714,20 @@ function ptfb_settings_page() {
 								<?php endforeach; ?>
 							</select>
 							<span id="ptfb_font_wrap_<?php echo esc_attr( $role ); ?>"<?php echo 'custom' === $current ? '' : ' hidden'; ?>>
-								&nbsp;<input type="text" name="ptfb_style[font_<?php echo esc_attr( $role ); ?>_custom]" class="regular-text" placeholder="<?php esc_attr_e( 'for example: Poppins', 'page-turn-feedback' ); ?>" value="<?php echo esc_attr( $style[ 'font_' . $role . '_custom' ] ); ?>">
+								&nbsp;<input type="text" name="ptfb_style[font_<?php echo esc_attr( $role ); ?>_custom]" class="regular-text" placeholder="<?php esc_attr_e( 'for example: Poppins', 'velvet-leap-page-turn-feedback' ); ?>" value="<?php echo esc_attr( $style[ 'font_' . $role . '_custom' ] ); ?>">
 							</span>
 						</td>
 					</tr>
 				<?php endforeach; ?>
 			</table>
 			<p class="description">
-				<?php esc_html_e( '“Default” uses the theme fonts (title and name in the heading font, comment in the body font). With “Other” type the name of a font already loaded by the site: if it is not loaded, visitors will see a fallback font.', 'page-turn-feedback' ); ?>
+				<?php esc_html_e( '“Default” uses the theme fonts (title and name in the heading font, comment in the body font). With “Other” type the name of a font already loaded by the site: if it is not loaded, visitors will see a fallback font.', 'velvet-leap-page-turn-feedback' ); ?>
 			</p>
 
-			<h2 class="title"><?php esc_html_e( 'Alignment', 'page-turn-feedback' ); ?></h2>
+			<h2 class="title"><?php esc_html_e( 'Alignment', 'velvet-leap-page-turn-feedback' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><label for="ptfb_style_align_text"><?php esc_html_e( 'Comment', 'page-turn-feedback' ); ?></label></th>
+					<th scope="row"><label for="ptfb_style_align_text"><?php esc_html_e( 'Comment', 'velvet-leap-page-turn-feedback' ); ?></label></th>
 					<td>
 						<select id="ptfb_style_align_text" name="ptfb_style[align_text]">
 							<?php foreach ( ptfb_align_choices() as $value => $label ) : ?>
@@ -741,7 +737,7 @@ function ptfb_settings_page() {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="ptfb_style_align_name"><?php esc_html_e( 'Author name', 'page-turn-feedback' ); ?></label></th>
+					<th scope="row"><label for="ptfb_style_align_name"><?php esc_html_e( 'Author name', 'velvet-leap-page-turn-feedback' ); ?></label></th>
 					<td>
 						<select id="ptfb_style_align_name" name="ptfb_style[align_name]">
 							<?php foreach ( ptfb_align_choices() as $value => $label ) : ?>
@@ -749,7 +745,7 @@ function ptfb_settings_page() {
 							<?php endforeach; ?>
 						</select>
 						<p class="description">
-							<?php esc_html_e( 'The name is aligned inside the same column as the comment (to the right of the quotation mark). For a tidy look it is usually best to give the comment and the name the same alignment.', 'page-turn-feedback' ); ?>
+							<?php esc_html_e( 'The name is aligned inside the same column as the comment (to the right of the quotation mark). For a tidy look it is usually best to give the comment and the name the same alignment.', 'velvet-leap-page-turn-feedback' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -762,7 +758,7 @@ function ptfb_settings_page() {
 			echo wp_kses(
 				sprintf(
 					/* translators: %s: the shortcode. */
-					__( 'The feedback appears automatically at the bottom of the home page. To show it on another page too, add the shortcode %s.', 'page-turn-feedback' ),
+					__( 'The feedback appears automatically at the bottom of the home page. To show it on another page too, add the shortcode %s.', 'velvet-leap-page-turn-feedback' ),
 					'<code>[page_turn_feedback]</code>'
 				),
 				array( 'code' => array() )
@@ -786,13 +782,13 @@ function ptfb_settings_page() {
 		}
 		?>
 		<div class="ptfb-settings__side" id="ptfb-preview-box" hidden>
-			<h2 class="title"><?php esc_html_e( 'Preview', 'page-turn-feedback' ); ?></h2>
-			<iframe id="ptfb-preview" class="ptfb-preview" title="<?php esc_attr_e( 'Preview of the feedback card', 'page-turn-feedback' ); ?>"></iframe>
+			<h2 class="title"><?php esc_html_e( 'Preview', 'velvet-leap-page-turn-feedback' ); ?></h2>
+			<iframe id="ptfb-preview" class="ptfb-preview" title="<?php esc_attr_e( 'Preview of the feedback card', 'velvet-leap-page-turn-feedback' ); ?>"></iframe>
 			<p class="description">
-				<?php esc_html_e( 'It updates as you change the settings and the page turns by itself, like on the site.', 'page-turn-feedback' ); ?>
-				<?php esc_html_e( 'Where “Default (theme font)” is chosen the preview uses a plain font: on the site your theme font is used.', 'page-turn-feedback' ); ?>
+				<?php esc_html_e( 'It updates as you change the settings and the page turns by itself, like on the site.', 'velvet-leap-page-turn-feedback' ); ?>
+				<?php esc_html_e( 'Where “Default (theme font)” is chosen the preview uses a plain font: on the site your theme font is used.', 'velvet-leap-page-turn-feedback' ); ?>
 				<?php if ( $is_sample ) : ?>
-					<?php esc_html_e( 'The texts are examples, because there is no published feedback yet.', 'page-turn-feedback' ); ?>
+					<?php esc_html_e( 'The texts are examples, because there is no published feedback yet.', 'velvet-leap-page-turn-feedback' ); ?>
 				<?php endif; ?>
 			</p>
 		</div>
@@ -921,7 +917,7 @@ function ptfb_output( $items = null, $preview = false ) {
 	$total    = count( $items );
 	$interval = ptfb_get_interval() * 1000;
 	$title    = trim( ptfb_get_title() );
-	$label    = '' !== $title ? $title : __( 'Feedback', 'page-turn-feedback' );
+	$label    = '' !== $title ? $title : __( 'Feedback', 'velvet-leap-page-turn-feedback' );
 
 	/* Container class: the theme's own one if it is known, otherwise the plugin's (see below). */
 	$container = $preview ? 'ptfb__container' : trim( (string) apply_filters( 'ptfb_container_class', ptfb_default_container_class() ) );
@@ -936,7 +932,7 @@ function ptfb_output( $items = null, $preview = false ) {
 
 				<div class="ptfb__stage">
 					<?php foreach ( $items as $i => $item ) : ?>
-						<figure class="ptfb__slide<?php echo 0 === $i ? ' is-current' : ''; ?>" role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( /* translators: 1: number of the current feedback, 2: total number of feedback. */ __( '%1$d of %2$d', 'page-turn-feedback' ), $i + 1, $total ) ); ?>"<?php echo 0 === $i ? '' : ' aria-hidden="true"'; ?>>
+						<figure class="ptfb__slide<?php echo 0 === $i ? ' is-current' : ''; ?>" role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( /* translators: 1: number of the current feedback, 2: total number of feedback. */ __( '%1$d of %2$d', 'velvet-leap-page-turn-feedback' ), $i + 1, $total ) ); ?>"<?php echo 0 === $i ? '' : ' aria-hidden="true"'; ?>>
 							<div class="ptfb__body">
 								<span class="ptfb__mark" aria-hidden="true">&ldquo;</span>
 								<blockquote class="ptfb__quote">
@@ -952,10 +948,10 @@ function ptfb_output( $items = null, $preview = false ) {
 					<?php if ( $total > 1 ) : ?>
 						<?php /* "Previous": invisible until it gets keyboard focus. */ ?>
 						<div class="ptfb__sr">
-							<button type="button" class="ptfb__sr-btn ptfb__sr-prev"><?php esc_html_e( 'Previous feedback', 'page-turn-feedback' ); ?></button>
+							<button type="button" class="ptfb__sr-btn ptfb__sr-prev"><?php esc_html_e( 'Previous feedback', 'velvet-leap-page-turn-feedback' ); ?></button>
 						</div>
 						<?php /* Folded corner at the bottom right: tap or click to turn the page. */ ?>
-						<button type="button" class="ptfb__corner" aria-label="<?php esc_attr_e( 'Next feedback', 'page-turn-feedback' ); ?>"></button>
+						<button type="button" class="ptfb__corner" aria-label="<?php esc_attr_e( 'Next feedback', 'velvet-leap-page-turn-feedback' ); ?>"></button>
 					<?php endif; ?>
 				</div>
 			</div>

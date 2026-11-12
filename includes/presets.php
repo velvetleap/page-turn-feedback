@@ -8,7 +8,7 @@
  * settings form (nothing is saved until "Save Changes" is pressed), and every field can still be changed.
  * Nothing about presets is stored in the database.
  *
- * @package page-turn-feedback
+ * @package velvet-leap-page-turn-feedback
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ptfb_style_presets() {
 	return array(
 		'paper'   => array(
-			'label' => __( 'Paper', 'page-turn-feedback' ),
+			'label' => __( 'Paper', 'velvet-leap-page-turn-feedback' ),
 			'style' => array(
 				'bg'         => '#efe4cf',
 				'title'      => '#4a3624',
@@ -39,7 +39,7 @@ function ptfb_style_presets() {
 			),
 		),
 		'night'   => array(
-			'label' => __( 'Night', 'page-turn-feedback' ),
+			'label' => __( 'Night', 'velvet-leap-page-turn-feedback' ),
 			'style' => array(
 				'bg'         => '#161c2b',
 				'title'      => '#f1f4fa',
@@ -55,7 +55,7 @@ function ptfb_style_presets() {
 			),
 		),
 		'ocean'   => array(
-			'label' => __( 'Ocean', 'page-turn-feedback' ),
+			'label' => __( 'Ocean', 'velvet-leap-page-turn-feedback' ),
 			'style' => array(
 				'bg'         => '#1b6a86',
 				'title'      => '#ffffff',
@@ -71,7 +71,7 @@ function ptfb_style_presets() {
 			),
 		),
 		'sunset'  => array(
-			'label' => __( 'Sunset', 'page-turn-feedback' ),
+			'label' => __( 'Sunset', 'velvet-leap-page-turn-feedback' ),
 			'style' => array(
 				'bg'         => '#b8432b',
 				'title'      => '#ffffff',
@@ -87,7 +87,7 @@ function ptfb_style_presets() {
 			),
 		),
 		'minimal' => array(
-			'label' => __( 'Minimal', 'page-turn-feedback' ),
+			'label' => __( 'Minimal', 'velvet-leap-page-turn-feedback' ),
 			'style' => array(
 				'bg'         => '#ececec',
 				'title'      => '#111111',
@@ -121,12 +121,12 @@ function ptfb_preset_as_style( $preset ) {
 function ptfb_sample_feedback() {
 	return array(
 		array(
-			'name'    => __( 'Mary Smith', 'page-turn-feedback' ),
-			'comment' => __( 'A wonderful experience from start to finish. I would recommend it to anyone.', 'page-turn-feedback' ),
+			'name'    => __( 'Mary Smith', 'velvet-leap-page-turn-feedback' ),
+			'comment' => __( 'A wonderful experience from start to finish. I would recommend it to anyone.', 'velvet-leap-page-turn-feedback' ),
 		),
 		array(
-			'name'    => __( 'John Brown', 'page-turn-feedback' ),
-			'comment' => __( 'Careful, kind and always on time. A pleasure to work with.', 'page-turn-feedback' ),
+			'name'    => __( 'John Brown', 'velvet-leap-page-turn-feedback' ),
+			'comment' => __( 'Careful, kind and always on time. A pleasure to work with.', 'velvet-leap-page-turn-feedback' ),
 		),
 	);
 }

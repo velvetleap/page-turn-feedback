@@ -11,7 +11,7 @@
  *
  * The file is read and written by the functions below (no library, no remote request, no AJAX).
  *
- * @package page-turn-feedback
+ * @package velvet-leap-page-turn-feedback
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,8 +24,8 @@ define( 'PTFB_CSV_MAX_BYTES', 1048576 );
 function ptfb_add_tools_page() {
 	$GLOBALS['ptfb_tools_hook'] = add_submenu_page(
 		'edit.php?post_type=' . PTFB_CPT,
-		__( 'Import and export', 'page-turn-feedback' ),
-		__( 'Import and export', 'page-turn-feedback' ),
+		__( 'Import and export', 'velvet-leap-page-turn-feedback' ),
+		__( 'Import and export', 'velvet-leap-page-turn-feedback' ),
 		ptfb_manage_capability(),
 		'ptfb-tools',
 		'ptfb_tools_page'
@@ -335,8 +335,8 @@ function ptfb_export_rows() {
 function ptfb_sample_rows() {
 	return array(
 		array(
-			'name'    => __( 'Mary Smith', 'page-turn-feedback' ),
-			'comment' => __( 'A wonderful experience from start to finish. I recommend it to everyone.', 'page-turn-feedback' ),
+			'name'    => __( 'Mary Smith', 'velvet-leap-page-turn-feedback' ),
+			'comment' => __( 'A wonderful experience from start to finish. I recommend it to everyone.', 'velvet-leap-page-turn-feedback' ),
 			'status'  => 'publish',
 			'date'    => '',
 			'order'   => '',
@@ -346,7 +346,7 @@ function ptfb_sample_rows() {
 
 function ptfb_handle_export_csv() {
 	if ( ! current_user_can( ptfb_manage_capability() ) ) {
-		wp_die( esc_html__( 'You are not allowed to do this.', 'page-turn-feedback' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'You are not allowed to do this.', 'velvet-leap-page-turn-feedback' ), '', array( 'response' => 403 ) );
 	}
 	check_admin_referer( 'ptfb_export_csv' );
 
@@ -456,7 +456,7 @@ function ptfb_read_uploaded_csv() {
 
 function ptfb_handle_import_csv() {
 	if ( ! current_user_can( ptfb_manage_capability() ) ) {
-		wp_die( esc_html__( 'You are not allowed to do this.', 'page-turn-feedback' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'You are not allowed to do this.', 'velvet-leap-page-turn-feedback' ), '', array( 'response' => 403 ) );
 	}
 	check_admin_referer( 'ptfb_import_csv' );
 
@@ -482,13 +482,13 @@ add_action( 'admin_post_ptfb_import_csv', 'ptfb_handle_import_csv' );
 /* Message for each error code of the import (the code comes from the address bar, so it is looked up, never printed). */
 function ptfb_import_error_messages() {
 	return array(
-		'nofile'  => __( 'Choose a CSV file first.', 'page-turn-feedback' ),
-		'upload'  => __( 'The file could not be uploaded. Please try again.', 'page-turn-feedback' ),
-		'toobig'  => __( 'The file is too big (1 MB at most).', 'page-turn-feedback' ),
-		'type'    => __( 'The file must be a CSV file (name ending in .csv).', 'page-turn-feedback' ),
-		'empty'   => __( 'The file is empty.', 'page-turn-feedback' ),
-		'header'  => __( 'The first row must contain the column names, and one of them must be “comment”. Download the example file to see how it is written.', 'page-turn-feedback' ),
-		'toomany' => __( 'The file has too many rows. Split it into smaller files.', 'page-turn-feedback' ),
+		'nofile'  => __( 'Choose a CSV file first.', 'velvet-leap-page-turn-feedback' ),
+		'upload'  => __( 'The file could not be uploaded. Please try again.', 'velvet-leap-page-turn-feedback' ),
+		'toobig'  => __( 'The file is too big (1 MB at most).', 'velvet-leap-page-turn-feedback' ),
+		'type'    => __( 'The file must be a CSV file (name ending in .csv).', 'velvet-leap-page-turn-feedback' ),
+		'empty'   => __( 'The file is empty.', 'velvet-leap-page-turn-feedback' ),
+		'header'  => __( 'The first row must contain the column names, and one of them must be “comment”. Download the example file to see how it is written.', 'velvet-leap-page-turn-feedback' ),
+		'toomany' => __( 'The file has too many rows. Split it into smaller files.', 'velvet-leap-page-turn-feedback' ),
 	);
 }
 
@@ -507,7 +507,7 @@ function ptfb_tools_page() {
 	$code     = array( 'code' => array() );
 	?>
 	<div class="wrap">
-		<h1><?php esc_html_e( 'Import and export', 'page-turn-feedback' ); ?></h1>
+		<h1><?php esc_html_e( 'Import and export', 'velvet-leap-page-turn-feedback' ); ?></h1>
 
 		<?php if ( '' !== $error && isset( $messages[ $error ] ) ) : ?>
 			<div class="notice notice-error is-dismissible"><p><?php echo esc_html( $messages[ $error ] ); ?></p></div>
@@ -518,7 +518,7 @@ function ptfb_tools_page() {
 					echo esc_html(
 						sprintf(
 							/* translators: 1: feedback added, 2: feedback skipped because already on the site, 3: rows skipped because they have no comment. */
-							__( 'Import finished: %1$d added, %2$d skipped because they were already here, %3$d skipped because they had no comment.', 'page-turn-feedback' ),
+							__( 'Import finished: %1$d added, %2$d skipped because they were already here, %3$d skipped because they had no comment.', 'velvet-leap-page-turn-feedback' ),
 							$added,
 							$already,
 							$skipped
@@ -529,32 +529,32 @@ function ptfb_tools_page() {
 			</div>
 		<?php endif; ?>
 
-		<h2 class="title"><?php esc_html_e( 'Export to a CSV file', 'page-turn-feedback' ); ?></h2>
-		<p><?php esc_html_e( 'Download all your feedback (published and drafts) in a CSV file. You can open it with Excel, Google Sheets or LibreOffice, keep it as a copy, or import it again here or on another site.', 'page-turn-feedback' ); ?></p>
+		<h2 class="title"><?php esc_html_e( 'Export to a CSV file', 'velvet-leap-page-turn-feedback' ); ?></h2>
+		<p><?php esc_html_e( 'Download all your feedback (published and drafts) in a CSV file. You can open it with Excel, Google Sheets or LibreOffice, keep it as a copy, or import it again here or on another site.', 'velvet-leap-page-turn-feedback' ); ?></p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="ptfb_export_csv">
 			<?php wp_nonce_field( 'ptfb_export_csv' ); ?>
 			<p>
-				<button type="submit" class="button button-primary"><?php esc_html_e( 'Download CSV file', 'page-turn-feedback' ); ?></button>
-				<button type="submit" name="ptfb_sample" value="1" class="button"><?php esc_html_e( 'Download an example file', 'page-turn-feedback' ); ?></button>
+				<button type="submit" class="button button-primary"><?php esc_html_e( 'Download CSV file', 'velvet-leap-page-turn-feedback' ); ?></button>
+				<button type="submit" name="ptfb_sample" value="1" class="button"><?php esc_html_e( 'Download an example file', 'velvet-leap-page-turn-feedback' ); ?></button>
 			</p>
 		</form>
 
-		<h2 class="title"><?php esc_html_e( 'Import from a CSV file', 'page-turn-feedback' ); ?></h2>
-		<p><?php esc_html_e( 'Add many feedback at once from a CSV file. The first row must contain the column names:', 'page-turn-feedback' ); ?></p>
+		<h2 class="title"><?php esc_html_e( 'Import from a CSV file', 'velvet-leap-page-turn-feedback' ); ?></h2>
+		<p><?php esc_html_e( 'Add many feedback at once from a CSV file. The first row must contain the column names:', 'velvet-leap-page-turn-feedback' ); ?></p>
 		<ul class="ul-disc">
-			<li><?php echo wp_kses( __( '<code>name</code>: who left the feedback', 'page-turn-feedback' ), $code ); ?></li>
-			<li><?php echo wp_kses( __( '<code>comment</code>: the text (required)', 'page-turn-feedback' ), $code ); ?></li>
-			<li><?php echo wp_kses( __( '<code>status</code>: <code>publish</code> to show it on the site, <code>draft</code> to keep it hidden (if the column is missing: publish)', 'page-turn-feedback' ), $code ); ?></li>
-			<li><?php echo wp_kses( __( '<code>date</code>: for example <code>2026-03-15</code> (if missing: today)', 'page-turn-feedback' ), $code ); ?></li>
-			<li><?php echo wp_kses( __( '<code>order</code>: place on the site, 1 comes first (if missing: automatic order)', 'page-turn-feedback' ), $code ); ?></li>
+			<li><?php echo wp_kses( __( '<code>name</code>: who left the feedback', 'velvet-leap-page-turn-feedback' ), $code ); ?></li>
+			<li><?php echo wp_kses( __( '<code>comment</code>: the text (required)', 'velvet-leap-page-turn-feedback' ), $code ); ?></li>
+			<li><?php echo wp_kses( __( '<code>status</code>: <code>publish</code> to show it on the site, <code>draft</code> to keep it hidden (if the column is missing: publish)', 'velvet-leap-page-turn-feedback' ), $code ); ?></li>
+			<li><?php echo wp_kses( __( '<code>date</code>: for example <code>2026-03-15</code> (if missing: today)', 'velvet-leap-page-turn-feedback' ), $code ); ?></li>
+			<li><?php echo wp_kses( __( '<code>order</code>: place on the site, 1 comes first (if missing: automatic order)', 'velvet-leap-page-turn-feedback' ), $code ); ?></li>
 		</ul>
 		<p class="description">
 			<?php
 			echo esc_html(
 				sprintf(
 					/* translators: %d: maximum number of rows in a file. */
-					__( 'Feedback that is already on the site (same name and same comment) is skipped, so importing the same file twice does no harm. Nothing is changed or deleted. At most %d rows and 1 MB per file; semicolons and commas are both fine.', 'page-turn-feedback' ),
+					__( 'Feedback that is already on the site (same name and same comment) is skipped, so importing the same file twice does no harm. Nothing is changed or deleted. At most %d rows and 1 MB per file; semicolons and commas are both fine.', 'velvet-leap-page-turn-feedback' ),
 					(int) apply_filters( 'ptfb_import_max_rows', 500 )
 				)
 			);
@@ -564,16 +564,16 @@ function ptfb_tools_page() {
 			<input type="hidden" name="action" value="ptfb_import_csv">
 			<?php wp_nonce_field( 'ptfb_import_csv' ); ?>
 			<p>
-				<label for="ptfb_csv" class="screen-reader-text"><?php esc_html_e( 'CSV file', 'page-turn-feedback' ); ?></label>
+				<label for="ptfb_csv" class="screen-reader-text"><?php esc_html_e( 'CSV file', 'velvet-leap-page-turn-feedback' ); ?></label>
 				<input type="file" id="ptfb_csv" name="ptfb_csv" accept=".csv,.txt,text/csv">
-				<button type="submit" class="button button-primary"><?php esc_html_e( 'Import', 'page-turn-feedback' ); ?></button>
+				<button type="submit" class="button button-primary"><?php esc_html_e( 'Import', 'velvet-leap-page-turn-feedback' ); ?></button>
 			</p>
 		</form>
 
-		<h2 class="title"><?php esc_html_e( 'Move to another WordPress site (XML)', 'page-turn-feedback' ); ?></h2>
+		<h2 class="title"><?php esc_html_e( 'Move to another WordPress site (XML)', 'velvet-leap-page-turn-feedback' ); ?></h2>
 		<p>
-			<?php esc_html_e( 'WordPress can already move content between sites with an XML file. On this site open Tools → Export and choose “Feedback”; on the other site open Tools → Import → WordPress (it asks you to install the free WordPress Importer plugin).', 'page-turn-feedback' ); ?>
-			<a href="<?php echo esc_url( admin_url( 'export.php' ) ); ?>"><?php esc_html_e( 'Open Tools → Export', 'page-turn-feedback' ); ?></a>
+			<?php esc_html_e( 'WordPress can already move content between sites with an XML file. On this site open Tools → Export and choose “Feedback”; on the other site open Tools → Import → WordPress (it asks you to install the free WordPress Importer plugin).', 'velvet-leap-page-turn-feedback' ); ?>
+			<a href="<?php echo esc_url( admin_url( 'export.php' ) ); ?>"><?php esc_html_e( 'Open Tools → Export', 'velvet-leap-page-turn-feedback' ); ?></a>
 		</p>
 	</div>
 	<?php

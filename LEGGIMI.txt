@@ -1,5 +1,5 @@
-PAGE TURN FEEDBACK  (versione 1.8.1)
-====================================
+VELVET LEAP PAGE TURN FEEDBACK  (versione 1.9.0)
+================================================
 
 Cosa fa
 -------
@@ -119,19 +119,30 @@ Come si usa sul sito (per chi visita)
 
 Lingua
 ------
-Il plugin e' scritto in inglese e include la traduzione italiana: se la lingua del sito e'
-l'italiano (Impostazioni > Generali > Lingua del sito) tutte le scritte compaiono in
-italiano, comprese quelle della scheda per chi usa il lettore di schermo. Il titolo predefinito
-e' "Cosa dicono di me" in italiano e "What people say about me" in inglese; se hai gia'
-scritto un titolo tuo nelle Impostazioni, resta quello. Per altre lingue si puo' partire dal
-file languages/page-turn-feedback.pot.
+Le scritte del plugin sono in inglese. WordPress.org distribuisce le traduzioni da solo
+(translate.wordpress.org): quando la traduzione italiana e' pronta arriva con gli aggiornamenti e,
+se la lingua del sito e' l'italiano (Impostazioni > Generali > Lingua del sito), tutte le scritte
+compaiono in italiano, comprese quelle della scheda per chi usa il lettore di schermo.
+Se installi il plugin a mano (per esempio da GitHub), la traduzione italiana completa e' nel
+repository, cartella languages: il file velvet-leap-page-turn-feedback-it_IT.mo va copiato, senza
+cambiargli il nome, in wp-content/languages/plugins/.
+Il titolo predefinito e' "Cosa dicono di me" in italiano e "What people say about me" in inglese;
+se hai gia' scritto un titolo tuo nelle Impostazioni, resta quello.
 
 Installazione / aggiornamento
 -----------------------------
 Plugin > Aggiungi nuovo > Carica plugin > scegli lo zip > Installa > "Sostituisci
 quella attuale con quella caricata" (se c'e' gia' una versione) > Attiva.
 Dopo l'aggiornamento svuota la cache, se ne usi una, e ricarica con Ctrl+F5.
-Impostazioni e feedback gia' inseriti vengono mantenuti (dalla 1.5.0 alla 1.6.0 non cambia nessun nome tecnico).
+Impostazioni e feedback gia' inseriti vengono mantenuti (nessun nome tecnico e' cambiato).
+
+Dalla 1.9.0 il plugin ha un nome e una cartella nuovi (velvet-leap-page-turn-feedback), richiesti
+da WordPress.org: lo zip nuovo NON sostituisce quello vecchio. Per passare alla 1.9.0:
+1. Plugin > Plugin installati: DISATTIVA il vecchio "Page Turn Feedback" (non eliminarlo ancora:
+   eliminandolo si cancellano le impostazioni di colori e velocita'; i feedback restano).
+2. Carica lo zip nuovo e attivalo: i feedback e le impostazioni ci sono gia'.
+3. Controlla il sito, poi elimina il vecchio plugin. Se dopo l'eliminazione le impostazioni
+   risultano tornate a quelle predefinite, rimettile da Feedback > Impostazioni.
 
 Altri ritocchi (facoltativo)
 ----------------------------

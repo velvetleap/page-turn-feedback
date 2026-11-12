@@ -37,7 +37,7 @@ function submit_button() { echo '<input type="submit">'; }
 function sanitize_hex_color( $c ) { return preg_match( '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', (string) $c ) ? $c : null; }
 function selected( $a, $b, $echo = true ) { $r = ( (string) $a === (string) $b ) ? " selected='selected'" : ''; if ( $echo ) { echo $r; } return $r; }
 
-require dirname( __DIR__ ) . '/page-turn-feedback.php';
+require dirname( __DIR__ ) . '/velvet-leap-page-turn-feedback.php';
 $GLOBALS['opts'] = ( getenv( 'LSA_OPTS' ) ? json_decode( getenv( 'LSA_OPTS' ), true ) : array() );
 
 // Feedback of the test site (PTFB_ITEMS = how many; none by default = the preview shows example texts).

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.0 — 2026-11-12
+Changes asked by the WordPress.org plugin review (mail of 12 November 2026).
+- **New name and address:** the plugin is now **Velvet Leap Page Turn Feedback**, slug and text domain `velvet-leap-page-turn-feedback` ("Page Turn Feedback" was judged too generic and gets a distinctive first word, the author's brand). The main file is `velvet-leap-page-turn-feedback.php` and the zip is `velvet-leap-page-turn-feedback.zip` with the folder `velvet-leap-page-turn-feedback`. Nothing stored changed: options `ptfb_*`, the `ptfb_feedback` content type and every `ptfb` identifier are the same, so feedback and settings are kept. The old folder must be deactivated before the new one is activated (both define the same functions); deleting the old plugin removes the settings options, as `uninstall.php` always did.
+- **`Requires at least: 5.1`** (plugin header and readme), a stable major version as the review asks. It is the oldest version that has every function the plugin calls: the newest one is `wp_unique_id()` (5.0.3); checked by reading the `@since` of the 69 WordPress functions used.
+- **No translation files in the package:** `.po`/`.mo` (and the `.pot`) are in `.distignore`, translations come from translate.wordpress.org. The files stay in `languages/` of the repository (renamed to the new slug) and the tests still read the real `.mo`.
+- **`load_plugin_textdomain()` removed**, as the review asks (not needed on WordPress.org since 4.6). The Plugin Check exception for it was removed from CI.
+- `bin/check-versions.sh` now also checks that the text domain, the main file name and the slug agree, that `Requires at least` is the same major-only value in the header and in the readme, that the readme title is the plugin name, that no `load_plugin_textdomain()` call is left and that every translation call uses the slug.
+- No change to behaviour, markup, settings or strings.
+
 ## 1.8.1 — 2026-11-11
 Security and lightness review. A simulated attack on a real WordPress 7.1.4 (visitors, subscriber, contributor, author and editor accounts, forged requests without or with the wrong nonce, hostile text written straight into the database, hostile CSV files, hostile settings) found no vulnerability; the points below are hardening and weight.
 - **No work on pages without the card:** `ptfb_register_assets()` used to ask the database for the feedback, read the style option and register the files on *every* front-end page (a query on the 404 page, on every post, in search…). It now checks first, with no query, whether the page can show the card (home page, or a post/page whose text contains the shortcode) and does nothing otherwise. The files are registered, and the colours and fonts added, the first time the card is really loaded (`ptfb_enqueue_front()`), also when the card is printed late by a widget or template.
