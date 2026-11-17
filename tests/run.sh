@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Runs every test. Needs: php, python3 with "playwright" and its Chromium (python3 -m playwright install chromium).
+# Runs every test. Needs: php, python3 with "playwright" and its Chromium (python3 -m playwright install chromium),
+# and "subversion" for deploy_test.sh (that test is skipped without it).
 set -uo pipefail
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit 1
 bash make_pages.sh || exit 1
 
 failed=0
@@ -19,6 +20,7 @@ PTFB_FRONT=1 run php load_test.php
 run python3 behavior_test.py
 run python3 admin_js_test.py
 run python3 admin_features_test.py
+run bash deploy_test.sh
 
 echo
 if [ "$failed" -eq 0 ]; then echo "ALL TESTS PASSED"; else echo "SOME TESTS FAILED"; fi

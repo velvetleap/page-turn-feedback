@@ -3,7 +3,7 @@
 # domain and the "Requires at least" value agree (what the WordPress.org review looks at).
 # Usage: bin/check-versions.sh [tag]     (with a tag such as v1.7.2 it must match too)
 set -uo pipefail
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/.." || exit 1
 
 fail=0
 err() { echo "::error::$1"; echo "ERROR: $1"; fail=1; }

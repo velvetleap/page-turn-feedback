@@ -3,7 +3,7 @@ name: Release on approval
 # The maintainer says "yes" in the chat. Claude then pushes a branch named claude/release-<version> that points at the
 # latest commit of main. This workflow checks the version, builds the zip, publishes the GitHub release vX.Y.Z with the
 # zip attached and the notes taken from CHANGELOG.md, and deletes the release branch.
-# (Uploading to WordPress.org is a separate workflow that will ask the maintainer to approve it in GitHub.)
+# (Uploading to WordPress.org is a separate workflow, deploy-wporg.yml: the maintainer starts it in GitHub and approves it there.)
 on:
   push:
     branches:
