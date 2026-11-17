@@ -1,6 +1,6 @@
 # Files and folders that stay OUT of the plugin zip (GitHub release and WordPress.org).
-# One top-level name per line, with a leading slash. bin/build.sh and the WordPress.org
-# deploy action both read this file.
+# One top-level name per line, with a leading slash. bin/build.sh reads this file; the release zip it
+# builds is also what is uploaded to WordPress.org (bin/deploy-wporg.sh).
 /.git
 /.github
 /.gitignore

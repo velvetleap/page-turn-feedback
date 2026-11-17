@@ -42,6 +42,9 @@ jobs:
       - name: WordPress coding standards (includes security and escaping)
         run: vendor/bin/phpcs
 
+      - name: Shell scripts
+        run: shellcheck bin/*.sh tests/*.sh
+
       - name: The version number is the same everywhere
         run: bash bin/check-versions.sh
 
@@ -93,6 +96,9 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install --with-deps chromium
+
+      - name: Subversion, to test the WordPress.org upload script on a local repository
+        run: command -v svn >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq subversion; }
 
       - name: Run all tests
         run: bash tests/run.sh

@@ -1,0 +1,71 @@
+name: Deploy to WordPress.org
+
+# Publishes a version that is already released on GitHub to the WordPress.org plugin directory (Subversion).
+#
+# It never starts by itself. The maintainer starts it in GitHub: Actions > "Deploy to WordPress.org" > Run workflow,
+# types the version (for example 1.9.0) and the job then waits for his approval, because it runs in the
+# "wordpress-org" environment. That environment is set up once in Settings > Environments, with the maintainer as
+# required reviewer and two secrets: SVN_USERNAME and SVN_PASSWORD. He types them directly in GitHub; nobody else,
+# Claude included, sees them. The secrets belong to the environment, so no other job can read them.
+#
+# What is uploaded is the zip of the GitHub release itself (so WordPress.org gets exactly what was released), plus
+# the images in the .wordpress-org folder of the repository (icon, banner, screenshots) if the folder exists.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish, already released on GitHub (for example 1.9.0)'
+        required: true
+        type: string
+      dry_run:
+        description: 'Only show what would be uploaded, publish nothing'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-wporg
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Upload to WordPress.org
+    runs-on: ubuntu-latest
+    environment: wordpress-org
+    env:
+      VERSION: ${{ inputs.version }}
+      DRY_RUN: ${{ inputs.dry_run }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: The version is valid and has a GitHub release
+        run: |
+          set -euo pipefail
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then echo "::error::'$VERSION' is not a version like 1.9.0."; exit 1; fi
+          gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null || { echo "::error::There is no GitHub release v$VERSION. Release it first."; exit 1; }
+
+      # The workflow and the scripts come from main; the plugin comes from the release zip.
+      - uses: actions/checkout@v6
+
+      - name: Download the released zip
+        run: |
+          set -euo pipefail
+          gh release download "v$VERSION" --repo "$GITHUB_REPOSITORY" --pattern 'velvet-leap-page-turn-feedback.zip' --dir "$RUNNER_TEMP/release"
+          unzip -q "$RUNNER_TEMP/release/velvet-leap-page-turn-feedback.zip" -d "$RUNNER_TEMP/release/unzipped"
+          ls "$RUNNER_TEMP/release/unzipped/velvet-leap-page-turn-feedback" >/dev/null
+
+      - name: Make sure Subversion is installed
+        run: command -v svn >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq subversion; }
+
+      - name: Upload to WordPress.org
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          set -euo pipefail
+          flag=""
+          if [ "$DRY_RUN" = "true" ]; then flag="--dry-run"; fi
+          # shellcheck disable=SC2086
+          bash bin/deploy-wporg.sh "$VERSION" "$RUNNER_TEMP/release/unzipped/velvet-leap-page-turn-feedback" $flag
