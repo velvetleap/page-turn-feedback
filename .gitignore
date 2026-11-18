@@ -13,3 +13,4 @@ vendor/
 tests/out/
 tests/node_modules/
 build/
+__pycache__/

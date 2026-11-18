@@ -95,6 +95,38 @@ check "png has the image/png type" test "$(svn propget svn:mime-type "file://$re
 check "svg has the image/svg+xml type" test "$(svn propget svn:mime-type "file://$repo/assets/icon.svg")" = "image/svg+xml"
 check "assets are not copied into trunk" no has "$repo" "trunk/icon-256x256.png"
 
+echo "== images only: assets change, trunk and tags are not touched, no new version"
+repo="$tmp/r2"                      # the repository of the previous section: a published version and its assets
+assets2="$tmp/assets2"; mkdir -p "$assets2"
+printf '\211PNG\r\n\032\nB' >"$assets2/banner-772x250.png"
+printf 'GIF89a' >"$assets2/icon-128x128.gif"
+before="$(rev "$repo")"
+out="$(ASSETS_DIR="$assets2" deploy "$repo" --assets-only --dry-run)"; code=$?
+check "images only, dry run: succeeds" test "$code" -eq 0
+check "images only, dry run: says nothing was published" grep -q "Dry run: nothing was published" <<<"$out"
+check "images only, dry run: lists the new banner" grep -qE '^ +A +assets/banner-772x250.png' <<<"$out"
+check "images only, dry run: does not touch trunk or tags" no grep -qE '(trunk|tags)/' <<<"$out"
+check "images only, dry run: repository untouched" test "$(rev "$repo")" = "$before"
+trunk_before="$(svn cat "file://$repo/trunk/readme.txt" | md5sum)"
+out="$(ASSETS_DIR="$assets2" SVN_USERNAME=someone SVN_PASSWORD="$secret" deploy "$repo" --assets-only)"; code=$?
+check "images only: publish succeeds" test "$code" -eq 0
+check "images only: exactly one new revision" test "$(rev "$repo")" = "$((before + 1))"
+changed="$(svn log -v -r "$(rev "$repo")" "file://$repo")"
+check "images only: the revision touches assets" grep -q "/assets/" <<<"$changed"
+check "images only: the revision does not touch trunk" no grep -q "/trunk/" <<<"$changed"
+check "images only: the revision does not touch tags" no grep -q "/tags/" <<<"$changed"
+check "images only: the commit message says so" grep -q "Update plugin assets" <<<"$changed"
+check "images only: trunk file is the same" test "$(svn cat "file://$repo/trunk/readme.txt" | md5sum)" = "$trunk_before"
+check "images only: the tag is still there" has "$repo" "tags/$version/$slug.php"
+check "images only: new gif is there with its type" test "$(svn propget svn:mime-type "file://$repo/assets/icon-128x128.gif")" = "image/gif"
+check "images only: new banner is there with its type" test "$(svn propget svn:mime-type "file://$repo/assets/banner-772x250.png")" = "image/png"
+check "images only: assets not in the folder are removed" no has "$repo" "assets/icon-256x256.png"
+before="$(rev "$repo")"
+out="$(ASSETS_DIR="$assets2" SVN_USERNAME=someone SVN_PASSWORD="$secret" deploy "$repo" --assets-only)"; code=$?
+check "images only: same images again succeeds" test "$code" -eq 0
+check "images only: same images again says nothing to publish" grep -q "nothing to publish" <<<"$out"
+check "images only: same images again makes no revision" test "$(rev "$repo")" = "$before"
+
 echo "== refusals before anything is uploaded"
 repo="$tmp/r3"; mkrepo "$repo"
 before="$(rev "$repo")"
@@ -110,6 +142,15 @@ cp -a "$plugin" "$tmp/with-mo"; echo x >"$tmp/with-mo/$slug-it_IT.mo"
 out="$(SVN_USERNAME=u SVN_PASSWORD=p deploy "$repo" "$version" "$tmp/with-mo")"; code=$?
 check "package with a .mo file: refuses" test "$code" -ne 0
 check "package with a .mo file: says why" grep -q "translation files" <<<"$out"
+out="$(SVN_USERNAME=u SVN_PASSWORD=p deploy "$repo" --assets-only)"; code=$?
+check "images only, no assets folder: refuses" test "$code" -ne 0
+check "images only, no assets folder: says so" grep -q "does not exist" <<<"$out"
+out="$(ASSETS_DIR="$assets2" deploy "$repo" --assets-only)"; code=$?
+check "images only, no credentials: refuses" test "$code" -ne 0
+out="$(ASSETS_DIR="$assets2" SVN_USERNAME=u SVN_PASSWORD=p deploy "$repo" "$version" --assets-only)"; code=$?
+check "images only with a version typed: refuses" test "$code" -ne 0
+out="$(SVN_USERNAME=u SVN_PASSWORD=p deploy "$repo" "$version" "$plugin" --whatever)"; code=$?
+check "unknown option: refuses" test "$code" -ne 0
 check "none of the refusals touched the repository" test "$(rev "$repo")" = "$before"
 
 echo

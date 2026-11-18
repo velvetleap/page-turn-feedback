@@ -1,22 +1,31 @@
 name: Deploy to WordPress.org
 
-# Publishes a version that is already released on GitHub to the WordPress.org plugin directory (Subversion).
+# Publishes to the WordPress.org plugin directory (Subversion). Two uses:
+#   - a version already released on GitHub: type its number (for example 1.9.0); trunk, the tag and the images are uploaded;
+#   - only the images of the plugin page (icon, banner, screenshots from the .wordpress-org folder): tick "images only"
+#     and leave the version empty; no new version is created.
 #
 # It never starts by itself. The maintainer starts it in GitHub: Actions > "Deploy to WordPress.org" > Run workflow,
-# types the version (for example 1.9.0) and the job then waits for his approval, because it runs in the
-# "wordpress-org" environment. That environment is set up once in Settings > Environments, with the maintainer as
-# required reviewer and two secrets: SVN_USERNAME and SVN_PASSWORD. He types them directly in GitHub; nobody else,
-# Claude included, sees them. The secrets belong to the environment, so no other job can read them.
+# and the job then waits for his approval, because it runs in the "wordpress-org" environment. That environment is set
+# up once in Settings > Environments, with the maintainer as required reviewer and two secrets: SVN_USERNAME and
+# SVN_PASSWORD. He types them directly in GitHub; nobody else, Claude included, sees them. The secrets belong to the
+# environment, so no other job can read them.
 #
-# What is uploaded is the zip of the GitHub release itself (so WordPress.org gets exactly what was released), plus
-# the images in the .wordpress-org folder of the repository (icon, banner, screenshots) if the folder exists.
+# For a version, what is uploaded is the zip of the GitHub release itself (so WordPress.org gets exactly what was
+# released), plus the images in the .wordpress-org folder of the repository if the folder exists.
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to publish, already released on GitHub (for example 1.9.0)'
-        required: true
+        description: 'Version to publish, already released on GitHub (for example 1.9.0). Leave empty for "images only".'
+        required: false
+        default: ''
         type: string
+      assets_only:
+        description: 'Images only: update the icon and banner of the plugin page, no new version'
+        required: false
+        default: false
+        type: boolean
       dry_run:
         description: 'Only show what would be uploaded, publish nothing'
         required: false
@@ -37,19 +46,25 @@ jobs:
     environment: wordpress-org
     env:
       VERSION: ${{ inputs.version }}
+      ASSETS_ONLY: ${{ inputs.assets_only }}
       DRY_RUN: ${{ inputs.dry_run }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: The version is valid and has a GitHub release
+      - name: The inputs make sense, and the version has a GitHub release
         run: |
           set -euo pipefail
-          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then echo "::error::'$VERSION' is not a version like 1.9.0."; exit 1; fi
+          if [ "$ASSETS_ONLY" = "true" ]; then
+            if [ -n "$VERSION" ]; then echo "::error::'Images only' is ticked but a version is also typed. Use one or the other."; exit 1; fi
+            exit 0
+          fi
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then echo "::error::'$VERSION' is not a version like 1.9.0 (or tick 'Images only' and leave the version empty)."; exit 1; fi
           gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null || { echo "::error::There is no GitHub release v$VERSION. Release it first."; exit 1; }
 
       # The workflow and the scripts come from main; the plugin comes from the release zip.
       - uses: actions/checkout@v6
 
       - name: Download the released zip
+        if: ${{ !inputs.assets_only }}
         run: |
           set -euo pipefail
           gh release download "v$VERSION" --repo "$GITHUB_REPOSITORY" --pattern 'velvet-leap-page-turn-feedback.zip' --dir "$RUNNER_TEMP/release"
@@ -65,7 +80,11 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         run: |
           set -euo pipefail
-          flag=""
-          if [ "$DRY_RUN" = "true" ]; then flag="--dry-run"; fi
-          # shellcheck disable=SC2086
-          bash bin/deploy-wporg.sh "$VERSION" "$RUNNER_TEMP/release/unzipped/velvet-leap-page-turn-feedback" $flag
+          args=()
+          if [ "$ASSETS_ONLY" = "true" ]; then
+            args+=(--assets-only)
+          else
+            args+=("$VERSION" "$RUNNER_TEMP/release/unzipped/velvet-leap-page-turn-feedback")
+          fi
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          bash bin/deploy-wporg.sh "${args[@]}"
