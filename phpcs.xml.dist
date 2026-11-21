@@ -10,6 +10,7 @@
 
 	<!-- Development files are not part of the plugin. -->
 	<exclude-pattern>/tests/</exclude-pattern>
+	<exclude-pattern>/design/</exclude-pattern>
 	<exclude-pattern>/build/</exclude-pattern>
 	<exclude-pattern>/vendor/</exclude-pattern>
 
