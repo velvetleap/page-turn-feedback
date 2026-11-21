@@ -3,7 +3,7 @@
  * Plugin Name: Velvet Leap Page Turn Feedback
  * Plugin URI:  https://github.com/velvetleap/page-turn-feedback
  * Description: Adds a "Feedback" menu to WordPress and shows the feedback on a card that turns like the page of a book, at the bottom of the home page above the footer.
- * Version:     1.9.0
+ * Version:     1.9.1
  * Requires at least: 5.1
  * Author:      Velvet Leap
  * Author URI:  https://github.com/velvetleap
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PTFB_VERSION', '1.9.0' );
+define( 'PTFB_VERSION', '1.9.1' );
 define( 'PTFB_CPT', 'ptfb_feedback' );
 
 /*

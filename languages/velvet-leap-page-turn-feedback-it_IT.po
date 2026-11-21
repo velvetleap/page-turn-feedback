@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the Velvet Leap Page Turn Feedback plugin (GPL-2.0-or-later).
 msgid ""
 msgstr ""
-"Project-Id-Version: Velvet Leap Page Turn Feedback 1.9.0\n"
-"POT-Creation-Date: 2026-11-12 00:00+0000\n"
-"PO-Revision-Date: 2026-11-12 00:00+0000\n"
+"Project-Id-Version: Velvet Leap Page Turn Feedback 1.9.1\n"
+"POT-Creation-Date: 2026-11-21 00:00+0000\n"
+"PO-Revision-Date: 2026-11-21 00:00+0000\n"
 "Last-Translator: Mattia Scudellaro\n"
 "Language-Team: Velvet Leap\n"
 "Language: it_IT\n"
