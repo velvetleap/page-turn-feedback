@@ -100,6 +100,7 @@ repo="$tmp/r2"                      # the repository of the previous section: a 
 assets2="$tmp/assets2"; mkdir -p "$assets2"
 printf '\211PNG\r\n\032\nB' >"$assets2/banner-772x250.png"
 printf 'GIF89a' >"$assets2/icon-128x128.gif"
+mkdir -p "$assets2/blueprints"; printf '{"landingPage":"/"}\n' >"$assets2/blueprints/blueprint.json"
 before="$(rev "$repo")"
 out="$(ASSETS_DIR="$assets2" deploy "$repo" --assets-only --dry-run)"; code=$?
 check "images only, dry run: succeeds" test "$code" -eq 0
@@ -121,6 +122,8 @@ check "images only: the tag is still there" has "$repo" "tags/$version/$slug.php
 check "images only: new gif is there with its type" test "$(svn propget svn:mime-type "file://$repo/assets/icon-128x128.gif")" = "image/gif"
 check "images only: new banner is there with its type" test "$(svn propget svn:mime-type "file://$repo/assets/banner-772x250.png")" = "image/png"
 check "images only: assets not in the folder are removed" no has "$repo" "assets/icon-256x256.png"
+check "images only: the live preview blueprint goes to assets/blueprints" has "$repo" "assets/blueprints/blueprint.json"
+check "images only: the blueprint is not copied into trunk" no has "$repo" "trunk/blueprints/blueprint.json"
 before="$(rev "$repo")"
 out="$(ASSETS_DIR="$assets2" SVN_USERNAME=someone SVN_PASSWORD="$secret" deploy "$repo" --assets-only)"; code=$?
 check "images only: same images again succeeds" test "$code" -eq 0
