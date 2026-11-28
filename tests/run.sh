@@ -20,6 +20,7 @@ PTFB_FRONT=1 run php load_test.php
 run python3 behavior_test.py
 run python3 admin_js_test.py
 run python3 admin_features_test.py
+run python3 blueprint_test.py
 run bash deploy_test.sh
 
 echo
